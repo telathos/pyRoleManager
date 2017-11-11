@@ -1036,7 +1036,6 @@ def create_char():
 
     # write Profession to list
     char['pro_name']=pro_name
-    #char['pro_name']=plist[pro_ch[0]]
     print 10 * "-"
 
     # Select Race
