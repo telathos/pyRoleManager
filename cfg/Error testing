@@ -1,0 +1,6 @@
+if pro==1:
+       # Assassin
+       if char_stat.upper()=="QU" or char_stat.upper()=="AG":
+           while num<90 or num>=102:
+               pr_text()
+               num=int(raw_input('Enter a new number: '))
