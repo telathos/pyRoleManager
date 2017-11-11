@@ -1115,7 +1115,7 @@ def create_char():
 
     re_stat_input=int(raw_input('Reasoning: '))
     re_stat=prime_req(pro_ch,"re",re_stat_input)
-    
+
     ### Calculate Potential Value using pot_calc function
     st_pot_in=int(raw_input('Potential Roll (ST): '))
     st_pot=pot_calc(st_stat,st_pot_in)
@@ -1203,6 +1203,7 @@ def create_char():
             index=int(plist[pro_ch][1])
             #print outer_list[1]
             #print outer_list[5]
+            # test
             '''
             if outer_list[7]=="1-HS":
                 outer_list[index]=wea_asign['1-HS']
