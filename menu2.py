@@ -1084,48 +1084,38 @@ def create_char():
     elif race_input==14:
         char['race']="Half-Troll"
 
-    # Enter current statistic values
+    ### Enter current statistic values
 
     st_stat_input=int(raw_input('Strength: '))
     st_stat=prime_req(pro_ch,"st",st_stat_input)
-    #print "ST: %s" % st_stat
 
     qu_stat_input=int(raw_input('Quickness: '))
     qu_stat=prime_req(pro_ch,"qu",qu_stat_input)
-    #print "QU: %s" % qu_stat
 
     pr_stat_input=int(raw_input('Presence: '))
     pr_stat=prime_req(pro_ch,"pr",pr_stat_input)
-    #print "PR: %s" % pr_stat
 
     in_stat_input=int(raw_input('Intuition: '))
     in_stat=prime_req(pro_ch,"in",in_stat_input)
-    #print "IN: %s" % in_stat
 
     em_stat_input=int(raw_input('Empathy: '))
     em_stat=prime_req(pro_ch,"em",em_stat_input)
-    #print "EM: %s" % em_stat
 
     co_stat_input=int(raw_input('Constitution: '))
     co_stat=prime_req(pro_ch,"co",co_stat_input)
-    #print "CO: %s" % co_stat
 
     ag_stat_input=int(raw_input('Agility: '))
     ag_stat=prime_req(pro_ch,"ag",ag_stat_input)
-    #print "AG: %s" % ag_stat
 
     sd_stat_input=int(raw_input('Self-Discipline: '))
     sd_stat=prime_req(pro_ch,"sd",sd_stat_input)
-    #print "SD: %s" % sd_stat
 
     me_stat_input=int(raw_input('Memory: '))
     me_stat=prime_req(pro_ch,"me",me_stat_input)
-    #print "ME: %s" % me_stat
 
     re_stat_input=int(raw_input('Reasoning: '))
     re_stat=prime_req(pro_ch,"re",re_stat_input)
-    #print "RE: %s" % re_stat
-
+    
     ### Calculate Potential Value using pot_calc function
     st_pot_in=int(raw_input('Potential Roll (ST): '))
     st_pot=pot_calc(st_stat,st_pot_in)
