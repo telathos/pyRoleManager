@@ -1181,22 +1181,22 @@ def create_char():
     char['re_pot']=re_pot
     char['lvl']=0
     char['realm']=plist[pro_ch][8]
-    #char['stmb'],char['qumb'],char['emmb'],char['inmb'],char['prmb']=0,0,0,0,0
-    #char['comb'],char['agmb'],char['sdmb'],char['remb'],char['memb']=0,0,0,0,0
+    char['stmb'],char['qumb'],char['emmb'],char['inmb'],char['prmb']=0,0,0,0,0
+    char['comb'],char['agmb'],char['sdmb'],char['remb'],char['memb']=0,0,0,0,0
     #char['hob'],char['ad'],char['ap'],char['skrnks']=0,0,0,0
 
     # Write Character data to file
-        with open(char_path+'/'+user_name+'.json', 'w') as f:
-            f.write(json.dumps(char))
+    with open(char_path+'/'+user_name+'.json', 'w') as f:
+        f.write(json.dumps(char))
 
     # Open skill list file and to character skill file
-        with open(cfg_dir+"/ds.csv") as f:
-            sl=f.read().splitlines()
-        f.close()
-        skill_list=[]
-        char_skill={}
-        for list in sl:
-            skill_list.append(list.split(","))
+    with open(cfg_dir+"/ds.csv") as f:
+        sl=f.read().splitlines()
+    f.close()
+    skill_list=[]
+    char_skill={}
+    for list in sl:
+        skill_list.append(list.split(","))
         crt=1
         for outer_list in skill_list:
             #s='s'+`crt`
@@ -1218,10 +1218,12 @@ def create_char():
             if outer_list[7]=="Polearm":
                 outer_list[index]=wea_asign['Polearm']
             '''
-            char_skill[crt]=(outer_list[1],outer_list[5],outer_list[index],outer_list[6],char['hob'],char['ad'],char['ap'],char['skrnks'])
+            char_skill[crt]=(outer_list[1],outer_list[5],outer_list[index],outer_list[6],0,0,0,0)
             crt+=1
-        with open(char_path+"/"+user_name+'.json') as sf:
-            sf.write(json.dump(char_skill))
+
+    ### Write Skills to character skill file
+    with open(char_path+"/"+user_name+"-"+`char['lvl']`+'.json','w') as sf:
+        sf.write(json.dumps(char_skill))
 ## End of create_char
 
 
