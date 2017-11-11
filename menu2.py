@@ -7,7 +7,7 @@ import sys
 import re
 
 # Configuration variables
-char_dir="char"
+char_dir="c:\pyRoleManager\char"
 cfg_dir="cfg"
 
 # Setup character data list
@@ -1226,9 +1226,8 @@ def create_char():
         sf.write(json.dumps(char_skill))
 ## End of create_char
 
-
 def show_char():
-    p=char_menu()
+    p=create_char_menu()
     menu_len=len(p)
 
     while True:
@@ -1250,7 +1249,6 @@ def show_char():
     sc=[]
 
     for x in statchart:
-        #print x.split(",")
         sc.append(x.split(","))
 
     # Loop through statistics to pull bonuses
@@ -1551,7 +1549,6 @@ while loop:          ## While loop which will keep going until loop = False
     if choice==1:
         clear_screen()
         create_char()
-        #clear_screen()
     elif choice==2:
         clear_screen()
         show_char()
