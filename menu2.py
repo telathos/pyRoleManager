@@ -40,7 +40,7 @@ def print_menu():       ## Your menu design here
     print "4. Raise Level"
     print "6. Delete Character"
     print ""
-    print "9. Exit"
+    print "X. Exit"
     print 67 * "-"
 
 def clear_screen():
@@ -1540,24 +1540,25 @@ loop=True
 
 while loop:          ## While loop which will keep going until loop = False
     print_menu()    ## Displays menu
-    choice = input("Enter your choice [1-5]: ")
+    choice = raw_input("Enter your choice [1-5]: ")
     print ""
-    if choice==1:
+    if choice=="1":
         clear_screen()
         create_char()
-    elif choice==2:
+    elif choice=="2":
         clear_screen()
         show_char()
-    elif choice==3:
+    elif choice=="3":
         clear_screen()
         mbbonus()
         clear_screen()
-    elif choice==4:
+    elif choice=="4":
         clear_screen()
         raise_skills()
-        print "Menu 4 has been selected"
-        ## You can add your code or functions here
-    elif choice==9:
+    elif choice=="x":
+        print "Exiting Program"
+        loop=False
+    elif choice=="X":
         print "Exiting program"
         loop=False # This will make the while loop to end as not value of loop is set to False
     else:
