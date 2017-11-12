@@ -82,10 +82,12 @@ def create_char_menu():
 # Create a menu of characters
 menu_items = []
 def char_menu():
+    # Clear list before function is ran
+    menu_items=[]
     i=1
     print 5 * "-", "Characters", 5 * "-"
     for file in os.listdir(char_dir):
-        menu_items=file
+        menu_items.insert(i,file)
         print "{:<2}.) {:15}".format(i,file)
         i+=1
     print 25 * "-"
@@ -1228,7 +1230,6 @@ def create_char():
 def show_char():
     p=char_menu()
     menu_len=len(p)
-
     while True:
         s=int(raw_input("Select Character: "))
         if s >=1 and s<=menu_len:
@@ -1238,10 +1239,9 @@ def show_char():
 
     # Open the file
     char_data={}
-    print p,":p"
-    with open(char_dir+"/"+p+"/"+p+".json","r") as cf:
+    s-=1
+    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
         char_dict = json.load(cf)
-
     # Open chart of stat values
     with open(cfg_dir+"/sttchart.csv") as f:
         statchart =f.read().splitlines()
