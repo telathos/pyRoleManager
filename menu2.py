@@ -1384,7 +1384,6 @@ def mbbonus():
 
     p=char_menu()
     menu_len=len(p)
-
     while True:
         s=int(raw_input("Select Character: "))
         if s >=1 and s<=menu_len:
@@ -1393,8 +1392,8 @@ def mbbonus():
             print "Invalid Selection! Select a character from the list"
 
     # Open the file
-    #char_data={}
-    with open(char_dir+"/"+p[s-1]+".json","r") as cf:
+    s-=1
+    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
         char_dict = json.load(cf)
         setstmb=char_dict['stmb']
         setqumb=char_dict['qumb']
@@ -1454,7 +1453,6 @@ def mbbonus():
             print
             mbloop=False
 
-        #print char_dict
         user_name=char_dict['name']
         # Physical stats
         char_dict['stmb']=setstmb
@@ -1470,7 +1468,7 @@ def mbbonus():
         char_dict['remb']=setremb
 
         # Open character file to write out data
-        with open(char_dir+'/'+user_name+'.json', 'w') as f:
+        with open(char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
             f.write(json.dumps(char_dict))
 
 def raise_skills():
