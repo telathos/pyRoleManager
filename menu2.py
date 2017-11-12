@@ -58,6 +58,7 @@ def clear_screen():
 def create_char_menu():
     # Run menu
     p=char_menu()
+    print p
     menu_len=len(p)
 
     while True:
@@ -68,7 +69,7 @@ def create_char_menu():
             print "Invalid Selection! Select a character from the list"
 
     # Open the character file
-    file=open(char_dir+"/"+p[s-1]+".json","r")
+    file=open(char_dir+"/"+p+"/"+p+".json","r")
     char_data=file.read()
     char_dict=[]
     counter=0
@@ -84,11 +85,9 @@ def char_menu():
     i=1
     print 5 * "-", "Characters", 5 * "-"
     for file in os.listdir(char_dir):
-        if file.endswith(".json"):
-            menu_list=file.split(".")[0]
-            print i,".) ",menu_list.title()
-            i+=1
-            menu_items.insert(i,menu_list)
+        menu_items=file
+        print "{:<2}.) {:15}".format(i,file)
+        i+=1
     print 25 * "-"
     return menu_items
 
@@ -1227,7 +1226,7 @@ def create_char():
 ## End of create_char
 
 def show_char():
-    p=create_char_menu()
+    p=char_menu()
     menu_len=len(p)
 
     while True:
@@ -1239,7 +1238,8 @@ def show_char():
 
     # Open the file
     char_data={}
-    with open(char_dir+"/"+p[s-1]+".json","r") as cf:
+    print p,":p"
+    with open(char_dir+"/"+p+"/"+p+".json","r") as cf:
         char_dict = json.load(cf)
 
     # Open chart of stat values
@@ -1295,6 +1295,7 @@ def show_char():
     #######################
     # Calcalute Total Bonus
     #######################
+    print char_dict
     sttb=(int(stb)+int(raceb[1])+int(char_dict['stmb']))
     qutb=(int(qub)+int(raceb[2])+int(char_dict['qumb']))
     prtb=(int(prb)+int(raceb[3])+int(char_dict['prmb']))
