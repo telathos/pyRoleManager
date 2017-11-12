@@ -1255,7 +1255,6 @@ def show_char():
     for x1 in sc:
         #print x1[0],":",x1[1],":",x1[2],":",x1[3]
         if int(x1[0]) == int(char_dict['st_stat']):
-            #print x1[0],":",x1[1],":",x1[2],":",x1[3]
             stb,stdp,stpp=x1[1],x1[2],x1[3]
         if int(x1[0]) == int(char_dict['qu_stat']):
             qub,qudp,qupp=x1[1],x1[2],x1[3]
@@ -1287,17 +1286,15 @@ def show_char():
     for x in racechart:
         rc.append(x.split(","))
 
-    # Race ST
+    # Race Bonus
     for x2 in rc:
-        #print x2[0]
         if x2[0] == char_dict['race']:
             raceb=x2
-            #print x2,":raceb"
 
     #######################
     # Calcalute Total Bonus
     #######################
-    
+
     sttb=(int(stb)+int(raceb[1])+int(char_dict['stmb']))
     qutb=(int(qub)+int(raceb[2])+int(char_dict['qumb']))
     prtb=(int(prb)+int(raceb[3])+int(char_dict['prmb']))
@@ -1338,8 +1335,6 @@ def show_char():
 
     # Development Point Math
     stdp,qudp,emdp,indp,prdp="-","-","-","-","-"
-
-    # Power Point Math
 
     print ""
     print 89 * "-"
