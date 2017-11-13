@@ -37,7 +37,8 @@ def print_menu():       ## Your menu design here
     print "1. Create New Character"
     print "2. Show Character"
     print "3. Add Misc Bonus to Character"
-    print "4. Raise Level"
+    print "4. Assign Weapon Costs"
+    print "5. Raise Character Level"
     print "6. Delete Character"
     print ""
     print "X. Exit"
@@ -80,7 +81,6 @@ def create_char_menu():
         counter+=1
 
 # Create a menu of characters
-menu_items = []
 def char_menu():
     # Clear list before function is ran
     menu_items=[]
@@ -1200,26 +1200,8 @@ def create_char():
         skill_list.append(list.split(","))
         crt=1
         for outer_list in skill_list:
-            #s='s'+`crt`
             index=int(plist[pro_ch][1])
-            #print outer_list[1]
-            #print outer_list[5]
-            # test
-            '''
-            if outer_list[7]=="1-HS":
-                outer_list[index]=wea_asign['1-HS']
-            if outer_list[7]=="1-HC":
-                outer_list[index]=wea_asign['1-HC']
-            if outer_list[7]=="2-H":
-                outer_list[index]=wea_asign['2-H']
-            if outer_list[7]=="Thrown":
-                outer_list[index]=wea_asign['Thrown']
-            if outer_list[7]=="Missile":
-                outer_list[index]=wea_asign['Missile']
-            if outer_list[7]=="Polearm":
-                outer_list[index]=wea_asign['Polearm']
-            '''
-            char_skill[crt]=(outer_list[1],outer_list[5],outer_list[index],outer_list[6],0,0,0,0)
+            char_skill[crt]=(outer_list[1],outer_list[5],outer_list[7],outer_list[index],outer_list[6],0,0,0,0)
             crt+=1
 
     ### Write Skills to character skill file
@@ -1471,6 +1453,136 @@ def mbbonus():
         with open(char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
             f.write(json.dumps(char_dict))
 
+def weapon_costs():
+    # Create character list to work with
+    p=char_menu()
+    menu_len=len(p)
+    cloop=True
+    while cloop:
+        s=int(raw_input("Select Character: "))
+        if s >=1 and s<=menu_len:
+            cloop=False
+        else:
+            print "Invalid Selection! Select a character from the list"
+
+    s-=1
+    if len(os.listdir(char_dir+"/"+p[s]))==2 and os.listdir(char_dir+"/"+p[s])[0] == p[s]+"-0.json":
+        print "Level 0 Character Found"
+    elif len(os.listdir(char_dir+"/"+p[s]))>2:
+        print "extra levels"
+    # Open the character file, read-only
+    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+        char_dict = json.load(cf)
+
+    ## Read in list of professions and weapon costs, read-only
+    with open(cfg_dir+"/pro.csv","r") as procsv:
+        plist=procsv.read()
+    for profess in plist.splitlines():
+        rt=profess.split(",")
+        if rt[0] == char_dict['pro_name']:
+            wclist=[rt[2],rt[3],rt[4],rt[5],rt[6],rt[7]]
+
+    ### Initial display of Weapon Categories and costs for the profession
+    print
+    wlist=['1-HS','1-HC','2-H','Thrown','Missile','Polearm']
+    wc,wmenu=0,1
+    wea_assign={}
+
+    print "List of weapon costs"
+    print 25 * "-"
+    for x1 in wlist:
+        print "{:1}.){:^5}      {:1}.) {:10}".format(wmenu,wclist[wc],wmenu,x1)
+        wc+=1
+        wmenu+=1
+    print
+    print "Select a cost to assign to a weapon category"
+    # Weapon Cost selection
+    weapsel = int(raw_input('Select Weapon cost to assign: '))
+    while weapsel<1 or weapsel>6: # Check that input is in the range
+        print "You must select a number between (1 and 6)"
+        weapsel=int(raw_input('Select weapon cost to assign: '))
+    # Weapon category selection
+    weapcat = int(raw_input('Select Weapon Category to assign cost: '))
+    while weapcat<1 or weapcat>6: # Check that input is in the range
+        print "You must select a number between (1 and 6)"
+        weapcat=int(raw_input('Select Weapon Category to assign cost: '))
+
+    weapsel-=1 # Subtract to match menu
+    weapcat-=1 # Subtract to match menu
+
+    weacat=wlist[weapcat]
+    wea_assign[weacat]=wclist[weapsel]
+    wlist.pop(weapcat)
+    wclist.pop(weapsel)
+    #print wea_assign
+    print
+
+    # Weapon loop
+    wea_loop=True
+    while wea_loop:
+        wc,wmenu=0,1
+        print "List of weapon costs"
+        print 25 * "-"
+        for x1 in wlist:
+            print "{:1}.){:^5}      {:1}.) {:10}".format(wmenu,wclist[wc],wmenu,x1)
+            wc+=1
+            wmenu+=1
+        print
+        print "Select a cost to assign to a weapon category"
+        # Weapon Cost selection
+        weapsel = int(raw_input('Select Weapon cost to assign: '))
+        while weapsel<1 or weapsel>6: # Check that input is in the range
+            print "You must select a number between (1 and 6)"
+            weapsel=int(raw_input('Select weapon cost to assign: '))
+
+        # Weapon category selection
+        weapcat = int(raw_input('Select Weapon Category to assign cost: '))
+        while weapcat<1 or weapcat>6: # Check that input is in the range
+            print "You must select a number between (1 and 6)"
+            weapcat=int(raw_input('Select Weapon Category to assign cost: '))
+
+        # Weapon select
+        weapsel-=1 # Subtract to match menu
+        weapcat-=1 # Subtract to match menu
+
+        weacat=wlist[weapcat]
+        wea_assign[weacat]=wclist[weapsel]
+
+        # Remove weapon cost and category
+        wlist.pop(weapcat)
+        wclist.pop(weapsel)
+        #print wea_assign
+        #print len(wlist)
+        print
+        if len(wlist)==1:
+            weacat=wlist[0]
+            wea_assign[weacat]=wclist[0]
+            #print wea_assign
+            wea_loop=False
+
+    ## Open character skill file
+    skill_dict={}
+    with open(char_dir+"/"+p[s]+"/"+p[s]+"-0.json","r") as sf:
+        skill_dict = json.load(sf)
+
+    skcnt=1
+    while skcnt <= len(skill_dict):
+        if skill_dict[`skcnt`][2]=='Thrown':
+            skill_dict[`skcnt`][3]=wea_assign['Thrown']
+        if skill_dict[`skcnt`][2]=='1-HS':
+            skill_dict[`skcnt`][3]=wea_assign['1-HS']
+        if skill_dict[`skcnt`][2]=='1-HC':
+            skill_dict[`skcnt`][3]=wea_assign['1-HC']
+        if skill_dict[`skcnt`][2]=='2-H':
+            skill_dict[`skcnt`][3]=wea_assign['2-H']
+        if skill_dict[`skcnt`][2]=='Missile':
+            skill_dict[`skcnt`][3]=wea_assign['Missile']
+        if skill_dict[`skcnt`][2]=='Polearm':
+            skill_dict[`skcnt`][3]=wea_assign['Polearm']
+        skcnt+=1
+    with open(char_dir+"/"+p[s]+"/"+p[s]+"-0.json","w") as sw:
+        sw.write(json.dumps(skill_dict))
+
 def raise_skills():
     with open(cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
@@ -1553,6 +1665,9 @@ while loop:          ## While loop which will keep going until loop = False
         mbbonus()
         clear_screen()
     elif choice=="4":
+        clear_screen()
+        weapon_costs()
+    elif choice=="5":
         clear_screen()
         raise_skills()
     elif choice=="x":
