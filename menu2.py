@@ -8,7 +8,7 @@ import re
 
 # Configuration variables
 char_dir="c:\pyRoleManager\char"
-cfg_dir="cfg"
+cfg_dir="c:\pyRoleManager\cfg"
 
 # Setup character data list
 char={}
