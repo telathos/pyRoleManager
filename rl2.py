@@ -1,6 +1,7 @@
 import json
-#import re
+import re
 import os.path
+from natsort import natsorted, ns
 
 char_dir='c:\pyRoleManager\char'
 cfg_dir='c:\pyRoleManager\cfg'
@@ -18,14 +19,33 @@ def char_menu():
     print 25 * "-"
     return menu_items
 
-def char_menu_level(lvl):
-    cml=[]
+def char_menu_level(char_name):
+    menu_items=[]
+    menu_sort=[]
     i=1
-    print 5 * "-", Level, 5 * "-"
+    lvl=0
+    print 5 * "-", "Level", 5 * "-"
     print
-    #char_dir_files=char_dir+"/-"+lvl"+".json"
-    for json in os.listdir()
-
+    char_dir_files=char_dir+"/"+char_name
+    p=len(os.listdir(char_dir_files))
+    for json in os.listdir(char_dir_files):
+        if i < p:
+            menu_items.insert(i,json)
+            i+=1
+            lvl+=1
+    menu_sort.insert(i,natsorted(menu_items, key=lambda json: json))
+    ml=len(menu_sort[0])
+    i=1
+    lvl=0
+    while lvl<ml:
+        # Testing
+        #print "{}.) Level :{} - {:15}:{}".format(lvl,lvl,char_name,menu_sort[0][lvl])
+        print "{}.) Level :{} - {:15}".format(lvl,lvl,char_name)
+        lvl+=1
+    print 25 * "-"
+    ch_lvl=int(raw_input('Select Level: '))
+    print ch_lvl
+    
 def raise_level():
     p=char_menu()
     menu_len=len(p)
@@ -43,7 +63,7 @@ def raise_level():
         char_dict=json.load(f)
     print char_dict['name']
     print char_dict['lvl']
-    lvl=char_menu_level()
+    char_menu_level(char_dict['name'])
 
 
 raise_level()
