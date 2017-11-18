@@ -43,9 +43,13 @@ def char_menu_level(char_name):
         print "{}.) Level :{} - {:15}".format(lvl,lvl,char_name)
         lvl+=1
     print 25 * "-"
-    ch_lvl=int(raw_input('Select Level: '))
-    print ch_lvl
-    
+    ch_lvl=raw_input('Select Level: ')
+    char_lvl=char_dir_files+"/"+char_name+"-"+ch_lvl+".json"
+    skill_dict={}
+    with open(char_dir_files+"/"+char_name+"-"+ch_lvl+".json","r") as rl:
+        skill_dict = json.load(rl)
+    print skill_dict
+
 def raise_level():
     p=char_menu()
     menu_len=len(p)

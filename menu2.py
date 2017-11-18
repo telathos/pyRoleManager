@@ -1186,6 +1186,18 @@ def create_char():
     char['comb'],char['agmb'],char['sdmb'],char['remb'],char['memb']=0,0,0,0,0
     #char['hob'],char['ad'],char['ap'],char['skrnks']=0,0,0,0
 
+    with open(cfg_dir+"/ds.csv") as f:
+        sl=f.read().splitlines()
+    f.close()
+    skill_list=[]
+    for list in sl:
+        skill_list.append(list.split(","))
+        crt=1
+        for outer_list in skill_list:
+            index=int(plist[pro_ch][1])
+            char[crt]=(outer_list[1],outer_list[5],outer_list[7],outer_list[index],outer_list[6],0,0,0,0)
+            crt+=1
+
     # Write Character data to file
     with open(char_path+'/'+user_name+'.json', 'w') as f:
         f.write(json.dumps(char))
@@ -1562,11 +1574,16 @@ def weapon_costs():
 
     ## Open character skill file
     skill_dict={}
-    with open(char_dir+"/"+p[s]+"/"+p[s]+"-0.json","r") as sf:
+    #with open(char_dir+"/"+p[s]+"/"+p[s]+"-0.json","r") as sf:
+        #skill_dict = json.load(sf)
+    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","r") as sf:
         skill_dict = json.load(sf)
+    with open(cfg_dir+"/ds.csv") as f:
+        sl=f.read().splitlines()
 
     skcnt=1
-    while skcnt <= len(skill_dict):
+    #print len(skill_dict)
+    while skcnt <= len(sl):
         if skill_dict[`skcnt`][2]=='Thrown':
             skill_dict[`skcnt`][3]=wea_assign['Thrown']
         if skill_dict[`skcnt`][2]=='1-HS':
@@ -1580,7 +1597,7 @@ def weapon_costs():
         if skill_dict[`skcnt`][2]=='Polearm':
             skill_dict[`skcnt`][3]=wea_assign['Polearm']
         skcnt+=1
-    with open(char_dir+"/"+p[s]+"/"+p[s]+"-0.json","w") as sw:
+    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","w") as sw:
         sw.write(json.dumps(skill_dict))
 
 def raise_skills():
