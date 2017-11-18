@@ -46,7 +46,7 @@ def char_menu_level(char_name):
     ch_lvl=raw_input('Select Level: ')
     char_lvl=char_dir_files+"/"+char_name+"-"+ch_lvl+".json"
     skill_dict={}
-    with open(char_dir_files+"/"+char_name+"-"+ch_lvl+".json","r") as rl:
+    with open(char_dir_files+"/"+char_name+".json","r") as rl:
         skill_dict = json.load(rl)
     print skill_dict
 

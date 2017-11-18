@@ -1574,15 +1574,14 @@ def weapon_costs():
 
     ## Open character skill file
     skill_dict={}
-    #with open(char_dir+"/"+p[s]+"/"+p[s]+"-0.json","r") as sf:
-        #skill_dict = json.load(sf)
     with open(char_dir+"/"+p[s]+"/"+p[s]+".json","r") as sf:
         skill_dict = json.load(sf)
+    # Open ds.csv for count of skills
     with open(cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
 
     skcnt=1
-    #print len(skill_dict)
+    # Loop through skills and update costs of weapons
     while skcnt <= len(sl):
         if skill_dict[`skcnt`][2]=='Thrown':
             skill_dict[`skcnt`][3]=wea_assign['Thrown']
