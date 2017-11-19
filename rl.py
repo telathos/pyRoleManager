@@ -77,15 +77,15 @@ def raise_level():
     pro_name=char_dict['pro_name']
 
     print
-    print "| 1.) A      10.) J      19.) S"
-    print "| 2.) B                  20.) T"
-    print "| 3.) C      12.) L      21.) U"
-    print "| 4.) D      13.) M      22.) V"
-    print "| 5.) E      14.) N      23.) W"
-    print "| 6.) F                        "
-    print "| 7.) G      16.) P      25.) Y"
-    print "| 8.) H      17.) Q            "
-    print "| 9.) I      18.) R"
+    print "| 1.) A      10.) J      19.) U"
+    print "| 2.) B      11.) L      20.) V"
+    print "| 3.) C      12.) M      21.) W"
+    print "| 4.) D      13.) N      22.) Y"
+    print "| 5.) E      14.) P"
+    print "| 6.) F      15.) Q"
+    print "| 7.) G      16.) R"
+    print "| 8.) H      17.) S"
+    print "| 9.) I      18.) T"
     print
     ska=int(raw_input('Select First Letter of Skill: '))
     print
@@ -101,101 +101,89 @@ def raise_level():
             if ska == 1 and char_dict[words][0].startswith('A'):
                 alist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 alst=sorted(alist, key=lambda skill: skill[1])
-                print alist
-                print "----- A ------"
 
             if ska == 2 and char_dict[words][0].startswith('B'):
                 blist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 blst=sorted(blist, key=lambda skill: skill[1])
-                print blist
-                print "----- B ------"
 
             if ska == 3 and char_dict[words][0].startswith('C'):
                 clist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 clst=sorted(clist, key=lambda skill: skill[1])
-                print clist
-                print "----- C ------"
 
             if ska == 4 and char_dict[words][0].startswith('D'):
                 dlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 dlst=sorted(dlist, key=lambda skill: skill[1])
-                print dlist
-                print "----- D ------"
 
             if ska == 5 and char_dict[words][0].startswith('E'):
                 elist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 elst=sorted(elist, key=lambda skill: skill[1])
-                print elist
-                print "----- E ------"
-
+            
             if ska == 6 and char_dict[words][0].startswith('F'):
                 flist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 flst=sorted(flist, key=lambda skill: skill[1])
-                print flist
-                print "----- F ------"
 
-            if ska == 7 and skill_dict[words][0].startswith('G'):
-                glist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 7 and char_dict[words][0].startswith('G'):
+                glist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 glst=sorted(glist, key=lambda skill: skill[1])
 
-            if ska == 8 and skill_dict[words][0].startswith('H'):
-                hlist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 8 and char_dict[words][0].startswith('H'):
+                hlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 hlst=sorted(hlist, key=lambda skill: skill[1])
 
-            if ska == 9 and skill_dict[words][0].startswith('I'):
-                ilist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 9 and char_dict[words][0].startswith('I'):
+                ilist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 ilst=sorted(ilist, key=lambda skill: skill[1])
 
-            if ska == 10 and skill_dict[words][0].startswith('J'):
-                jlist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 10 and char_dict[words][0].startswith('J'):
+                jlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 jlst=sorted(jlist, key=lambda skill: skill[1])
 
-            if ska == 12 and skill_dict[words][0].startswith('L'):
-                llist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 11 and char_dict[words][0].startswith('L'):
+                llist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 llst=sorted(llist, key=lambda skill: skill[1])
 
-            if ska == 13 and skill_dict[words][0].startswith('M'):
-                mlist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 12 and char_dict[words][0].startswith('M'):
+                mlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 mlst=sorted(mlist, key=lambda skill: skill[1])
 
-            if ska == 14 and skill_dict[words][0].startswith('N'):
-                nlist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 13 and char_dict[words][0].startswith('N'):
+                nlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 nlst=sorted(nlist, key=lambda skill: skill[1])
 
-            if ska == 16 and skill_dict[words][0].startswith('P'):
-                plist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 14 and char_dict[words][0].startswith('P'):
+                plist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 plst=sorted(plist, key=lambda skill: skill[1])
 
-            if ska == 17 and skill_dict[words][0].startswith('Q'):
-                qlist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 15 and char_dict[words][0].startswith('Q'):
+                qlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 qlst=sorted(qlist, key=lambda skill: skill[1])
 
-            if ska == 18 and skill_dict[words][0].startswith('R'):
-                rlist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 16 and char_dict[words][0].startswith('R'):
+                rlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 rlst=sorted(rlist, key=lambda skill: skill[1])
 
-            if ska == 19 and skill_dict[words][0].startswith('S'):
-                slist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 17 and char_dict[words][0].startswith('S'):
+                slist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 slst=sorted(slist, key=lambda skill: skill[1])
 
-            if ska == 20 and skill_dict[words][0].startswith('T'):
-                tlist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 18 and char_dict[words][0].startswith('T'):
+                tlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 tlst=sorted(tlist, key=lambda skill: skill[1])
 
-            if ska == 21 and skill_dict[words][0].startswith('U'):
-                ulist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 19 and char_dict[words][0].startswith('U'):
+                ulist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 ulst=sorted(ulist, key=lambda skill: skill[1])
 
-            if ska == 22 and skill_dict[words][0].startswith('V'):
-                vlist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 20 and char_dict[words][0].startswith('V'):
+                vlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 vlst=sorted(vlist, key=lambda skill: skill[1])
 
-            if ska == 23 and skill_dict[words][0].startswith('W'):
-                wlist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 21 and char_dict[words][0].startswith('W'):
+                wlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 wlst=sorted(wlist, key=lambda skill: skill[1])
 
-            if ska == 25 and skill_dict[words][0].startswith('Y'):
-                ylist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
+            if ska == 22 and char_dict[words][0].startswith('Y'):
+                ylist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 ylst=sorted(ylist, key=lambda skill: skill[1])
 
     x=1
