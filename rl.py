@@ -98,6 +98,7 @@ def raise_level():
 
     for words in char_dict:
         if words.isdigit():
+            sk=1
             if ska == 1 and char_dict[words][0].startswith('A'):
                 alist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 alst=sorted(alist, key=lambda skill: skill[1])
@@ -117,7 +118,7 @@ def raise_level():
             if ska == 5 and char_dict[words][0].startswith('E'):
                 elist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 elst=sorted(elist, key=lambda skill: skill[1])
-            
+
             if ska == 6 and char_dict[words][0].startswith('F'):
                 flist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 flst=sorted(flist, key=lambda skill: skill[1])
@@ -186,10 +187,132 @@ def raise_level():
                 ylist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
                 ylst=sorted(ylist, key=lambda skill: skill[1])
 
-    x=1
-    while x <= len(sl):
-        #print char_dict[`x`]
-        #print
-        x+=1
+    skill_loop=True
+    while skill_loop:
+        print "      | {:32}|{:^8}|{:^5}|".format("Skill","Stats","Cost")
+        print 56 * "-"
+        if ska == 1:
+            x=1
+            for askills in alst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,askills[0],askills[1],askills[3])
+                x+=1
+        if ska == 2:
+            x=1
+            for bskills in blst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,bskills[0],bskills[1],bskills[3])
+                x+=1
+        if ska == 3:
+            x=1
+            for cskills in clst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,cskills[0],cskills[1],cskills[3])
+                x+=1
+        if ska == 4:
+            x=1
+            for dskills in dlst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,dskills[0],dskills[1],dskills[3])
+                x+=1
+        if ska == 5:
+            x=1
+            for eskills in elst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,eskills[0],eskills[1],eskills[3])
+                x+=1
+        if ska == 6:
+            x=1
+            for fskills in flst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,fskills[0],fskills[1],fskills[3])
+                x+=1
+        if ska == 7:
+            x=1
+            for gskills in glst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,gskills[0],gskills[1],gskills[3])
+                x+=1
+        if ska == 8:
+            x=1
+            for hskills in hlst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,hskills[0],hskills[1],hskills[3])
+                x+=1
+        if ska == 9:
+            x=1
+            for iskills in ilst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,iskills[0],iskills[1],iskills[3])
+                x+=1
+        if ska == 10:
+            x=1
+            for jskills in jlst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,jskills[0],jskills[1],jskills[3])
+                x+=1
+        if ska == 11:
+            x=1
+            for lskills in llst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,lskills[0],lskills[1],lskills[3])
+                x+=1
+        if ska == 12:
+            x=1
+            for mskills in mlst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,mskills[0],mskills[1],mskills[3])
+                x+=1
+        if ska == 13:
+            x=1
+            for nskills in nlst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,nskills[0],nskills[1],nskills[3])
+                x+=1
+        if ska == 14:
+            x=1
+            for pskills in plst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,pskills[0],pskills[1],pskills[3])
+                x+=1
+        if ska == 15:
+            x=1
+            for qskills in qlst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,qskills[0],qskills[1],qskills[3])
+                x+=1
+        if ska == 16:
+            x=1
+            for rskills in rlst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,rskills[0],rskills[1],rskills[3])
+                x+=1
+        if ska == 17:
+            x=1
+            for sskills in slst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,sskills[0],sskills[1],sskills[3])
+                x+=1
+        if ska == 18:
+            x=1
+            for tskills in tlst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,tskills[0],tskills[1],tskills[3])
+                x+=1
+        if ska == 19:
+            x=1
+            for uskills in ulst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,uskills[0],uskills[1],uskills[3])
+                x+=1
+        if ska == 20:
+            x=1
+            for vskills in vlst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,vskills[0],vskills[1],vskills[3])
+                x+=1
+        if ska == 21:
+            x=1
+            for wskills in wlst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,wskills[0],wskills[1],wskills[3])
+                x+=1
+        if ska == 22:
+            # 'Y'
+            x=1
+            for yskills in ylst:
+                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,yskills[0],yskills[1],yskills[3])
+                x+=1
+            y=loop_done()
+            if y == "False":
+                skill_loop=False
+
+def loop_done():
+    print
+    print "  X.) Back"
+    sub_skill=raw_input('Select a skill: ')
+    # Exit skil loop
+    if sub_skill == "X" or sub_skill == "x":
+        loops=="False"
+    return loops
 
 raise_level()
