@@ -44,6 +44,37 @@ def char_menu_level(char_name):
         skill_dict = json.load(rl)
     print skill_dict
 
+dp_used=0
+limit=1
+def skill_rank_qty_check(srnk,cost):
+    global dp_used
+    global limit
+    if len(cost) > 2:
+        ecost=cost.split('/')
+        if ecost[1] == "*":
+            limit=3
+        else:
+            limit=2
+    else:
+        ecost=cost
+        limit=1
+    while srnk > limit:
+        print "You can not purchase that number of ranks."
+        print "Enter a different number of ranks"
+        srnk=int(raw_input('Number of Ranks: '))
+    else:
+        if len(cost) <= 2:
+            dp_used=int(cost)
+        elif len(cost) > 2:
+            if srnk <=3 and ecost[1] == "*":
+                dp_used=int(ecost[0]) * int(srnk)
+            elif srnk == 2:
+                dp_used=int(ecost[0])+int(ecost[1])
+            else:
+                dp_used=int(ecost[0])
+
+        return dp_used
+
 def select_skills():
     p=char_menu()
     menu_len=len(p)
@@ -53,9 +84,7 @@ def select_skills():
             break
         else:
             print "Invalid Selection! Select a character from the list"
-    #skill_dict={}
     skill_list=[]
-    #print p
     s-=1
     with open(char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
         char_dict=json.load(f)
@@ -85,16 +114,13 @@ def select_skills():
         def skill_to_list(g):
             sklist=[]
             sklst={}
-            print sklst
             for words in char_dict:
-                print words,":words"
+                #print words,":words"
                 if words.isdigit():
                     if char_dict[words][0].startswith(g):
                         index=words
-                        print char_dict[words][0]
                         sklist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],index])
                         sklst=sorted(sklist, key=lambda skill: skill[0])
-                    print sklst,":sklst"
             return sklst
 
         sksubloop=True
@@ -123,8 +149,16 @@ def select_skills():
                 sr-=1
                 print "| {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|85".format(char_dict[skill_menu_list[sr]][0],char_dict[skill_menu_list[sr]][1],char_dict[skill_menu_list[sr]][3],char_dict[skill_menu_list[sr]][5],char_dict[skill_menu_list[sr]][6],char_dict[skill_menu_list[sr]][7],char_dict[skill_menu_list[sr]][8])
                 srnk=int(raw_input('Number of Ranks: '))
+                cost=char_dict[skill_menu_list[sr]][3]
+                print cost,":cost"
+                skill_rank_qty_check(srnk,cost)
+                print dp_used
+                #print len(char_dict[skill_menu_list[sr]][3])
+
                 char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
-                #print skill_menu_list[sr]
+                # Write Character data to file
+                with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                    f.write(json.dumps(char_dict))
 
                 sksubloop=False
         if ska=="2":
@@ -137,4 +171,5 @@ def select_skills():
         # Exit loop
         if ska == 'X' or ska=='x':
             skloop=False
+
 select_skills()
