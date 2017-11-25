@@ -126,7 +126,7 @@ def select_skills():
                     # Update dictionary
                     char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
                     # Write Character data to file
-                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                    with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                         f.write(json.dumps(char_dict))
                     sksubloop=False
         if ska=="2":
