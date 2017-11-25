@@ -1,23 +1,18 @@
 import json
 import charMenu
+import cfgData
 
-#char_dir='c:\pyRoleManager\char'
-#cfg_dir='c:\pyRoleManager\cfg'
+p=charMenu.char_menu()
+menu_len=len(p)
+while True:
+    s=int(raw_input("Select a Character: "))
+    if s >=1 and s<=menu_len:
+        break
+    else:
+        print "Invalid Selection! Select a character from the list"
 
-########
-'''
-def char_menu():
-    # Clear list before function is ran
-    menu_items=[]
-    i=1
-    print 5 * "-", "Characters", 5 * "-"
-    for file in os.listdir(char_dir):
-        menu_items.insert(i,file)
-        print "{:<2}.) {:15}".format(i,file)
-        i+=1
-    print 25 * "-"
-    return menu_items
-'''
-
-charMenu.char_menu()
-ch=int(raw_input('Select a Character: '))
+# Open the file
+s-=1
+with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+    char_dict = json.load(cf)
+#print char_dict

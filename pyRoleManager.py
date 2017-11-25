@@ -903,7 +903,6 @@ def create_char():
     else:
         # Write character name to list
         char['name']=user_name
-        #print char
 
     print 25 * "-" , "Professions", 25 * "-"
     print ""
@@ -1061,7 +1060,6 @@ def create_char():
     print 25 * "-"
 
     race_input=int(raw_input('Select a Race: '))
-    print race_input
     if race_input==1:
         char['race']="Common Man"
     elif race_input==2:
@@ -1200,6 +1198,7 @@ def create_char():
     char['realm']=plist[pro_ch][8]
     char['stmb'],char['qumb'],char['emmb'],char['inmb'],char['prmb']=0,0,0,0,0
     char['comb'],char['agmb'],char['sdmb'],char['remb'],char['memb']=0,0,0,0,0
+
     # Open chart of stat values
     with open(cfgData.cfg_dir+"/sttchart.csv") as f:
         statchart =f.read().splitlines()
@@ -1211,7 +1210,6 @@ def create_char():
 
     # Loop through statistics to pull bonuses
     for x1 in sc:
-        #print x1[0],":",x1[1],":",x1[2],":",x1[3]
         if int(x1[0]) == int(char['st_stat']):
             stb,stdp,stpp=x1[1],x1[2],x1[3]
         if int(x1[0]) == int(char['qu_stat']):
@@ -1493,7 +1491,7 @@ def mbbonus():
 
     # Open the file
     s-=1
-    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
         char_dict = json.load(cf)
         setstmb=char_dict['stmb']
         setqumb=char_dict['qumb']
@@ -1568,12 +1566,12 @@ def mbbonus():
         char_dict['remb']=setremb
 
         # Open character file to write out data
-        with open(char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
+        with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
             f.write(json.dumps(char_dict))
 
 def weapon_costs():
     # Create character list to work with
-    p=char_menu()
+    p=charMenu.char_menu()
     menu_len=len(p)
     cloop=True
     while cloop:
@@ -1584,16 +1582,16 @@ def weapon_costs():
             print "Invalid Selection! Select a character from the list"
 
     s-=1
-    if len(os.listdir(char_dir+"/"+p[s]))==2 and os.listdir(char_dir+"/"+p[s])[0] == p[s]+"-0.json":
+    if len(os.listdir(cfgData.char_dir+"/"+p[s]))==2 and os.listdir(cfgData.char_dir+"/"+p[s])[0] == p[s]+"-0.json":
         print "Level 0 Character Found"
-    elif len(os.listdir(char_dir+"/"+p[s]))>2:
+    elif len(os.listdir(cfgData.char_dir+"/"+p[s]))>2:
         print "extra levels"
     # Open the character file, read-only
-    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
         char_dict = json.load(cf)
 
     ## Read in list of professions and weapon costs, read-only
-    with open(cfg_dir+"/pro.csv","r") as procsv:
+    with open(cfgData.cfg_dir+"/pro.csv","r") as procsv:
         plist=procsv.read()
     for profess in plist.splitlines():
         rt=profess.split(",")
@@ -1676,10 +1674,10 @@ def weapon_costs():
 
     ## Open character skill file
     skill_dict={}
-    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","r") as sf:
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as sf:
         skill_dict = json.load(sf)
     # Open ds.csv for count of skills
-    with open(cfg_dir+"/ds.csv") as f:
+    with open(cfgData.cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
 
     skcnt=1
@@ -1698,7 +1696,7 @@ def weapon_costs():
         if skill_dict[`skcnt`][2]=='Polearm':
             skill_dict[`skcnt`][3]=wea_assign['Polearm']
         skcnt+=1
-    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","w") as sw:
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","w") as sw:
         sw.write(json.dumps(skill_dict))
 
 ###########################

@@ -2,11 +2,10 @@ import json
 import re
 import os.path
 from natsort import natsorted, ns
-
-char_dir='c:\pyRoleManager\char'
-cfg_dir='c:\pyRoleManager\cfg'
-
+import cfgData
+import charMenu
 ########
+'''
 def char_menu():
     # Clear list before function is ran
     menu_items=[]
@@ -43,6 +42,7 @@ def char_menu_level(char_name):
     with open(char_dir_files+"/"+char_name+".json","r") as rl:
         skill_dict = json.load(rl)
     print skill_dict
+'''
 
 dp_used=0
 limit=1
@@ -76,7 +76,7 @@ def skill_rank_qty_check(srnk,cost):
         return dp_used
 
 def select_skills():
-    p=char_menu()
+    p=charMenu.char_menu()
     menu_len=len(p)
     while True:
         s=int(raw_input("Select Character: "))
@@ -86,13 +86,13 @@ def select_skills():
             print "Invalid Selection! Select a character from the list"
     skill_list=[]
     s-=1
-    with open(char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
         char_dict=json.load(f)
 
     # load for skill list count
-    with open(cfg_dir+"/ds.csv") as f:
+    with open(cfgData.cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
-    print len(sl),":len"
+
     # Start loop
     skloop=True
     while skloop:
@@ -115,7 +115,6 @@ def select_skills():
             sklist=[]
             sklst={}
             for words in char_dict:
-                #print words,":words"
                 if words.isdigit():
                     if char_dict[words][0].startswith(g):
                         index=words
