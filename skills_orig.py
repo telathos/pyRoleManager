@@ -4,10 +4,6 @@ import os.path
 from natsort import natsorted, ns
 import cfgData
 import charMenu
-from colorama import init
-from colorama import Fore, Back, Style
-import decimal
-init()
 
 dp_used=0
 limit=1
@@ -58,7 +54,6 @@ def select_skills():
     with open(cfgData.cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
 
-    cfgData.running_dp(char_dict['dp'])
     # Start loop
     skloop=True
     while skloop:
