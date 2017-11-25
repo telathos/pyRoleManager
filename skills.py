@@ -2,7 +2,6 @@ import json
 import re
 import os.path
 from natsort import natsorted, ns
-#import cfgData
 
 char_dir='c:\pyRoleManager\char'
 cfg_dir='c:\pyRoleManager\cfg'
@@ -152,11 +151,8 @@ def select_skills():
                 if sr == length:
                     sksubloop=False
                 else:
-
                     # substrat one from menu select to line up with list
                     sr-=1
-                    #print "| {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|85".format(char_dict[skill_menu_list[sr]][0],char_dict[skill_menu_list[sr]][1],char_dict[skill_menu_list[sr]][3],char_dict[skill_menu_list[sr]][5],char_dict[skill_menu_list[sr]][6],char_dict[skill_menu_list[sr]][7],char_dict[skill_menu_list[sr]][8])
-
                     srnk=int(raw_input('Number of Ranks: '))
                     cost=char_dict[skill_menu_list[sr]][3]
                     skill_rank_qty_check(srnk,cost)
@@ -195,11 +191,8 @@ def select_skills():
                 if sr == length:
                     sksubloop=False
                 else:
-
                     # substrat one from menu select to line up with list
                     sr-=1
-                    #print "| {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|85".format(char_dict[skill_menu_list[sr]][0],char_dict[skill_menu_list[sr]][1],char_dict[skill_menu_list[sr]][3],char_dict[skill_menu_list[sr]][5],char_dict[skill_menu_list[sr]][6],char_dict[skill_menu_list[sr]][7],char_dict[skill_menu_list[sr]][8])
-
                     srnk=int(raw_input('Number of Ranks: '))
                     cost=char_dict[skill_menu_list[sr]][3]
                     skill_rank_qty_check(srnk,cost)
@@ -211,5 +204,807 @@ def select_skills():
                     with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                         f.write(json.dumps(char_dict))
                     sksubloop=False
+        if ska=="3":
+            i=1
+            sx=skill_to_list("C")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
 
-select_skills()
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="4":
+            i=1
+            sx=skill_to_list("D")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="5":
+            i=1
+            sx=skill_to_list("E")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="6":
+            i=1
+            sx=skill_to_list("F")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="7":
+            i=1
+            sx=skill_to_list("G")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="8":
+            i=1
+            sx=skill_to_list("H")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="8":
+            i=1
+            sx=skill_to_list("I")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="10":
+            i=1
+            sx=skill_to_list("J")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="11":
+            i=1
+            sx=skill_to_list("L")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="12":
+            i=1
+            sx=skill_to_list("M")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="13":
+            i=1
+            sx=skill_to_list("N")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="14":
+            i=1
+            sx=skill_to_list("P")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="15":
+            i=1
+            sx=skill_to_list("Q")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="16":
+            i=1
+            sx=skill_to_list("R")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="17":
+            i=1
+            sx=skill_to_list("S")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="18":
+            i=1
+            sx=skill_to_list("T")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="19":
+            i=1
+            sx=skill_to_list("U")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="20":
+            i=1
+            sx=skill_to_list("V")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="21":
+            i=1
+            sx=skill_to_list("W")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="22":
+            i=1
+            sx=skill_to_list("Y")
+            while sksubloop:
+                print 80 * "-"
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+                print 80 * "-"
+                for skills in sx:
+                    print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+                    skill_menu_list.insert(i,skills[8])
+                    i+=1
+                print "{:6}|{:72}|".format("","")
+                print "{:>3}.) | Back{:67}|".format(i,"")
+                print
+                print 80 * "-"
+                print
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    skill_rank_qty_check(srnk,cost)
+                    print dp_used
+
+                    # Update dictionary
+                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                    # Write Character data to file
+                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                        f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska == "X" or ska == "x":
+            skloop=False
+
+#select_skills()

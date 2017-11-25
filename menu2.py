@@ -1054,6 +1054,9 @@ def create_char():
     print "10. Dwarf        11. Half-Dwarf"
     print "12. Half-Orc   13. Half-Ogre    14. Half-Troll"
     print ""
+    print "15. Gnomes     16. Hira'razhir (Avians)"
+    print "17. Idiyva (Felines)   18. Vulfen (Wolfmen)"
+    print "19. Sstoi'isslythi (Reptilies)"
     print 25 * "-"
 
     race_input=int(raw_input('Select a Race: '))
@@ -1086,6 +1089,16 @@ def create_char():
         char['race']="Half-Ogre"
     elif race_input==14:
         char['race']="Half-Troll"
+    elif race_input==15:
+        char['race']="Gnomes"
+    elif race_input==16:
+        char['race']="Hira'razhir"
+    elif race_input==17:
+        char['race']="Idiyva"
+    elif race_input==18:
+        char['race']="Vulfen"
+    elif race_input==19:
+        char['race']="Sstoi'isslythi"
 
     ### Enter current statistic values
 
@@ -1528,7 +1541,6 @@ def weapon_costs():
     wea_assign[weacat]=wclist[weapsel]
     wlist.pop(weapcat)
     wclist.pop(weapsel)
-    #print wea_assign
     print
 
     # Weapon loop
@@ -1565,13 +1577,10 @@ def weapon_costs():
         # Remove weapon cost and category
         wlist.pop(weapcat)
         wclist.pop(weapsel)
-        #print wea_assign
-        #print len(wlist)
         print
         if len(wlist)==1:
             weacat=wlist[0]
             wea_assign[weacat]=wclist[0]
-            #print wea_assign
             wea_loop=False
 
     ## Open character skill file
@@ -1601,67 +1610,6 @@ def weapon_costs():
     with open(char_dir+"/"+p[s]+"/"+p[s]+".json","w") as sw:
         sw.write(json.dumps(skill_dict))
 
-def raise_skills():
-    with open(cfg_dir+"/ds.csv") as f:
-        sl=f.read().splitlines()
-    f.close()
-    skill_list=[]
-
-    for list in sl:
-        skill_list.append(list.split(","))
-    y=len(skill_list)
-    s=1
-
-    for outer_list in skill_list:
-        s=outer_list[0]
-        skill_dict[s]=(outer_list[0],outer_list[1],outer_list[5],outer_list[pro_name])
-
-    print "| 1.) A      10.) J      19.) S"
-    print "| 2.) B      11.) K      20.) T"
-    print "| 3.) C      12.) L      21.) U"
-    print "| 4.) D      13.) M      22.) V"
-    print "| 5.) E      14.) N      23.) W"
-    print "| 6.) F      15.) O      24.) X"
-    print "| 7.) G      16.) P      25.) Y"
-    print "| 8.) H      17.) Q      26.) Z"
-    print "| 9.) I      18.) R"
-    print
-    ska=int(raw_input('Select First Letter of Skill: '))
-    print
-
-    alist=[]
-    blist=[]
-    clist=[]
-
-    for words in skill_dict:
-        if ska == 1 and skill_dict[words][1].startswith('A'):
-            alist.append([skill_dict[words][0],skill_dict[words][1],skill_dict[words][2],skill_dict[words][3]])
-            alst=sorted(alist, key=lambda skill: skill[1])
-        if ska == 2 and skill_dict[words][0].startswith('B'):
-            print "| {:32}|{:^5}|".format(skill_dict[words][0], skill_dict[words][2])
-        if ska == 3 and skill_dict[words][0].startswith('C'):
-            print "| {:32}|{:^5}|".format(skill_dict[words][0], skill_dict[words][2])
-        if ska == 4 and skill_dict[words][0].startswith('D'):
-            print "| {:32}|{:^5}|".format(skill_dict[words][0], skill_dict[words][2])
-    #print alst
-    skill_loop=True
-    while skill_loop:
-        print "      | {:32}|{:^8}|{:^5}|".format("Skill","Stats","Cost")
-        print 56 * "-"
-        if ska == 1:
-            for askills in alst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(askills[0],askills[1],askills[2],askills[3])
-        if ska == 2:
-            pass
-        print
-        print "  X.) Back"
-        sub_skill=raw_input('Select a skill: ')
-        print sub_skill
-        if sub_skill == "X" or sub_skill == "x":
-            print "quit"
-            skill_loop=False
-    print
-
 ###########################
 ###   Start Menu Loop   ###
 ###########################
@@ -1687,11 +1635,11 @@ while loop:          ## While loop which will keep going until loop = False
         weapon_costs()
     elif choice=="5":
         clear_screen()
-        raise_skills()
+        #raise_skills()
     elif choice=="7":
         import skills
         clear_screen()
-        select_skills()
+        skills.select_skills()
     elif choice=="x":
         print "Exiting Program"
         loop=False
