@@ -1325,8 +1325,8 @@ def create_char():
             crt+=1
 
     ### Write Skills to character skill file
-    with open(char_path+"/"+user_name+"-"+`char['lvl']`+'.json','w') as sf:
-        sf.write(json.dumps(char_skill))
+    #with open(char_path+"/"+user_name+"-"+`char['lvl']`+'.json','w') as sf:
+    #    sf.write(json.dumps(char_skill))
 ## End of create_char
 
 def show_char():
