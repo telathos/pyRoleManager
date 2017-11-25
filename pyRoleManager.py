@@ -1,15 +1,12 @@
 ## Text menu in Python
 from platform import system as system_name # Returns the system/OS name
 from os import system as system_call       # Execute a shell command
-import os.path
+import os
 import json
 import sys
 import re
-
-
-# Configuration variables
-char_dir="c:\pyRoleManager\char"
-cfg_dir="c:\pyRoleManager\cfg"
+import cfgData
+import charMenu
 
 # Setup character data list
 char={}
@@ -22,6 +19,8 @@ with open("cfg/pro.csv") as pf:
         plist[pi]=pline.rstrip('\n').split(",")
         #print plist[pi]
         pi+=1
+
+
 def atoi(text):
     return int(text) if text.isdigit() else text
 
@@ -83,6 +82,7 @@ def create_char_menu():
         counter+=1
 
 # Create a menu of characters
+'''
 def char_menu():
     # Clear list before function is ran
     menu_items=[]
@@ -94,6 +94,7 @@ def char_menu():
         i+=1
     print 25 * "-"
     return menu_items
+'''
 
 # Print prime requisite error
 def pr_text():
@@ -892,7 +893,7 @@ co_pot_in,ag_pot_in,sd_pot_in,me_pot_in,re_pot_in=0,0,0,0,0
 # Start of the basic character creation, Name, Profession, Race and Stats
 def create_char():
     user_name=str(raw_input('Please enter your first name: '))
-    char_path=char_dir+"/"+user_name
+    char_path=cfgData.char_dir+"/"+user_name
     print char_path
     if not os.path.exists(char_path):
         os.makedirs(char_path)
@@ -1200,7 +1201,7 @@ def create_char():
     char['stmb'],char['qumb'],char['emmb'],char['inmb'],char['prmb']=0,0,0,0,0
     char['comb'],char['agmb'],char['sdmb'],char['remb'],char['memb']=0,0,0,0,0
     # Open chart of stat values
-    with open(cfg_dir+"/sttchart.csv") as f:
+    with open(cfgData.cfg_dir+"/sttchart.csv") as f:
         statchart =f.read().splitlines()
     f.close()
     sc=[]
@@ -1235,7 +1236,7 @@ def create_char():
     ###################
     # Lookup Race Bonus
     ###################
-    with open(cfg_dir+"/race.csv") as r:
+    with open(cfgData.cfg_dir+"/race.csv") as r:
         racechart =r.read().splitlines()
     r.close()
     rc=[]
@@ -1294,7 +1295,7 @@ def create_char():
     # Development Point Math
     stdp,qudp,emdp,indp,prdp="-","-","-","-","-"
 
-    with open(cfg_dir+"/ds.csv") as f:
+    with open(cfgData.cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
     f.close()
     skill_list=[]
@@ -1311,7 +1312,7 @@ def create_char():
         f.write(json.dumps(char))
 
     # Open skill list file and to character skill file
-    with open(cfg_dir+"/ds.csv") as f:
+    with open(cfgData.cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
     f.close()
     skill_list=[]
@@ -1324,13 +1325,10 @@ def create_char():
             char_skill[crt]=(outer_list[1],outer_list[5],outer_list[7],outer_list[index],outer_list[6],0,0,0,0)
             crt+=1
 
-    ### Write Skills to character skill file
-    with open(char_path+"/"+user_name+"-"+`char['lvl']`+'.json','w') as sf:
-        sf.write(json.dumps(char_skill))
 ## End of create_char
 
 def show_char():
-    p=char_menu()
+    p=charMenu.char_menu()
     menu_len=len(p)
     while True:
         s=int(raw_input("Select Character: "))
@@ -1342,10 +1340,10 @@ def show_char():
     # Open the file
     char_data={}
     s-=1
-    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
         char_dict = json.load(cf)
     # Open chart of stat values
-    with open(cfg_dir+"/sttchart.csv") as f:
+    with open(cfgData.cfg_dir+"/sttchart.csv") as f:
         statchart =f.read().splitlines()
     f.close()
     sc=[]
@@ -1380,7 +1378,7 @@ def show_char():
     ###################
     # Lookup Race Bonus
     ###################
-    with open(cfg_dir+"/race.csv") as r:
+    with open(cfgData.cfg_dir+"/race.csv") as r:
         racechart =r.read().splitlines()
     r.close()
     rc=[]
