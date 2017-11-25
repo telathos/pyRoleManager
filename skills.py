@@ -4,45 +4,6 @@ import os.path
 from natsort import natsorted, ns
 import cfgData
 import charMenu
-########
-'''
-def char_menu():
-    # Clear list before function is ran
-    menu_items=[]
-    i=1
-    print 5 * "-", "Characters", 5 * "-"
-    for file in os.listdir(char_dir):
-        menu_items.insert(i,file)
-        print "{:<2}.) {:15}".format(i,file)
-        i+=1
-    print 25 * "-"
-    return menu_items
-
-def char_menu_level(char_name):
-    menu_items=[]
-    menu_sort=[]
-    i=1
-    lvl=0
-    print 5 * "-", "Level", 5 * "-"
-    print
-    char_dir_files=char_dir+"/"+char_name
-    p=len(os.listdir(char_dir_files))
-    for json in os.listdir(char_dir_files):
-        if i < p:
-            menu_items.insert(i,json)
-            i+=1
-            lvl+=1
-    menu_sort.insert(i,natsorted(menu_items, key=lambda json: json))
-    ml=len(menu_sort[0])
-
-    print 25 * "-"
-    ch_lvl=raw_input('Select Level: ')
-    #char_lvl=char_dir_files+"/"+char_name+"-"+ch_lvl+".json"
-    skill_dict={}
-    with open(char_dir_files+"/"+char_name+".json","r") as rl:
-        skill_dict = json.load(rl)
-    print skill_dict
-'''
 
 dp_used=0
 limit=1
