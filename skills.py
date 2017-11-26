@@ -68,7 +68,7 @@ def select_skills():
     skloop=True
     if char_dict['lvl'] == 0 and char_dict['tempdp'] <= char_dict['dp']:
         print
-        print "Are you ready to assign skill ranks for you Adolescence Level?"
+        print "Are you ready to assign skill ranks for your Adolescence Level?"
         print "[Yes/No]"
         print
         while True:
@@ -83,9 +83,9 @@ def select_skills():
             else:
                 print "Invalid Selection! Enter Y or N"
 
-    elif char_dict['lvl'] == 0.5:
+    elif char_dict['lvl'] == 0.5 and char_dict['tempdp'] <= char_dict['dp']:
         print
-        print "Are you ready to assign skill ranks for you Appenticeship Level?"
+        print "Are you ready to assign skill ranks for your Appenticeship Level?"
         print "[Yes/No]"
         print
         while True:
@@ -100,8 +100,22 @@ def select_skills():
             else:
                 print "Invalid Selection! Enter Y or N"
 
-    elif char_dict['lvl'] == 1:
-        print "Level 1"
+    elif char_dict['lvl'] == 1 and char_dict['tempdp'] <= char_dict['dp']:
+        print
+        print "Are you ready to assign skill ranks for level {}?".format(char_dict['lvl'])
+        print "[Yes/No]"
+        print
+        while True:
+            y=str(raw_input('Y/N: '))
+            if y.upper() =="N":
+                skloop=False
+                break
+            elif y.upper() == "Y":
+                lvl="ap"
+                char_dict['lvl_raise']= "ap"
+                break
+            else:
+                print "Invalid Selection! Enter Y or N"
 
     while skloop:
         print
