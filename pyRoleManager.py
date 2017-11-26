@@ -1,15 +1,12 @@
 ## Text menu in Python
 from platform import system as system_name # Returns the system/OS name
 from os import system as system_call       # Execute a shell command
-import os.path
+import os
 import json
 import sys
 import re
-
-
-# Configuration variables
-char_dir="c:\pyRoleManager\char"
-cfg_dir="c:\pyRoleManager\cfg"
+import cfgData
+import charMenu
 
 # Setup character data list
 char={}
@@ -22,6 +19,8 @@ with open("cfg/pro.csv") as pf:
         plist[pi]=pline.rstrip('\n').split(",")
         #print plist[pi]
         pi+=1
+
+
 def atoi(text):
     return int(text) if text.isdigit() else text
 
@@ -83,6 +82,7 @@ def create_char_menu():
         counter+=1
 
 # Create a menu of characters
+'''
 def char_menu():
     # Clear list before function is ran
     menu_items=[]
@@ -94,6 +94,7 @@ def char_menu():
         i+=1
     print 25 * "-"
     return menu_items
+'''
 
 # Print prime requisite error
 def pr_text():
@@ -892,7 +893,7 @@ co_pot_in,ag_pot_in,sd_pot_in,me_pot_in,re_pot_in=0,0,0,0,0
 # Start of the basic character creation, Name, Profession, Race and Stats
 def create_char():
     user_name=str(raw_input('Please enter your first name: '))
-    char_path=char_dir+"/"+user_name
+    char_path=cfgData.char_dir+"/"+user_name
     print char_path
     if not os.path.exists(char_path):
         os.makedirs(char_path)
@@ -902,7 +903,6 @@ def create_char():
     else:
         # Write character name to list
         char['name']=user_name
-        #print char
 
     print 25 * "-" , "Professions", 25 * "-"
     print ""
@@ -1060,7 +1060,6 @@ def create_char():
     print 25 * "-"
 
     race_input=int(raw_input('Select a Race: '))
-    print race_input
     if race_input==1:
         char['race']="Common Man"
     elif race_input==2:
@@ -1199,8 +1198,9 @@ def create_char():
     char['realm']=plist[pro_ch][8]
     char['stmb'],char['qumb'],char['emmb'],char['inmb'],char['prmb']=0,0,0,0,0
     char['comb'],char['agmb'],char['sdmb'],char['remb'],char['memb']=0,0,0,0,0
+
     # Open chart of stat values
-    with open(cfg_dir+"/sttchart.csv") as f:
+    with open(cfgData.cfg_dir+"/sttchart.csv") as f:
         statchart =f.read().splitlines()
     f.close()
     sc=[]
@@ -1210,7 +1210,6 @@ def create_char():
 
     # Loop through statistics to pull bonuses
     for x1 in sc:
-        #print x1[0],":",x1[1],":",x1[2],":",x1[3]
         if int(x1[0]) == int(char['st_stat']):
             stb,stdp,stpp=x1[1],x1[2],x1[3]
         if int(x1[0]) == int(char['qu_stat']):
@@ -1235,7 +1234,7 @@ def create_char():
     ###################
     # Lookup Race Bonus
     ###################
-    with open(cfg_dir+"/race.csv") as r:
+    with open(cfgData.cfg_dir+"/race.csv") as r:
         racechart =r.read().splitlines()
     r.close()
     rc=[]
@@ -1294,7 +1293,7 @@ def create_char():
     # Development Point Math
     stdp,qudp,emdp,indp,prdp="-","-","-","-","-"
 
-    with open(cfg_dir+"/ds.csv") as f:
+    with open(cfgData.cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
     f.close()
     skill_list=[]
@@ -1311,7 +1310,7 @@ def create_char():
         f.write(json.dumps(char))
 
     # Open skill list file and to character skill file
-    with open(cfg_dir+"/ds.csv") as f:
+    with open(cfgData.cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
     f.close()
     skill_list=[]
@@ -1324,13 +1323,10 @@ def create_char():
             char_skill[crt]=(outer_list[1],outer_list[5],outer_list[7],outer_list[index],outer_list[6],0,0,0,0)
             crt+=1
 
-    ### Write Skills to character skill file
-    #with open(char_path+"/"+user_name+"-"+`char['lvl']`+'.json','w') as sf:
-    #    sf.write(json.dumps(char_skill))
 ## End of create_char
 
 def show_char():
-    p=char_menu()
+    p=charMenu.char_menu()
     menu_len=len(p)
     while True:
         s=int(raw_input("Select Character: "))
@@ -1342,10 +1338,10 @@ def show_char():
     # Open the file
     char_data={}
     s-=1
-    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
         char_dict = json.load(cf)
     # Open chart of stat values
-    with open(cfg_dir+"/sttchart.csv") as f:
+    with open(cfgData.cfg_dir+"/sttchart.csv") as f:
         statchart =f.read().splitlines()
     f.close()
     sc=[]
@@ -1380,7 +1376,7 @@ def show_char():
     ###################
     # Lookup Race Bonus
     ###################
-    with open(cfg_dir+"/race.csv") as r:
+    with open(cfgData.cfg_dir+"/race.csv") as r:
         racechart =r.read().splitlines()
     r.close()
     rc=[]
@@ -1495,7 +1491,7 @@ def mbbonus():
 
     # Open the file
     s-=1
-    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
         char_dict = json.load(cf)
         setstmb=char_dict['stmb']
         setqumb=char_dict['qumb']
@@ -1570,12 +1566,12 @@ def mbbonus():
         char_dict['remb']=setremb
 
         # Open character file to write out data
-        with open(char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
+        with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
             f.write(json.dumps(char_dict))
 
 def weapon_costs():
     # Create character list to work with
-    p=char_menu()
+    p=charMenu.char_menu()
     menu_len=len(p)
     cloop=True
     while cloop:
@@ -1586,16 +1582,16 @@ def weapon_costs():
             print "Invalid Selection! Select a character from the list"
 
     s-=1
-    if len(os.listdir(char_dir+"/"+p[s]))==2 and os.listdir(char_dir+"/"+p[s])[0] == p[s]+"-0.json":
+    if len(os.listdir(cfgData.char_dir+"/"+p[s]))==2 and os.listdir(cfgData.char_dir+"/"+p[s])[0] == p[s]+"-0.json":
         print "Level 0 Character Found"
-    elif len(os.listdir(char_dir+"/"+p[s]))>2:
+    elif len(os.listdir(cfgData.char_dir+"/"+p[s]))>2:
         print "extra levels"
     # Open the character file, read-only
-    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
         char_dict = json.load(cf)
 
     ## Read in list of professions and weapon costs, read-only
-    with open(cfg_dir+"/pro.csv","r") as procsv:
+    with open(cfgData.cfg_dir+"/pro.csv","r") as procsv:
         plist=procsv.read()
     for profess in plist.splitlines():
         rt=profess.split(",")
@@ -1678,10 +1674,10 @@ def weapon_costs():
 
     ## Open character skill file
     skill_dict={}
-    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","r") as sf:
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as sf:
         skill_dict = json.load(sf)
     # Open ds.csv for count of skills
-    with open(cfg_dir+"/ds.csv") as f:
+    with open(cfgData.cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
 
     skcnt=1
@@ -1700,7 +1696,7 @@ def weapon_costs():
         if skill_dict[`skcnt`][2]=='Polearm':
             skill_dict[`skcnt`][3]=wea_assign['Polearm']
         skcnt+=1
-    with open(char_dir+"/"+p[s]+"/"+p[s]+".json","w") as sw:
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","w") as sw:
         sw.write(json.dumps(skill_dict))
 
 ###########################
