@@ -53,8 +53,8 @@ def select_skills():
     s-=1
     with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
         char_dict=json.load(f)
-
-
+    # Create snapshot of the data before starting
+    char_dict_orig=char_dict
 
     # load for skill list count
     with open(cfgData.cfg_dir+"/ds.csv") as f:
@@ -66,7 +66,7 @@ def select_skills():
     char_dict['tempdp']=current_dp
     # Start loop
     skloop=True
-    if char_dict['lvl'] == 0:
+    if char_dict['lvl'] == 0 and char_dict['tempdp'] <= char_dict['dp']:
         print
         print "Are you ready to assign skill ranks for you Adolescence Level?"
         print "[Yes/No]"
@@ -77,6 +77,8 @@ def select_skills():
                 skloop=False
                 break
             elif y.upper() == "Y":
+                lvl="ad"
+                char_dict['lvl_raise']= "ad"
                 break
             else:
                 print "Invalid Selection! Enter Y or N"
@@ -92,6 +94,8 @@ def select_skills():
                 skloop=False
                 break
             elif y.upper() == "Y":
+                lvl="ap"
+                char_dict['lvl_raise']= "ap"
                 break
             else:
                 print "Invalid Selection! Enter Y or N"
@@ -170,8 +174,9 @@ def select_skills():
                         # Current DP update
                         char_dict['tempdp']=current_dp
 
+                        #print char_dict[skill_menu_list[sr]][8],":Added skill"
                         # Update dictionary
-                        char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                        char_dict[skill_menu_list[sr]][8]+=srnk
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
