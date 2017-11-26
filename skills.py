@@ -54,15 +54,51 @@ def select_skills():
     with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
         char_dict=json.load(f)
 
+
+
     # load for skill list count
     with open(cfgData.cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
 
-    cfgData.running_dp(char_dict['dp'])
+    # Set Base dp
+    #cfgData.running_dp(char_dict['dp'])
     current_dp=char_dict['dp']
     char_dict['tempdp']=current_dp
     # Start loop
     skloop=True
+    if char_dict['lvl'] == 0:
+        print
+        print "Are you ready to assign skill ranks for you Adolescence Level?"
+        print "[Yes/No]"
+        print
+        while True:
+            y=str(raw_input('Y/N: '))
+            if y.upper() =="N":
+                skloop=False
+                break
+            elif y == "Y" or y == "y":
+                break
+            else:
+                print "Invalid Selection! Enter Y or N"
+
+    elif char_dict['lvl'] == 0.5:
+        print
+        print "Are you ready to assign skill ranks for you Appenticeship Level?"
+        print "[Yes/No]"
+        print
+        while True:
+            y=str(raw_input('Y/N: '))
+            if y.upper() =="N":
+                skloop=False
+                break
+            elif y == "Y" or y == "y":
+                break
+            else:
+                print "Invalid Selection! Enter Y or N"
+
+    elif char_dict['lvl'] == 1:
+        print "Level 1"
+
     while skloop:
         print
         print "| 1.) A      10.) J      19.) U"
