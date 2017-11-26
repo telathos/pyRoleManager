@@ -76,7 +76,7 @@ def select_skills():
             if y.upper() =="N":
                 skloop=False
                 break
-            elif y == "Y" or y == "y":
+            elif y.upper() == "Y":
                 break
             else:
                 print "Invalid Selection! Enter Y or N"
@@ -91,7 +91,7 @@ def select_skills():
             if y.upper() =="N":
                 skloop=False
                 break
-            elif y == "Y" or y == "y":
+            elif y.upper() == "Y":
                 break
             else:
                 print "Invalid Selection! Enter Y or N"
