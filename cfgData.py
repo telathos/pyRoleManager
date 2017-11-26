@@ -12,7 +12,7 @@ space=' '
 def running_dp(num):
     dp=decimal.Decimal(num)
     dp_cur=round(dp,0)
-    print(50*space + Fore.RED + Back.WHITE + "DP:" + `dp_cur`)
+    print(72*space + Fore.RED + Back.WHITE + "DP:" + `dp_cur`)
     print (Style.RESET_ALL)
 
-    return dp
+    return dp_cur

@@ -59,6 +59,8 @@ def select_skills():
         sl=f.read().splitlines()
 
     cfgData.running_dp(char_dict['dp'])
+    current_dp=char_dict['dp']
+    char_dict['tempdp']=current_dp
     # Start loop
     skloop=True
     while skloop:
@@ -90,7 +92,9 @@ def select_skills():
 
         sksubloop=True
         skill_menu_list=[]
+
         if ska=="1":
+            cfgData.running_dp(current_dp)
             i=1
             sx=skill_to_list("A")
             while sksubloop:
@@ -121,13 +125,20 @@ def select_skills():
                     srnk=int(raw_input('Number of Ranks: '))
                     cost=char_dict[skill_menu_list[sr]][3]
                     skill_rank_qty_check(srnk,cost)
-                    print dp_used
+                    current_dp-=dp_used
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
 
-                    # Update dictionary
-                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
-                    # Write Character data to file
-                    with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
-                        f.write(json.dumps(char_dict))
+                        # Update dictionary
+                        char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
                     sksubloop=False
         if ska=="2":
             i=1
