@@ -152,10 +152,7 @@ def select_skills():
             i=1
             sx=skill_to_list("A")
             while sksubloop:
-                print 80 * "-"
-                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
-                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
-                print 80 * "-"
+                cfgData.skill_header()
                 for skills in sx:
                     print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
                     skill_menu_list.insert(i,skills[8])
@@ -188,7 +185,6 @@ def select_skills():
                         # Current DP update
                         char_dict['tempdp']=current_dp
 
-                        #print char_dict[skill_menu_list[sr]][8],":Added skill"
                         # Update dictionary
                         char_dict[skill_menu_list[sr]][8]+=srnk
                         # Write Character data to file
@@ -196,20 +192,17 @@ def select_skills():
                             f.write(json.dumps(char_dict))
                     sksubloop=False
         if ska=="2":
+            cfgData.running_dp(current_dp)
             i=1
             sx=skill_to_list("B")
             while sksubloop:
-                print 80 * "-"
-                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
-                print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
-                print 80 * "-"
+                cfgData.skill_header()
                 for skills in sx:
                     print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
                     skill_menu_list.insert(i,skills[8])
                     i+=1
                 print "{:6}|{:72}|".format("","")
                 print "{:>3}.) | Back{:67}|".format(i,"")
-                print
                 print 80 * "-"
                 print
                 length=len(sx)+1
@@ -227,13 +220,20 @@ def select_skills():
                     srnk=int(raw_input('Number of Ranks: '))
                     cost=char_dict[skill_menu_list[sr]][3]
                     skill_rank_qty_check(srnk,cost)
-                    print dp_used
+                    current_dp-=dp_used
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
 
-                    # Update dictionary
-                    char_dict[skill_menu_list[sr]][8]=char_dict[skill_menu_list[sr]][8]+srnk
-                    # Write Character data to file
-                    with open(char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
-                        f.write(json.dumps(char_dict))
+                        # Update dictionary
+                        char_dict[skill_menu_list[sr]][8]+=srnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
                     sksubloop=False
         if ska=="3":
             i=1

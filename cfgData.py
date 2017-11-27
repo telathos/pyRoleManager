@@ -16,3 +16,9 @@ def running_dp(num):
     print (Style.RESET_ALL)
 
     return dp_cur
+
+def skill_header():
+    print 80 * "-"
+    print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")
+    print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
+    print 80 * "-"
