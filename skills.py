@@ -11,9 +11,10 @@ init()
 
 dp_used=0
 limit=1
-def skill_rank_qty_check(srnk,cost):
+def skill_rank_qty_check(srnk,cost,lvl,old):
     global dp_used
     global limit
+    print old,":old"
     if len(cost) > 2:
         ecost=cost.split('/')
         if ecost[1] == "*":
@@ -23,22 +24,40 @@ def skill_rank_qty_check(srnk,cost):
     else:
         ecost=cost
         limit=1
-    while srnk > limit:
+
+    #stotal = (srnk + old)
+    nlimit = (limit - old)
+    print limit,":limit"
+    #print stotal,":stotal"
+    print nlimit,":nlimit"
+
+    while srnk > limit or srnk > nlimit:
         print "You can not purchase that number of ranks."
-        print "Enter a different number of ranks"
+        print "Enter {} or less ranks".format(nlimit)
         srnk=int(raw_input('Number of Ranks: '))
+        if srnk == 0:
+            break
     else:
-        if len(cost) <= 2:
+        if len(cost) <= 2: # 9 or 10
             dp_used=int(cost)
         elif len(cost) > 2:
-            if srnk <=3 and ecost[1] == "*":
-                dp_used=int(ecost[0]) * int(srnk)
-            elif srnk == 2:
+            if srnk <=3 and ecost[1] == "*": #1/*
+                print old,":cur ranks 1/*"
+                if old >= 1:
+                    dp_used=int(ecost[0]) * (3 - srnk)
+                else:
+                    dp_used=int(ecost[0]) * int(srnk)
+            elif srnk == 2: # 1/3 2 ranks
+                print old,":cur ranks 1/3"
                 dp_used=int(ecost[0])+int(ecost[1])
-            else:
-                dp_used=int(ecost[0])
-
-        return dp_used
+            else: # 1/3 1 rank
+                new = old + srnk
+                print new,":cur ranks 1/3"
+                if old == 1:
+                    dp_used=int(ecost[1])
+                else:
+                    dp_used=int(ecost[0])
+    return dp_used
 
 def select_skills():
     p=charMenu.char_menu()
@@ -61,9 +80,9 @@ def select_skills():
         sl=f.read().splitlines()
 
     # Set Base dp
-    #cfgData.running_dp(char_dict['dp'])
     current_dp=char_dict['dp']
     char_dict['tempdp']=current_dp
+
     # Start loop
     skloop=True
     if char_dict['lvl'] == 0 and char_dict['tempdp'] <= char_dict['dp']:
@@ -77,8 +96,6 @@ def select_skills():
                 skloop=False
                 break
             elif y.upper() == "Y":
-                lvl="ad"
-                char_dict['lvl_raise']= "ad"
                 break
             else:
                 print "Invalid Selection! Enter Y or N"
@@ -94,8 +111,6 @@ def select_skills():
                 skloop=False
                 break
             elif y.upper() == "Y":
-                lvl="ap"
-                char_dict['lvl_raise']= "ap"
                 break
             else:
                 print "Invalid Selection! Enter Y or N"
@@ -149,6 +164,7 @@ def select_skills():
 
         if ska=="1":
             cfgData.running_dp(current_dp)
+            #print char_dict['lvl_raise']
             i=1
             sx=skill_to_list("A")
             while sksubloop:
@@ -175,8 +191,19 @@ def select_skills():
                     sr-=1
                     srnk=int(raw_input('Number of Ranks: '))
                     cost=char_dict[skill_menu_list[sr]][3]
-                    skill_rank_qty_check(srnk,cost)
-                    current_dp-=dp_used
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
+
+                    pretempdp=char_dict['tempdp']
+                    print pretempdp
+                    skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    print dp_used,":dp_used"
+                    current_dp-=float(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -186,7 +213,12 @@ def select_skills():
                         char_dict['tempdp']=current_dp
 
                         # Update dictionary
-                        char_dict[skill_menu_list[sr]][8]+=srnk
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += srnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += srnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += srnk
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
