@@ -57,7 +57,7 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
                     dp_used=int(ecost[1])
                 else:
                     dp_used=int(ecost[0])
-    return dp_used
+    return dp_used,srnk
 
 def select_skills():
     p=charMenu.char_menu()
@@ -201,7 +201,9 @@ def select_skills():
 
                     pretempdp=char_dict['tempdp']
                     print pretempdp
-                    skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    print dpu,":dpu"
+                    print rnk,":rnk"
                     print dp_used,":dp_used"
                     current_dp-=float(dp_used)
                     if current_dp < 0:
