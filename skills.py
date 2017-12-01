@@ -28,7 +28,6 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
     #stotal = (srnk + old)
     nlimit = (limit - old)
     print limit,":limit"
-    #print stotal,":stotal"
     print nlimit,":nlimit"
 
     while srnk > limit or srnk > nlimit:
@@ -42,21 +41,23 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
             dp_used=int(cost)
         elif len(cost) > 2:
             if srnk <=3 and ecost[1] == "*": #1/*
-                print old,":cur ranks 1/*"
                 if old >= 1:
                     dp_used=int(ecost[0]) * (3 - srnk)
+                    srnk-=old
                 else:
                     dp_used=int(ecost[0]) * int(srnk)
             elif srnk == 2: # 1/3 2 ranks
-                print old,":cur ranks 1/3"
                 dp_used=int(ecost[0])+int(ecost[1])
             else: # 1/3 1 rank
                 new = old + srnk
-                print new,":cur ranks 1/3"
                 if old == 1:
                     dp_used=int(ecost[1])
+                    srnk=1
                 else:
                     dp_used=int(ecost[0])
+    if srnk < 1:
+        dp_used=0
+        print dp_used
     return dp_used,srnk
 
 def select_skills():
@@ -204,7 +205,6 @@ def select_skills():
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     print dpu,":dpu"
                     print rnk,":rnk"
-                    print dp_used,":dp_used"
                     current_dp-=float(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
@@ -216,11 +216,11 @@ def select_skills():
 
                         # Update dictionary
                         if char_dict['lvl'] == 0:
-                            char_dict[skill_menu_list[sr]][6] += srnk
+                            char_dict[skill_menu_list[sr]][6] += rnk
                         elif char_dict['lvl'] == 0.5:
-                            char_dict[skill_menu_list[sr]][7] += srnk
+                            char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += srnk
+                            char_dict[skill_menu_list[sr]][8] += rnk
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
