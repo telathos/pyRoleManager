@@ -1,6 +1,7 @@
 ## Text menu in Python
 from platform import system as system_name # Returns the system/OS name
 from os import system as system_call       # Execute a shell command
+from decimal import Decimal
 import os
 import json
 import sys
@@ -8,6 +9,7 @@ import re
 import cfgData
 import charMenu
 import rl
+import charData
 
 # Setup character data list
 char={}
@@ -54,6 +56,9 @@ def clear_screen():
 
     # Action
     system_call(command)
+
+# Clear the clear_screen
+clear_screen()
 
 # Create a menu of characters
 def create_char_menu():
@@ -380,6 +385,9 @@ def create_char():
     char['realm']=plist[pro_ch][8]
     char['stmb'],char['qumb'],char['emmb'],char['inmb'],char['prmb']=0,0,0,0,0
     char['comb'],char['agmb'],char['sdmb'],char['remb'],char['memb']=0,0,0,0,0
+    hp_math=Decimal(char['co_stat'])/Decimal(10)
+    hp=Decimal(hp_math).quantize(Decimal('1e-3'))
+    char['hp_base']=int(round(hp,0))
 
     # Open chart of stat values
     with open(cfgData.cfg_dir+"/sttchart.csv") as f:
@@ -506,7 +514,7 @@ def create_char():
             crt+=1
 
 ## End of create_char
-
+'''
 def show_char():
     p=charMenu.char_menu()
     menu_len=len(p)
@@ -641,6 +649,7 @@ def show_char():
     print "| Development Points:                                        | {:^4}| {:^4}|               |".format(tdp,tpp)
     print 89 * "-"
     print
+'''
 
 mb=""
 setstmb,setqumb,setprmb,setinmb,setemmb=0,0,0,0,0
@@ -896,7 +905,7 @@ while loop:          ## While loop which will keep going until loop = False
         create_char()
     elif choice=="2":
         clear_screen()
-        show_char()
+        charData.show_char()
     elif choice=="3":
         clear_screen()
         mbbonus()
