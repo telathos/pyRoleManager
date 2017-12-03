@@ -41,7 +41,7 @@ def print_menu():       ## Your menu design here
     print "4. Assign Weapon Costs"
     print "5. Raise Character Level"
     #print "6. Delete Character"
-    print "7. Skills"
+    #print "7. Skills"
     print ""
     print "X. Exit"
     print 67 * "-"

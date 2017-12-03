@@ -1257,5 +1257,8 @@ def select_skills():
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
                     sksubloop=False
+        if ska.upper() == "X":
+            skloop=False
+            print "Back to main menu"
 
 #select_skills()
