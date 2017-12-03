@@ -3,6 +3,13 @@
 char_dir='c:\pyRoleManager\char'
 cfg_dir='c:\pyRoleManager\cfg'
 
+'''
+'dp_multipler' is used to increase the amount of Development Points
+a character will get. Set the value to another other than 1.0 will
+change the total Development Points a character recieves
+'''
+dp_multipler = 1.25
+
 from colorama import Fore, Back, Style
 import decimal
 

@@ -353,19 +353,9 @@ def create_char():
 
     re_pot_in=int(raw_input('Potential Roll (RE): '))
     re_pot=cfgData.pot_calc(re_stat,re_pot_in)
-    #print "ST Pot: %s" % st_pot
-    #print "QU Pot: %s" % qu_pot
-    #print "PR Pot: %s" % pr_pot
-    #print "IN Pot: %s" % in_pot
-    #print "EM Pot: %s" % em_pot
-    #print "CO Pot: %s" % co_pot
-    #print "AG Pot: %s" % ag_pot
-    #print "SD Pot: %s" % sd_pot
-    #print "ME Pot: %s" % me_pot
-    #print "RE Pot: %s" % re_pot
-
     print 10 * "-"
 
+    # Load data into dictionary for saving of the character
     char['st_stat']=st_stat
     char['st_pot']=st_pot
     char['qu_stat']=qu_stat
@@ -453,8 +443,8 @@ def create_char():
     sdtb=(int(sdb)+int(raceb[8])+int(char['sdmb']))
     metb=(int(meb)+int(raceb[9])+int(char['memb']))
     retb=(int(reb)+int(raceb[10])+int(char['remb']))
-    tdp=float(codp)+float(agdp)+float(sddp)+float(medp)+float(redp)
-    char['dp']=tdp
+    tdp=(float(codp)+float(agdp)+float(sddp)+float(medp)+float(redp))*float(cfgData.dp_multipler)
+    char['dp']=round(tdp,1)
 
     # Power Point Math
     stpp,qupp,copp,agpp,sdpp,mepp,repp="-","-","-","-","-","-","-"
@@ -595,7 +585,7 @@ def show_char():
     sdtb=(int(sdb)+int(raceb[8])+int(char_dict['sdmb']))
     metb=(int(meb)+int(raceb[9])+int(char_dict['memb']))
     retb=(int(reb)+int(raceb[10])+int(char_dict['remb']))
-    tdp=float(codp)+float(agdp)+float(sddp)+float(medp)+float(redp)
+    tdp=char_dict['dp']
 
     # Power Point Math
     stpp,qupp,copp,agpp,sdpp,mepp,repp="-","-","-","-","-","-","-"
