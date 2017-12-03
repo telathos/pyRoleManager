@@ -2,58 +2,80 @@ import json
 import re
 import os.path
 from natsort import natsorted, ns
+import cfgData
+import charMenu
+from colorama import init
+from colorama import Fore, Back, Style
+import decimal
+init()
 
-char_dir='c:\pyRoleManager\char'
-cfg_dir='c:\pyRoleManager\cfg'
+dp_used=0
+limit=1
+def skill_rank_qty_check(srnk,cost,lvl,old):
+    global dp_used
+    global limit
+    print old,":old"
+    if len(cost) > 2:
+        ecost=cost.split('/')
+        if ecost[1] == "*":
+            limit=3
+        else:
+            limit=2
+    else:
+        ecost=cost
+        limit=1
 
-########
-def char_menu():
-    # Clear list before function is ran
-    menu_items=[]
+    nlimit = (limit - old)
+    print limit,":limit"
+    print nlimit,":nlimit"
+
+    while srnk > limit or srnk > nlimit:
+        print "You can not purchase that number of ranks."
+        print "Enter {} or less ranks".format(nlimit)
+        srnk=int(raw_input('Number of Ranks: '))
+        if srnk == 0:
+            break
+    else:
+        if len(cost) <= 2: # 9 or 10
+            dp_used=int(cost)
+        elif len(cost) > 2:
+            if srnk <=3 and ecost[1] == "*": #1/*
+                if old >= 1:
+                    dp_used=int(ecost[0]) * (3 - srnk)
+                    srnk-=old
+                else:
+                    dp_used=int(ecost[0]) * int(srnk)
+            elif srnk == 2: # 1/3 2 ranks
+                dp_used=int(ecost[0])+int(ecost[1])
+            else: # 1/3 1 rank
+                new = old + srnk
+                if old == 1:
+                    dp_used=int(ecost[1])
+                    srnk=1
+                else:
+                    dp_used=int(ecost[0])
+    if srnk < 1:
+        dp_used=0
+        print dp_used
+    return dp_used,srnk
+
+skill_menu_list=[]
+def create_skill_menu(arg1):
     i=1
-    print 5 * "-", "Characters", 5 * "-"
-    for file in os.listdir(char_dir):
-        menu_items.insert(i,file)
-        print "{:<2}.) {:15}".format(i,file)
+    # Clear list for rebuilding
+    del skill_menu_list[:]
+    for skills in arg1:
+        print "{:>3}.) | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(i,skills[0],skills[1],skills[3],skills[4],skills[5],skills[6],skills[7])
+        skill_menu_list.insert(i,skills[8])
         i+=1
-    print 25 * "-"
-    return menu_items
-
-def char_menu_level(char_name):
-    menu_items=[]
-    menu_sort=[]
-    i=1
-    lvl=0
-    print 5 * "-", "Level", 5 * "-"
+    print "{:6}|{:72}|".format("","")
+    print "{:>3}.) | Back{:67}|".format(i,"")
+    print 80 * "-"
     print
-    char_dir_files=char_dir+"/"+char_name
-    p=len(os.listdir(char_dir_files))
-    for json in os.listdir(char_dir_files):
-        if i < p:
-            menu_items.insert(i,json)
-            i+=1
-            lvl+=1
-    menu_sort.insert(i,natsorted(menu_items, key=lambda json: json))
-    ml=len(menu_sort[0])
-    '''
-    i=1
-    lvl=0
-    while lvl<ml:
-        # Testing
-        #print "{}.) Level :{} - {:15}:{}".format(lvl,lvl,char_name,menu_sort[0][lvl])
-        print "{}.) Level :{} - {:15}".format(lvl,lvl,char_name)
-        lvl+=1
-    '''
-    print 25 * "-"
-    ch_lvl=raw_input('Select Level: ')
-    #char_lvl=char_dir_files+"/"+char_name+"-"+ch_lvl+".json"
-    skill_dict={}
-    with open(char_dir_files+"/"+char_name+".json","r") as rl:
-        skill_dict = json.load(rl)
-    print skill_dict
+    return arg1,skill_menu_list
 
-def raise_level():
-    p=char_menu()
+def select_skills():
+    p=charMenu.char_menu()
     menu_len=len(p)
     while True:
         s=int(raw_input("Select Character: "))
@@ -61,258 +83,1179 @@ def raise_level():
             break
         else:
             print "Invalid Selection! Select a character from the list"
-    #skill_dict={}
     skill_list=[]
-    #print p
     s-=1
-    with open(char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
         char_dict=json.load(f)
+    # Create snapshot of the data before starting
+    char_dict_orig=char_dict
 
     # load for skill list count
-    with open(cfg_dir+"/ds.csv") as f:
+    with open(cfgData.cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
-    print len(sl),":len"
-    s=1
-    skill_dict={}
-    pro_name=char_dict['pro_name']
 
-    print
-    print "| 1.) A      10.) J      19.) U"
-    print "| 2.) B      11.) L      20.) V"
-    print "| 3.) C      12.) M      21.) W"
-    print "| 4.) D      13.) N      22.) Y"
-    print "| 5.) E      14.) P"
-    print "| 6.) F      15.) Q"
-    print "| 7.) G      16.) R"
-    print "| 8.) H      17.) S"
-    print "| 9.) I      18.) T"
-    print
-    ska=int(raw_input('Select First Letter of Skill: '))
-    print
+    # Set Base dp
+    current_dp=char_dict['dp']
+    char_dict['tempdp']=current_dp
 
-    # Setup lists for skills
-    alist,blist,clist,dlist,elist=([] for i1 in range(5))
-    flist,glist,hlist,ilist,jlist=([] for i2 in range(5))
-    llist,mlist,nlist,plist,qlist=([] for i3 in range(5))
-    rlist,slist,tlist,ulist,vlist,wlist,ylist=([] for i4 in range(7))
+    # Start loop
+    skloop=True
+    if char_dict['lvl'] == 0 and char_dict['tempdp'] <= char_dict['dp']:
+        print
+        print "Are you ready to assign skill ranks for your Adolescence Level?"
+        print "[Yes/No]"
+        print
+        while True:
+            y=str(raw_input('Y/N: '))
+            if y.upper() =="N":
+                skloop=False
+                break
+            elif y.upper() == "Y":
+                break
+            else:
+                print "Invalid Selection! Enter Y or N"
 
-    for words in char_dict:
-        if words.isdigit():
-            sk=1
-            if ska == 1 and char_dict[words][0].startswith('A'):
-                alist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                alst=sorted(alist, key=lambda skill: skill[1])
+    elif char_dict['lvl'] == 0.5 and char_dict['tempdp'] <= char_dict['dp']:
+        print
+        print "Are you ready to assign skill ranks for your Appenticeship Level?"
+        print "[Yes/No]"
+        print
+        while True:
+            y=str(raw_input('Y/N: '))
+            if y.upper() =="N":
+                skloop=False
+                break
+            elif y.upper() == "Y":
+                break
+            else:
+                print "Invalid Selection! Enter Y or N"
 
-            if ska == 2 and char_dict[words][0].startswith('B'):
-                blist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                blst=sorted(blist, key=lambda skill: skill[1])
+    elif char_dict['lvl'] == 1 and char_dict['tempdp'] <= char_dict['dp']:
+        print
+        print "Are you ready to assign skill ranks for level {}?".format(char_dict['lvl'])
+        print "[Yes/No]"
+        print
+        while True:
+            y=str(raw_input('Y/N: '))
+            if y.upper() =="N":
+                skloop=False
+                break
+            elif y.upper() == "Y":
+                lvl="ap"
+                char_dict['lvl_raise']= "ap"
+                break
+            else:
+                print "Invalid Selection! Enter Y or N"
 
-            if ska == 3 and char_dict[words][0].startswith('C'):
-                clist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                clst=sorted(clist, key=lambda skill: skill[1])
+    while skloop:
+        print
+        print "| 1.) A      10.) J      19.) U"
+        print "| 2.) B      11.) L      20.) V"
+        print "| 3.) C      12.) M      21.) W"
+        print "| 4.) D      13.) N      22.) Y"
+        print "| 5.) E      14.) P"
+        print "| 6.) F      15.) Q"
+        print "| 7.) G      16.) R"
+        print "| 8.) H      17.) S"
+        print "| 9.) I      18.) T"
+        print
+        print "| X.) Back"
+        ska=raw_input('Select First Letter of Skill: ')
+        print
 
-            if ska == 4 and char_dict[words][0].startswith('D'):
-                dlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                dlst=sorted(dlist, key=lambda skill: skill[1])
+        def skill_to_list(g):
+            sklist=[]
+            sklst={}
+            for words in char_dict:
+                if words.isdigit():
+                    if char_dict[words][0].startswith(g):
+                        index=words
+                        sklist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],index])
+                        sklst=sorted(sklist, key=lambda skill: skill[0])
+            return sklst
 
-            if ska == 5 and char_dict[words][0].startswith('E'):
-                elist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                elst=sorted(elist, key=lambda skill: skill[1])
+        sksubloop=True
+        skill_menu_list=[]
 
-            if ska == 6 and char_dict[words][0].startswith('F'):
-                flist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                flst=sorted(flist, key=lambda skill: skill[1])
+        if ska=="1":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("A")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
 
-            if ska == 7 and char_dict[words][0].startswith('G'):
-                glist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                glst=sorted(glist, key=lambda skill: skill[1])
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
 
-            if ska == 8 and char_dict[words][0].startswith('H'):
-                hlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                hlst=sorted(hlist, key=lambda skill: skill[1])
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
 
-            if ska == 9 and char_dict[words][0].startswith('I'):
-                ilist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                ilst=sorted(ilist, key=lambda skill: skill[1])
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="2":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("B")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
 
-            if ska == 10 and char_dict[words][0].startswith('J'):
-                jlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                jlst=sorted(jlist, key=lambda skill: skill[1])
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
 
-            if ska == 11 and char_dict[words][0].startswith('L'):
-                llist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                llst=sorted(llist, key=lambda skill: skill[1])
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
 
-            if ska == 12 and char_dict[words][0].startswith('M'):
-                mlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                mlst=sorted(mlist, key=lambda skill: skill[1])
+        if ska=="3":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("C")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
 
-            if ska == 13 and char_dict[words][0].startswith('N'):
-                nlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                nlst=sorted(nlist, key=lambda skill: skill[1])
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
 
-            if ska == 14 and char_dict[words][0].startswith('P'):
-                plist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                plst=sorted(plist, key=lambda skill: skill[1])
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="4":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("D")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
 
-            if ska == 15 and char_dict[words][0].startswith('Q'):
-                qlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                qlst=sorted(qlist, key=lambda skill: skill[1])
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
 
-            if ska == 16 and char_dict[words][0].startswith('R'):
-                rlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                rlst=sorted(rlist, key=lambda skill: skill[1])
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="5":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("E")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
 
-            if ska == 17 and char_dict[words][0].startswith('S'):
-                slist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                slst=sorted(slist, key=lambda skill: skill[1])
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
 
-            if ska == 18 and char_dict[words][0].startswith('T'):
-                tlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                tlst=sorted(tlist, key=lambda skill: skill[1])
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="6":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("F")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
 
-            if ska == 19 and char_dict[words][0].startswith('U'):
-                ulist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                ulst=sorted(ulist, key=lambda skill: skill[1])
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
 
-            if ska == 20 and char_dict[words][0].startswith('V'):
-                vlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                vlst=sorted(vlist, key=lambda skill: skill[1])
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="7":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("G")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
 
-            if ska == 21 and char_dict[words][0].startswith('W'):
-                wlist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                wlst=sorted(wlist, key=lambda skill: skill[1])
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
 
-            if ska == 22 and char_dict[words][0].startswith('Y'):
-                ylist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3]])
-                ylst=sorted(ylist, key=lambda skill: skill[1])
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="8":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("H")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
 
-    skill_loop=True
-    while skill_loop:
-        print "      | {:32}|{:^8}|{:^5}|".format("Skill","Stats","Cost")
-        print 56 * "-"
-        if ska == 1:
-            x=1
-            for askills in alst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,askills[0],askills[1],askills[3])
-                x+=1
-        if ska == 2:
-            x=1
-            for bskills in blst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,bskills[0],bskills[1],bskills[3])
-                x+=1
-        if ska == 3:
-            x=1
-            for cskills in clst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,cskills[0],cskills[1],cskills[3])
-                x+=1
-        if ska == 4:
-            x=1
-            for dskills in dlst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,dskills[0],dskills[1],dskills[3])
-                x+=1
-        if ska == 5:
-            x=1
-            for eskills in elst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,eskills[0],eskills[1],eskills[3])
-                x+=1
-        if ska == 6:
-            x=1
-            for fskills in flst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,fskills[0],fskills[1],fskills[3])
-                x+=1
-        if ska == 7:
-            x=1
-            for gskills in glst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,gskills[0],gskills[1],gskills[3])
-                x+=1
-        if ska == 8:
-            x=1
-            for hskills in hlst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,hskills[0],hskills[1],hskills[3])
-                x+=1
-        if ska == 9:
-            x=1
-            for iskills in ilst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,iskills[0],iskills[1],iskills[3])
-                x+=1
-        if ska == 10:
-            x=1
-            for jskills in jlst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,jskills[0],jskills[1],jskills[3])
-                x+=1
-        if ska == 11:
-            x=1
-            for lskills in llst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,lskills[0],lskills[1],lskills[3])
-                x+=1
-        if ska == 12:
-            x=1
-            for mskills in mlst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,mskills[0],mskills[1],mskills[3])
-                x+=1
-        if ska == 13:
-            x=1
-            for nskills in nlst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,nskills[0],nskills[1],nskills[3])
-                x+=1
-        if ska == 14:
-            x=1
-            for pskills in plst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,pskills[0],pskills[1],pskills[3])
-                x+=1
-        if ska == 15:
-            x=1
-            for qskills in qlst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,qskills[0],qskills[1],qskills[3])
-                x+=1
-        if ska == 16:
-            x=1
-            for rskills in rlst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,rskills[0],rskills[1],rskills[3])
-                x+=1
-        if ska == 17:
-            x=1
-            for sskills in slst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,sskills[0],sskills[1],sskills[3])
-                x+=1
-        if ska == 18:
-            x=1
-            for tskills in tlst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,tskills[0],tskills[1],tskills[3])
-                x+=1
-        if ska == 19:
-            x=1
-            for uskills in ulst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,uskills[0],uskills[1],uskills[3])
-                x+=1
-        if ska == 20:
-            x=1
-            for vskills in vlst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,vskills[0],vskills[1],vskills[3])
-                x+=1
-        if ska == 21:
-            x=1
-            for wskills in wlst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,wskills[0],wskills[1],wskills[3])
-                x+=1
-        if ska == 22:
-            # 'Y'
-            x=1
-            for yskills in ylst:
-                print "{:>3}.) | {:32}|{:^8}|{:^5}|".format(x,yskills[0],yskills[1],yskills[3])
-                x+=1
-            y=loop_done()
-            if y == "False":
-                skill_loop=False
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
 
-def loop_done():
-    print
-    print "  X.) Back"
-    sub_skill=raw_input('Select a skill: ')
-    # Exit skil loop
-    if sub_skill == "X" or sub_skill == "x":
-        loops=="False"
-    return loops
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="9":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("I")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
 
-raise_level()
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="10":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("J")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
+
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="11":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("L")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
+
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="12":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("M")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
+
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="13":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("N")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
+
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="14":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("P")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
+
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="15":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("Q")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
+
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="16":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("R")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
+
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="17":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("S")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
+
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="18":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("T")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
+
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="19":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("U")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
+
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="20":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("V")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
+
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="21":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("W")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
+
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+        if ska=="22":
+            cfgData.running_dp(current_dp)
+            sx=skill_to_list("Y")
+            while sksubloop:
+                cfgData.skill_header()
+                sx,skill_menu_list=create_skill_menu(sx)
+                length=len(sx)+1
+                while True:
+                    sr=int(raw_input("Select Skill: "))
+                    if sr >=1 and sr<=length:
+                        break
+                    else:
+                        print "Invalid Selection! Select a skill from the list"
+                if sr == length:
+                    sksubloop=False
+                else:
+                    # substrat one from menu select to line up with list
+                    sr-=1
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[skill_menu_list[sr]][3]
+                    # Define which column to update
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[skill_menu_list[sr]][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[skill_menu_list[sr]][7]
+                    else:
+                        col = char_dict[skill_menu_list[sr]][8]
+
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    current_dp-=float(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[skill_menu_list[sr]][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[skill_menu_list[sr]][7] += rnk
+                        else:
+                            char_dict[skill_menu_list[sr]][8] += rnk
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    sksubloop=False
+
+#select_skills()

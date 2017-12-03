@@ -7,6 +7,7 @@ import sys
 import re
 import cfgData
 import charMenu
+import rl
 
 # Setup character data list
 char={}
@@ -1724,7 +1725,7 @@ while loop:          ## While loop which will keep going until loop = False
         weapon_costs()
     elif choice=="5":
         clear_screen()
-        #raise_skills()
+        rl.select_skills()
     elif choice=="7":
         import skills
         clear_screen()
