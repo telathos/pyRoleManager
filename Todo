@@ -10,3 +10,5 @@
 9.) Level bonuses
 10.) Hit Points - Done
 11.) Armor Class/DB/Maneuver penalties
+12.) Add new skills breaks weapon cost assigning.
+  a.) Need way to push new skills into character json

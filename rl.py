@@ -100,7 +100,7 @@ def select_skills():
 
     # Start loop
     skloop=True
-    if char_dict['lvl'] == 0 and char_dict['tempdp'] <= char_dict['dp']:
+    if char_dict['lvl'] == 0 and char_dict['tempdp'] >= char_dict['dp']:
         print
         print "Are you ready to assign skill ranks for your Adolescence Level?"
         print "[Yes/No]"
