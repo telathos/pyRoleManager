@@ -18,9 +18,7 @@ pi=1
 with open("cfg/pro.csv") as pf:
     for pline in pf:
         plist[pi]=pline.rstrip('\n').split(",")
-        #print plist[pi]
         pi+=1
-
 
 def atoi(text):
     return int(text) if text.isdigit() else text
@@ -78,308 +76,8 @@ def create_char_menu():
     counter=0
 
     for words in char_data.split(":"):
-        #print counter,"-",words
         char_dict.insert(counter,words)
         counter+=1
-
-# Print prime requisite error
-def pr_text():
-    print "This is a Prime requisite and must be 90 or higher"
-
-
-# Check if the profession's prime requisites are 90+
-# prompt for a new value if less than 90
-num=""
-def prime_req(pro,char_stat,num):
-    if pro==1:
-        # Assassin
-        if char_stat.upper()=="QU" or char_stat.upper()=="AG":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==2:
-        # Bounty Hunter
-        if char_stat.upper()=="AG" or char_stat.upper()=="CO":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==3:
-        # Barbarian
-        if char_stat.upper()=="ST" or char_stat.upper()=="CO":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==4:
-        # Burglar
-        if char_stat.upper()=="IN" or char_stat.upper()=="AG":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==5:
-        # Dancer
-        if char_stat.upper()=="QU" or char_stat.upper()=="AG":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==6:
-        # Fighter
-        if char_stat.upper()=="ST" or char_stat.upper()=="CP":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==7:
-        # High Warrior Monk
-        if char_stat.upper()=="AG" or char_stat.upper()=="SD":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==8:
-        # Rogue
-        if char_stat.upper()=="ST" or char_stat.upper()=="AG":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==9:
-        # Scholar
-        if char_stat.upper()=="IN" or char_stat.upper()=="RE":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==10:
-        # Theif
-        if char_stat.upper()=="QU" or char_stat.upper()=="SG":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==11:
-        # Trader
-        if char_stat.upper()=="PR" or char_stat.upper()=="AG":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==12:
-        # Warrior
-        if char_stat.upper()=="ST" or char_stat.upper()=="CO":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==13:
-        # Warrior Monk
-        if char_stat.upper()=="QU" or char_stat.upper()=="SD":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==14:
-        # Alchemist
-        if char_stat.upper()=="EM" or char_stat.upper()=="RE":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==15:
-        # Animist
-        if char_stat.upper()=="IN" or char_stat.upper()=="ME":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==16:
-        # Cleric
-        if char_stat.upper()=="IN" or char_stat.upper()=="ME":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==17:
-        # Conjuror
-        if char_stat.upper()=="EM" or char_stat.upper()=="RE":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==18:
-        # Druid
-        if char_stat.upper()=="IN" or char_stat.upper()=="ME":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==19:
-        # Healer
-        if char_stat.upper()=="IN" or char_stat.upper()=="ME":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==20:
-        # Illusionist
-        if char_stat.upper()=="EM" or char_stat.upper()=="RE":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==21:
-        # Lay Healer
-        if char_stat.upper()=="PR" or char_stat.upper()=="SD":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==22:
-        # Magician
-        if char_stat.upper()=="EM" or char_stat.upper()=="RE":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==23:
-        # Mentalist
-        if char_stat.upper()=="PR" or char_stat.upper()=="SD":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==24:
-        # Runemaster
-        if char_stat.upper()=="EM" or char_stat.upper()=="RE":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==25:
-        # Sage
-        if char_stat.upper()=="PR" or char_stat.upper()=="ME":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==26:
-        # Seer
-        if char_stat.upper()=="PR" or char_stat.upper()=="SD":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==27:
-        # Shaman
-        if char_stat.upper()=="IN" or char_stat.upper()=="ME":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==28:
-        # Bard
-        if char_stat.upper()=="PR" or char_stat.upper()=="ME":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==29:
-        # Beastmaster
-        if char_stat.upper()=="PR" or char_stat.upper()=="ST":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==30:
-        # Delver
-        if char_stat.upper()=="EM" or char_stat.upper()=="AG":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==31:
-        # Dervish
-        if char_stat.upper()=="AG" or char_stat.upper()=="IN":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==32:
-        # Monk
-        if char_stat.upper()=="EM" or char_stat.upper()=="SD":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==33:
-        # Montebanc
-        if char_stat.upper()=="PR" or char_stat.upper()=="AG":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==34:
-        # Nightblade
-        if char_stat.upper()=="PR" or char_stat.upper()=="AG":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==35:
-        # Noble Warrior
-        if char_stat.upper()=="ST" or char_stat.upper()=="PR":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==36:
-        # Paladin
-        if char_stat.upper()=="IN" or char_stat.upper()=="ST":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==37:
-        # Ranger
-        if char_stat.upper()=="CO" or char_stat.upper()=="IN":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==38:
-        # Sleuth
-        if char_stat.upper()=="IN" or char_stat.upper()=="RE":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==39:
-        # Warrior Mage
-        if char_stat.upper()=="ST" or char_stat.upper()=="EM":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==40:
-        # Archmage
-        if char_stat.upper()=="IN" or char_stat.upper()=="EM" or char_stat.upper()=="PR":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==41:
-        # Astrologer
-        if char_stat.upper()=="IN" or char_stat.upper()=="PR":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==42:
-        # Crystal Mage
-        if char_stat.upper()=="PR" or char_stat.upper()=="EM":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==43:
-        # Magus
-        if char_stat.upper()=="IN" or char_stat.upper()=="EM":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==44:
-        # Mystic
-        if char_stat.upper()=="PR" or char_stat.upper()=="EM":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==45:
-        # Necromancer
-        if char_stat.upper()=="IN" or char_stat.upper()=="EM":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==46:
-        # Sorceror
-        if char_stat.upper()=="IN" or char_stat.upper()=="EM":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==47:
-        # Warlock
-        if char_stat.upper()=="IN" or char_stat.upper()=="PR":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    elif pro==48:
-        # Witch
-        if char_stat.upper()=="IN" or char_stat.upper()=="EM":
-            while num<90 or num>=102:
-                pr_text()
-                num=int(raw_input('Enter a new number: '))
-    return num
 
 st_pot_in,qu_pot_in,pr_pot_in,in_pot_in,em_pot_in=0,0,0,0,0
 co_pot_in,ag_pot_in,sd_pot_in,me_pot_in,re_pot_in=0,0,0,0,0
@@ -596,34 +294,34 @@ def create_char():
     ### Enter current statistic values
 
     st_stat_input=int(raw_input('Strength: '))
-    st_stat=prime_req(pro_ch,"st",st_stat_input)
+    st_stat=cfgData.prime_req(pro_ch,"st",st_stat_input)
 
     qu_stat_input=int(raw_input('Quickness: '))
-    qu_stat=prime_req(pro_ch,"qu",qu_stat_input)
+    qu_stat=cfgData.prime_req(pro_ch,"qu",qu_stat_input)
 
     pr_stat_input=int(raw_input('Presence: '))
-    pr_stat=prime_req(pro_ch,"pr",pr_stat_input)
+    pr_stat=cfgData.prime_req(pro_ch,"pr",pr_stat_input)
 
     in_stat_input=int(raw_input('Intuition: '))
-    in_stat=prime_req(pro_ch,"in",in_stat_input)
+    in_stat=cfgData.prime_req(pro_ch,"in",in_stat_input)
 
     em_stat_input=int(raw_input('Empathy: '))
-    em_stat=prime_req(pro_ch,"em",em_stat_input)
+    em_stat=cfgData.prime_req(pro_ch,"em",em_stat_input)
 
     co_stat_input=int(raw_input('Constitution: '))
-    co_stat=prime_req(pro_ch,"co",co_stat_input)
+    co_stat=cfgData.prime_req(pro_ch,"co",co_stat_input)
 
     ag_stat_input=int(raw_input('Agility: '))
-    ag_stat=prime_req(pro_ch,"ag",ag_stat_input)
+    ag_stat=cfgData.prime_req(pro_ch,"ag",ag_stat_input)
 
     sd_stat_input=int(raw_input('Self-Discipline: '))
-    sd_stat=prime_req(pro_ch,"sd",sd_stat_input)
+    sd_stat=cfgData.prime_req(pro_ch,"sd",sd_stat_input)
 
     me_stat_input=int(raw_input('Memory: '))
-    me_stat=prime_req(pro_ch,"me",me_stat_input)
+    me_stat=cfgData.prime_req(pro_ch,"me",me_stat_input)
 
     re_stat_input=int(raw_input('Reasoning: '))
-    re_stat=prime_req(pro_ch,"re",re_stat_input)
+    re_stat=cfgData.prime_req(pro_ch,"re",re_stat_input)
 
     ### Calculate Potential Value using pot_calc function
     st_pot_in=int(raw_input('Potential Roll (ST): '))
