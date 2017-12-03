@@ -82,21 +82,6 @@ def create_char_menu():
         char_dict.insert(counter,words)
         counter+=1
 
-# Create a menu of characters
-'''
-def char_menu():
-    # Clear list before function is ran
-    menu_items=[]
-    i=1
-    print 5 * "-", "Characters", 5 * "-"
-    for file in os.listdir(char_dir):
-        menu_items.insert(i,file)
-        print "{:<2}.) {:15}".format(i,file)
-        i+=1
-    print 25 * "-"
-    return menu_items
-'''
-
 # Print prime requisite error
 def pr_text():
     print "This is a Prime requisite and must be 90 or higher"
