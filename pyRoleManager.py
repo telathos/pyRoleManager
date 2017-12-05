@@ -11,13 +11,16 @@ import charMenu
 import rl
 import charData
 
+# Update character records if a new skill is added
+charData.new_skill_check()
+
 # Setup character data list
 char={}
 
 # Read Professions into List
 plist = {}
 pi=1
-with open("cfg/pro.csv") as pf:
+with open(cfgData.cfg_dir+"/pro.csv") as pf:
     for pline in pf:
         plist[pi]=pline.rstrip('\n').split(",")
         pi+=1
@@ -785,6 +788,8 @@ while loop:          ## While loop which will keep going until loop = False
         import skills
         clear_screen()
         skills.select_skills()
+    elif choice=="9":
+        charData.new_skill_check()
     elif choice=="x":
         print "Exiting Program"
         loop=False

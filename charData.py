@@ -1,6 +1,52 @@
 import cfgData
 import charMenu
 import json
+import os
+
+
+# function to check if any new skills have been added
+def new_skill_check():
+    char_dict={}
+    dirlist=[]
+    skills=[]
+    skill_len={}
+    char_list=[]
+    with open(cfgData.cfg_dir+"/ds.csv","r") as r:
+        skills=r.read().splitlines()
+    l=len(skills)
+    i=0
+    col=0
+    for file in os.listdir(cfgData.char_dir):
+        dirlist.insert(i,file)
+    for c in dirlist:
+        char_dict.clear()
+        with open(cfgData.char_dir+"/"+dirlist[i]+"/"+dirlist[i]+".json","r") as fl:
+            char_dict = json.load(fl)
+        x=0
+        cl=0
+        for words in char_dict:
+            if words.isdigit():
+                char_list.insert(x,words)
+                x+=1
+                cl=len(char_list)
+        del char_list[:]
+        ld=l-cl
+        with open(cfgData.cfg_dir+"/pro.csv","r") as rp:
+            pro=rp.read().splitlines()
+
+        for p in pro:
+            if char_dict['pro_name'] == p.split(',')[0]:
+                col=int(p.split(',')[1])
+        while ld>0:
+            index=cl+1
+            char_dict[`index`]=(skills[cl].split(',')[1],skills[cl].split(',')[5],skills[cl].split(',')[7],skills[cl].split(',')[col],skills[cl].split(',')[6],0,0,0,0)
+            cl+=1
+            ld-=1
+
+        # Write Character data to file
+        with open(cfgData.char_dir+"/"+dirlist[i]+"/"+dirlist[i]+".json", 'w') as f:
+            f.write(json.dumps(char_dict))
+        i+=1
 
 def show_char():
     p=charMenu.char_menu()

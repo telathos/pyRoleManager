@@ -8,7 +8,10 @@
   a.) Maybe move create_char to module
 8.) List of all skills, maybe
 9.) Level bonuses
-10.) Hit Points - Done
 11.) Armor Class/DB/Maneuver penalties
-12.) Add new skills breaks weapon cost assigning.
-  a.) Need way to push new skills into character json
+
+
+Completed
+10.) Hit Points - Done
+12.) Add new skills breaks weapon cost assigning. - Done
+  a.) Need way to push new skills into character json - Done
