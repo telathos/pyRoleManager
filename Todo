@@ -1,5 +1,6 @@
 1.) Display skills and total after adding ranks
 2.) Hobby Skills
+  a.) List created
 3.) Get Archiving Working
 4.) Get Character Deletion Working
 5.) Add to show character, current Skills only
@@ -9,6 +10,10 @@
 8.) List of all skills, maybe
 9.) Level bonuses
 11.) Armor Class/DB/Maneuver penalties
+13.) Move weapon assignment into character creation
+14.) raise character
+  a.) prompt issues
+  b.) Remaining dp displays wrong on restarting
 
 
 Completed
