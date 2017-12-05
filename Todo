@@ -13,7 +13,9 @@
 13.) Move weapon assignment into character creation
 14.) raise character
   a.) prompt issues
-  b.) Remaining dp displays wrong on restarting
+  b.) Remaining dp displays wrong on restarting - Done
+  c.) Rounding issue with dp and tempdp
+  d.) Increase level when out of DP
 
 
 Completed

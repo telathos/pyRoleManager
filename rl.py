@@ -95,8 +95,11 @@ def select_skills():
         sl=f.read().splitlines()
 
     # Set Base dp
-    current_dp=char_dict['dp']
-    char_dict['tempdp']=current_dp
+    if char_dict['tempdp']< char_dict['dp']:
+        current_dp=char_dict['tempdp']
+    else:
+        current_dp=char_dict['dp']
+        char_dict['tempdp']=current_dp
 
     # Start loop
     skloop=True
