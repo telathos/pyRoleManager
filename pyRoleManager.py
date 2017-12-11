@@ -391,6 +391,7 @@ def create_char():
     hp_math=Decimal(char['co_stat'])/Decimal(10)
     hp=Decimal(hp_math).quantize(Decimal('1e-3'))
     char['hp_base']=int(round(hp,0))
+    char['tempdp'] = char['dp']
 
     # Open chart of stat values
     with open(cfgData.cfg_dir+"/sttchart.csv") as f:
