@@ -16,11 +16,12 @@
   b.) Remaining dp displays wrong on restarting - Done
   c.) Rounding issue with dp and tempdp
   d.) Increase level when out of DP
-15.) Round tempdp from dp at character creation time, set to interger
 16.) Add assigned skills to show character
+17.) Import characters
 
 
 Completed
 10.) Hit Points - Done
 12.) Add new skills breaks weapon cost assigning. - Done
   a.) Need way to push new skills into character json - Done
+15.) Round tempdp from dp at character creation time, set to interger

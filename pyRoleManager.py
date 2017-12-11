@@ -391,7 +391,6 @@ def create_char():
     hp_math=Decimal(char['co_stat'])/Decimal(10)
     hp=Decimal(hp_math).quantize(Decimal('1e-3'))
     char['hp_base']=int(round(hp,0))
-    char['tempdp'] = char['dp']
 
     # Open chart of stat values
     with open(cfgData.cfg_dir+"/sttchart.csv") as f:
@@ -457,6 +456,9 @@ def create_char():
     retb=(int(reb)+int(raceb[10])+int(char['remb']))
     tdp=(float(codp)+float(agdp)+float(sddp)+float(medp)+float(redp))*float(cfgData.dp_multipler)
     char['dp']=round(tdp,1)
+    dp_math=Decimal(char['dp'])
+    dp=Decimal(dp_math).quantize(Decimal('1e-3'))
+    char['tempdp'] = int(round(dp,0))
 
     # Power Point Math
     stpp,qupp,copp,agpp,sdpp,mepp,repp="-","-","-","-","-","-","-"
