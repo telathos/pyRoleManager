@@ -538,7 +538,7 @@ def mbbonus():
     global setmemb
     global setremb
 
-    p=char_menu()
+    p=charMenu.char_menu()
     menu_len=len(p)
     while True:
         s=int(raw_input("Select Character: "))
