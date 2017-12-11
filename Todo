@@ -16,7 +16,7 @@
   b.) Remaining dp displays wrong on restarting - Done
   c.) Rounding issue with dp and tempdp
   d.) Increase level when out of DP
-15.) Round tempdp from dp at character creation time
+15.) Round tempdp from dp at character creation time, set to interger
 16.) Add assigned skills to show character
 
 
