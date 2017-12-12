@@ -518,6 +518,7 @@ def create_char():
             index=int(plist[pro_ch][1])
             char_skill[crt]=(outer_list[1],outer_list[5],outer_list[7],outer_list[index],outer_list[6],0,0,0,0)
             crt+=1
+    weapon_costs(user_name)
 
 ## End of create_char
 
@@ -630,7 +631,8 @@ def mbbonus():
         with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
             f.write(json.dumps(char_dict))
 
-def weapon_costs():
+def weapon_costs(user_name):
+    '''
     # Create character list to work with
     p=charMenu.char_menu()
     menu_len=len(p)
@@ -647,8 +649,9 @@ def weapon_costs():
         print "Level 0 Character Found"
     elif len(os.listdir(cfgData.char_dir+"/"+p[s]))>2:
         print "extra levels"
+        '''
     # Open the character file, read-only
-    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+    with open(cfgData.char_dir+"/"+user_name+"/"+user_name+".json","r") as cf:
         char_dict = json.load(cf)
 
     ## Read in list of professions and weapon costs, read-only
@@ -735,7 +738,8 @@ def weapon_costs():
 
     ## Open character skill file
     skill_dict={}
-    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as sf:
+    #with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as sf:
+    with open(cfgData.char_dir+"/"+user_name+"/"+user_name+".json","r") as sf:
         skill_dict = json.load(sf)
     # Open ds.csv for count of skills
     with open(cfgData.cfg_dir+"/ds.csv") as f:
@@ -758,7 +762,7 @@ def weapon_costs():
             skill_dict[`skcnt`][3]=wea_assign['Polearm']
 
         skcnt+=1
-    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","w") as sw:
+    with open(cfgData.char_dir+"/"+user_name+"/"+user_name+".json","w") as sw:
         sw.write(json.dumps(skill_dict))
 
 ###########################

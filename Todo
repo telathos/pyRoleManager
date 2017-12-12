@@ -3,25 +3,26 @@
   a.) List created
 3.) Get Archiving Working
 4.) Get Character Deletion Working
-5.) Add to show character, current Skills only
 6.) Export function to csv/pdf/word
 7.) Move more code to modules
   a.) Maybe move create_char to module
 8.) List of all skills, maybe
 9.) Level bonuses
 11.) Armor Class/DB/Maneuver penalties
-13.) Move weapon assignment into character creation
 14.) raise character
   a.) prompt issues
   b.) Remaining dp displays wrong on restarting - Done
   c.) Rounding issue with dp and tempdp
   d.) Increase level when out of DP
-16.) Add assigned skills to show character
+16.) Show Character
+  a.) Add assigned skills to show character
+  b.) Add back to Show Character
+  c.) Add to show character, current Skills only
 17.) Import characters
-
 
 Completed
 10.) Hit Points - Done
 12.) Add new skills breaks weapon cost assigning. - Done
   a.) Need way to push new skills into character json - Done
+13.) Move weapon assignment into character creation
 15.) Round tempdp from dp at character creation time, set to interger
