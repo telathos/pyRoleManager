@@ -12,7 +12,7 @@
 14.) raise character
   a.) prompt issues
   b.) Remaining dp displays wrong on restarting - Done
-  c.) Rounding issue with dp and tempdp
+  c.) Rounding issue with dp and tempdp - Done
   d.) Increase level when out of DP
 16.) Show Character
   a.) Add assigned skills to show character

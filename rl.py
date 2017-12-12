@@ -14,7 +14,7 @@ limit=1
 def skill_rank_qty_check(srnk,cost,lvl,old):
     global dp_used
     global limit
-    print old,":old"
+    #print old,":old"
     if len(cost) > 2:
         ecost=cost.split('/')
         if ecost[1] == "*":
@@ -26,8 +26,8 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
         limit=1
 
     nlimit = (limit - old)
-    print limit,":limit"
-    print nlimit,":nlimit"
+    #print limit,":limit"
+    #print nlimit,":nlimit"
 
     while srnk > limit or srnk > nlimit:
         print "You can not purchase that number of ranks."
@@ -73,6 +73,20 @@ def create_skill_menu(arg1):
     print 80 * "-"
     print
     return arg1,skill_menu_list
+
+def skill_added_display(char,skill):
+    with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
+        char_dict=json.load(f)
+    print char_dict[skill],":skill list"
+    for stat in char_dict[skill][1].split("/"):
+        print stat
+        
+
+    #skill_stat_bonus=(ch)
+    print
+    print 80 * "-"
+    print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(char_dict[skill][0],char_dict[skill][1],char_dict[skill][3],char_dict[skill][5],char_dict[skill][6],char_dict[skill][7],char_dict[skill][8])
+    print 80 * "-"
 
 def select_skills():
     p=charMenu.char_menu()
@@ -210,6 +224,9 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    print char_dict[skill_menu_list[sr]][0]
+                    #print skill_menu_list[sr][1],":skill name"
+
                     current_dp-=float(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
@@ -229,6 +246,8 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        # Display newly added skill
+                        skill_added_display(char_dict['name'],skill_menu_list[sr][0])
                     sksubloop=False
         if ska=="2":
             cfgData.running_dp(current_dp)
