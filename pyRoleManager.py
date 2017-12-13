@@ -459,6 +459,18 @@ def create_char():
     dp_math=Decimal(char['dp'])
     dp=Decimal(dp_math).quantize(Decimal('1e-3'))
     char['tempdp'] = int(round(dp,0))
+    
+    # Add Total Bonus of skills to character data
+    char['sttb']=sttb
+    char['qutb']=qutb
+    char['prtb']=prtb
+    char['intb']=intb
+    char['emtb']=emtb
+    char['cotb']=cotb
+    char['agtb']=agtb
+    char['sdtb']=sdtb
+    char['metb']=metb
+    char['retb']=retb
 
     # Power Point Math
     stpp,qupp,copp,agpp,sdpp,mepp,repp="-","-","-","-","-","-","-"
@@ -520,7 +532,9 @@ def create_char():
             crt+=1
     weapon_costs(user_name)
 
-## End of create_char
+#################################
+## End of create_char function ##
+#################################
 
 mb=""
 setstmb,setqumb,setprmb,setinmb,setemmb=0,0,0,0,0
@@ -630,26 +644,9 @@ def mbbonus():
         # Open character file to write out data
         with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
             f.write(json.dumps(char_dict))
+    # End of Misc Bonus function
 
 def weapon_costs(user_name):
-    '''
-    # Create character list to work with
-    p=charMenu.char_menu()
-    menu_len=len(p)
-    cloop=True
-    while cloop:
-        s=int(raw_input("Select Character: "))
-        if s >=1 and s<=menu_len:
-            cloop=False
-        else:
-            print "Invalid Selection! Select a character from the list"
-
-    s-=1
-    if len(os.listdir(cfgData.char_dir+"/"+p[s]))==2 and os.listdir(cfgData.char_dir+"/"+p[s])[0] == p[s]+"-0.json":
-        print "Level 0 Character Found"
-    elif len(os.listdir(cfgData.char_dir+"/"+p[s]))>2:
-        print "extra levels"
-        '''
     # Open the character file, read-only
     with open(cfgData.char_dir+"/"+user_name+"/"+user_name+".json","r") as cf:
         char_dict = json.load(cf)

@@ -78,14 +78,38 @@ def skill_added_display(char,skill):
     with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
         char_dict=json.load(f)
     print char_dict[skill],":skill list"
+    stats=[]
+    cnt=0
     for stat in char_dict[skill][1].split("/"):
-        print stat
-        
+        stats.insert(cnt,stat)
+    if len(stats)==2:
+        one=stats[0].lower()+"tb"
+        two=stats[1].lower()+"tb"
+        avg=(char_dict[one]+char_dict[two])/2
+    elif len(stats)==3:
+        one=stats[0].lower()+"tb"
+        two=stats[1].lower()+"tb"
+        three=stats[2].lower()+"tb"
+        avg=(char_dict[one]+char_dict[two]+char_dict[three])/3
+    else:
+        one=stats[0].lower()+"tb"
+        avg=char_dict[one]
+
+    rank_total=char_dict[skill][5]+char_dict[skill][6]+char_dict[skill][7]+char_dict[skill][8]
+    print rank_total,":Total Ranks"
+    if rank_total>=30:
+        pass
+    elif rank_total>=20 and rank_total<30:
+        pass
+    elif rank_total>=10 and rank_total<20:
+        pass
+    else:
+        skill_bonus=rank_total*5
 
     #skill_stat_bonus=(ch)
     print
     print 80 * "-"
-    print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(char_dict[skill][0],char_dict[skill][1],char_dict[skill][3],char_dict[skill][5],char_dict[skill][6],char_dict[skill][7],char_dict[skill][8])
+    print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^3}".format(char_dict[skill][0],char_dict[skill][1],char_dict[skill][3],char_dict[skill][5],char_dict[skill][6],char_dict[skill][7],char_dict[skill][8],avg)
     print 80 * "-"
 
 def select_skills():
