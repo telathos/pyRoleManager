@@ -74,7 +74,12 @@ def create_skill_menu(arg1):
     print
     return arg1,skill_menu_list
 
+def iround(x):
+    # Rounds floating point number to nearest interger
+    return int(round(x) - .5) + (x > 0)
+
 def skill_added_display(char,skill):
+    print skill,":skill in"
     with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
         char_dict=json.load(f)
     print char_dict[skill],":skill list"
@@ -85,32 +90,35 @@ def skill_added_display(char,skill):
     if len(stats)==2:
         one=stats[0].lower()+"tb"
         two=stats[1].lower()+"tb"
-        avg=(char_dict[one]+char_dict[two])/2
+        avg=(float(char_dict[one])+float(char_dict[two]))/2
     elif len(stats)==3:
         one=stats[0].lower()+"tb"
         two=stats[1].lower()+"tb"
         three=stats[2].lower()+"tb"
-        avg=(char_dict[one]+char_dict[two]+char_dict[three])/3
+        avg=(float(char_dict[one])+float(char_dict[two])+float(char_dict[three]))/3
     else:
         one=stats[0].lower()+"tb"
-        avg=char_dict[one]
+        avg=float(char_dict[one])
 
     rank_total=char_dict[skill][5]+char_dict[skill][6]+char_dict[skill][7]+char_dict[skill][8]
     print rank_total,":Total Ranks"
     if rank_total>=30:
-        pass
+        skill_bonus=iround(((rank_total-20)*0.5)+80)
     elif rank_total>=20 and rank_total<30:
-        pass
+        skill_bonus=((rank_total-20)*1)+70
     elif rank_total>=10 and rank_total<20:
-        pass
+        skill_bonus=((rank_total-10)*2)+50
     else:
         skill_bonus=rank_total*5
+    ravg=iround(avg)
 
+    lvl_bonus=1
+    total_bonus=(ravg+lvl_bonus+skill_bonus)
     #skill_stat_bonus=(ch)
     print
-    print 80 * "-"
-    print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^3}".format(char_dict[skill][0],char_dict[skill][1],char_dict[skill][3],char_dict[skill][5],char_dict[skill][6],char_dict[skill][7],char_dict[skill][8],avg)
-    print 80 * "-"
+    cfgData.skill_header_added_skill()
+    print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(char_dict[skill][0],char_dict[skill][1],char_dict[skill][3],char_dict[skill][5],char_dict[skill][6],char_dict[skill][7],char_dict[skill][8],ravg,skill_bonus,lvl_bonus,total_bonus)
+    print 99 * "-"
 
 def select_skills():
     p=charMenu.char_menu()
@@ -248,7 +256,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    print char_dict[skill_menu_list[sr]][0]
+                    #print char_dict[skill_menu_list[sr]][0]
                     #print skill_menu_list[sr][1],":skill name"
 
                     current_dp-=float(dp_used)
@@ -271,7 +279,8 @@ def select_skills():
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
                         # Display newly added skill
-                        skill_added_display(char_dict['name'],skill_menu_list[sr][0])
+                        #print skill_menu_list[sr],":sr"
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="2":
             cfgData.running_dp(current_dp)

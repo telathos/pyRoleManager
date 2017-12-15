@@ -30,6 +30,12 @@ def skill_header():
     print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank")
     print 80 * "-"
 
+def skill_header_added_skill():
+    print 99 * "-"
+    print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std","Stat","Skill","lvl","Total")
+    print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank","Bonus","Bonus","Bonus","Bonus")
+    print 99 * "-"
+
 # Calcalute Potential stats based on current stats
 poten=0
 def pot_calc(current,pot_roll):
