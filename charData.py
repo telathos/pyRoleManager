@@ -20,33 +20,40 @@ def new_skill_check():
         dirlist.insert(i,file)
     for c in dirlist:
         char_dict.clear()
-        with open(cfgData.char_dir+"/"+dirlist[i]+"/"+dirlist[i]+".json","r") as fl:
-            char_dict = json.load(fl)
-        x=0
-        cl=0
-        for words in char_dict:
-            if words.isdigit():
-                char_list.insert(x,words)
-                x+=1
-                cl=len(char_list)
-        del char_list[:]
-        ld=l-cl
-        with open(cfgData.cfg_dir+"/pro.csv","r") as rp:
-            pro=rp.read().splitlines()
+        '''
+        Check if folder exists, but not character json file and remove folder
+        This is clean up if a character creation fails in the build process
+        '''
+        if os.path.exists(cfgData.char_dir+"/"+dirlist[i]+"/"+dirlist[i]+".json") == False:
+            os.rmdir(cfgData.char_dir+"/"+dirlist[i])
+        else:
+            with open(cfgData.char_dir+"/"+dirlist[i]+"/"+dirlist[i]+".json","r") as fl:
+                char_dict = json.load(fl)
+            x=0
+            cl=0
+            for words in char_dict:
+                if words.isdigit():
+                    char_list.insert(x,words)
+                    x+=1
+                    cl=len(char_list)
+            del char_list[:]
+            ld=l-cl
+            with open(cfgData.cfg_dir+"/pro.csv","r") as rp:
+                pro=rp.read().splitlines()
 
-        for p in pro:
-            if char_dict['pro_name'] == p.split(',')[0]:
-                col=int(p.split(',')[1])
-        while ld>0:
-            index=cl+1
-            char_dict[`index`]=(skills[cl].split(',')[1],skills[cl].split(',')[5],skills[cl].split(',')[7],skills[cl].split(',')[col],skills[cl].split(',')[6],0,0,0,0)
-            cl+=1
-            ld-=1
+            for p in pro:
+                if char_dict['pro_name'] == p.split(',')[0]:
+                    col=int(p.split(',')[1])
+            while ld>0:
+                index=cl+1
+                char_dict[`index`]=(skills[cl].split(',')[1],skills[cl].split(',')[5],skills[cl].split(',')[7],skills[cl].split(',')[col],skills[cl].split(',')[6],0,0,0,0)
+                cl+=1
+                ld-=1
 
-        # Write Character data to file
-        with open(cfgData.char_dir+"/"+dirlist[i]+"/"+dirlist[i]+".json", 'w') as f:
-            f.write(json.dumps(char_dict))
-        i+=1
+            # Write Character data to file
+            with open(cfgData.char_dir+"/"+dirlist[i]+"/"+dirlist[i]+".json", 'w') as f:
+                f.write(json.dumps(char_dict))
+            i+=1
 
 def show_char():
     p=charMenu.char_menu()

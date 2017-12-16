@@ -97,8 +97,11 @@ def skill_added_display(char,skill):
         three=stats[2].lower()+"tb"
         avg=(float(char_dict[one])+float(char_dict[two])+float(char_dict[three]))/3
     else:
-        one=stats[0].lower()+"tb"
-        avg=float(char_dict[one])
+        if stats[0] == "NA":
+            avg=0.0
+        else:
+            one=stats[0].lower()+"tb"
+            avg=float(char_dict[one])
 
     rank_total=char_dict[skill][5]+char_dict[skill][6]+char_dict[skill][7]+char_dict[skill][8]
     print rank_total,":Total Ranks"
@@ -112,6 +115,10 @@ def skill_added_display(char,skill):
         skill_bonus=rank_total*5
     ravg=iround(avg)
 
+    with open(cfgData.char_cfg+"/lb.csv") as f:
+        llbonus=f.read()
+    for lb in llbonus:
+        print lb,":level bonus"
     lvl_bonus=1
     total_bonus=(ravg+lvl_bonus+skill_bonus)
     #skill_stat_bonus=(ch)
