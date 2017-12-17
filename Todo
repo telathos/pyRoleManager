@@ -1,5 +1,6 @@
 1.) Display skills and total after adding ranks - WIP
-  a.) Level bonuses - WIP
+  a.) Level bonuses - Done
+  b.) Finish updating pro.csv with level bonuses
 2.) Hobby Skills
   a.) List created
 3.) Get Archiving Working - Low priority
@@ -12,8 +13,10 @@
 9.) raise character
   a.) prompt issues
   b.) Remaining dp displays wrong on restarting - Done
-  c.) Rounding issue with dp and tempdp - Done/Revisit
-  d.) Increase level when out of DP
+  c.) Rounding issue with dp and tempdp - Done
+  d.) Increase level when out of DP - Done
+    1.) Reload character data file after level increase
+    2.) Write total ranks to character data file
 10.) Show Character
   a.) Add assigned skills to show character
   b.) Add back to Show Character
