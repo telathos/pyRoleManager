@@ -79,10 +79,10 @@ def iround(x):
     return int(round(x) - .5) + (x > 0)
 
 def skill_added_display(char,skill):
-    print skill,":skill in"
+    #print skill,":skill in"
     with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
         char_dict=json.load(f)
-    print char_dict[skill],":skill list"
+    #print char_dict[skill],":skill list"
     stats=[]
     cnt=0
     for stat in char_dict[skill][1].split("/"):
@@ -104,7 +104,6 @@ def skill_added_display(char,skill):
             avg=float(char_dict[one])
 
     rank_total=char_dict[skill][5]+char_dict[skill][6]+char_dict[skill][7]+char_dict[skill][8]
-    print rank_total,":Total Ranks"
     if rank_total>=30:
         skill_bonus=iround(((rank_total-20)*0.5)+80)
     elif rank_total>=20 and rank_total<30:
@@ -115,13 +114,56 @@ def skill_added_display(char,skill):
         skill_bonus=rank_total*5
     ravg=iround(avg)
 
-    with open(cfgData.char_cfg+"/lb.csv") as f:
+    lblist=[]
+    with open(cfgData.cfg_dir+"/pro0.csv") as f:
         llbonus=f.read()
-    for lb in llbonus:
-        print lb,":level bonus"
-    lvl_bonus=1
+    for lb in llbonus.splitlines():
+        rt=lb.split(",")
+        if rt[0]==char_dict['pro_name']:
+            lblist=[rt[9],rt[10],rt[11],rt[12],rt[13],rt[14],rt[15],rt[16],rt[17],rt[18],rt[19],rt[20],rt[21],rt[22],rt[23],rt[24]]
+
+    # Lookup and Calcalute lvl Bonus
+    if char_dict[skill][4] == "academic":
+        lvl_bonus = int(lblist[0])
+    if char_dict[skill][4] == "arms":
+        lvl_bonus = int(lblist[1])
+    if char_dict[skill][4] == "athletic":
+        lvl_bonus = int(lblist[2])
+    if char_dict[skill][4] == "base":
+        lvl_bonus = int(lblist[3])
+    if char_dict[skill][4] == "body development":
+        lvl_bonus = int(lblist[4])
+    if char_dict[skill][4] == "concentration":
+        lvl_bonus = int(lblist[5])
+    if char_dict[skill][4] == "deadly":
+        lvl_bonus = int(lblist[6])
+    if char_dict[skill][4] == "directed spells":
+        lvl_bonus = int(lblist[7])
+    if char_dict[skill][4] == "general":
+        lvl_bonus = int(lblist[8])
+    if char_dict[skill][4] == "linguistic":
+        lvl_bonus = int(lblist[9])
+    if char_dict[skill][4] == "magical":
+        lvl_bonus = int(lblist[10])
+    if char_dict[skill][4] == "medical":
+        lvl_bonus = int(lblist[11])
+    if char_dict[skill][4] == "outdoor":
+        lvl_bonus = int(lblist[12])
+    if char_dict[skill][4] == "perception":
+        lvl_bonus = int(lblist[13])
+    if char_dict[skill][4] == "social":
+        lvl_bonus = int(lblist[14])
+    if char_dict[skill][4] == "subterfuge":
+        lvl_bonus = int(lblist[15])
+    print lvl_bonus,":: Level Bonus"
+    if char_dict['lvl']<= 1:
+        lvl_mult =1
+    else:
+        lvl_mult=int(char_dict[lvl])
+
+    lvl_bonus = lvl_bonus + lvl_mult
     total_bonus=(ravg+lvl_bonus+skill_bonus)
-    #skill_stat_bonus=(ch)
+
     print
     cfgData.skill_header_added_skill()
     print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(char_dict[skill][0],char_dict[skill][1],char_dict[skill][3],char_dict[skill][5],char_dict[skill][6],char_dict[skill][7],char_dict[skill][8],ravg,skill_bonus,lvl_bonus,total_bonus)
@@ -286,7 +328,7 @@ def select_skills():
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
                         # Display newly added skill
-                        #print skill_menu_list[sr],":sr"
+                        print skill_menu_list[sr],":sr"
                         skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="2":

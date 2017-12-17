@@ -1,0 +1,48 @@
+Assassin,49,2/5,3/7,3/9,4,6,9,NULL
+Bounty Hunter,5,2/5,2/7,3/8,4,6,8,NULL
+Barbarian,10,1/5,2/5,3/8,4,4,6,NULL,0,3,2,0,2,0,0,0,0,0,0,0,3,0,0,0
+Burglar,11,3/8,3/8,4,6,6,9,NULL
+Dancer,12,3/9,5,6,8,9,10,NULL
+Fighter,13,1/5,2/5,2/7,2/7,2/7,5,NULL
+High Warrior Monk,14,3/7,3/8,4,8,8,8,NULL
+Rogue,15,2/5,3/8,3/9,3/9,3/9,6,NULL
+Scholar,16,4/8,6,9,15,20,20,NULL
+Thief,17,2/7,3/8,4,4,4,6,NULL
+Trader,18,2/7,3/8,3/9,4,5,6,NULL
+Warrior,51,1/4,1/5,2/5,2/7,2/7,5,NULL
+Warrior Monk,19,4,6,8,8,8,15,NULL
+Alchemist,8,9,20,20,20,20,20,EM
+Animist,9,6,7,9,9,9,20,IN
+Cleric,35,6,7,9,9,9,20,IN
+Conjuror,33,9,20,20,20,20,20,EM
+Druid,36,5,8,8,8,9,15,IN
+Healer,37,9,20,20,20,20,20,IN
+Illusionist,34,9,20,20,20,20,20,EM
+Lay Healer,39,8,8,15,20,20,20,PR
+Magician,31,9,20,20,20,20,20,EM
+Mentalist,41,6,8,15,20,20,20,PR
+Runemaster,32,9,20,20,20,20,20,EM
+Sage,40,8,10,15,20,20,20,PR
+Seer,42,6,15,20,20,20,20,PR
+Shaman,38,6,7,9,9,9,20,IN
+Bard,20,3/9,6,7,7,7,15,PR
+Beastmaster,21,3/7,4,6,6,6,9,EM
+Delver,22,4/8,6,6,7,7,7,EM
+Dervish,23,3/9,5,6,6,9,15,IN
+Monk,24,5,8,8,8,15,15,EM
+Montebanc,53,3/9,4,6,6,6,9,PR
+Nightblade,25,3/9,6,7,7,7,15,PR
+Noble Warrior,52,2/5,3/8,4,4,4,6,PR
+Paladin,26,2/5,3/8,4,4,4,6,IN
+Ranger,27,3/7,4,6,6,6,9,IN
+Sleuth,54,3/7,5,7,7,7,10,IN
+Warrior Mage,28,2/7,3/8,3/9,5,9,12,EM
+Archmage,29,9,20,20,20,20,20,20,AR
+Astrologer,43,9,20,20,20,20,20,IP
+Crystal Mage,44,9,12,15,20,20,20,IE
+Magus,55,4/10,8,8,8,15,15,IE
+Mystic,45,9,20,20,20,20,20,PE
+Necromancer,46,9,20,20,20,20,20,IE
+Sorcerer,30,9,20,20,20,20,20,IE
+Warlock,47,8,20,20,20,20,20,IP
+Witch,48,9,20,20,20,20,20,IE
