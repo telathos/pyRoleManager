@@ -40,8 +40,8 @@ def print_menu():       ## Your menu design here
     print 30 * "-" , "MENU" , 30 * "-"
     print "1. Create New Character"
     print "2. Show Character"
-    print "3. Add Misc Bonus to Character"
-    print "4. Assign Weapon Costs"
+    print ""
+    print ""
     print "5. Raise Character Level"
     #print "6. Delete Character"
     #print "7. Skills"
@@ -53,10 +53,8 @@ def clear_screen():
     """
     Clears the terminal screen.
     """
-
     # Clear command as function of OS
     command = "cls" if system_name().lower()=="windows" else "clear"
-
     # Action
     system_call(command)
 
@@ -459,7 +457,7 @@ def create_char():
     dp_math=Decimal(char['dp'])
     dp=Decimal(dp_math).quantize(Decimal('1e-3'))
     char['tempdp'] = int(round(dp,0))
-    
+
     # Add Total Bonus of skills to character data
     char['sttb']=sttb
     char['qutb']=qutb
@@ -783,8 +781,7 @@ while loop:          ## While loop which will keep going until loop = False
         mbbonus()
         clear_screen()
     elif choice=="4":
-        clear_screen()
-        weapon_costs()
+        pass
     elif choice=="5":
         clear_screen()
         rl.select_skills()

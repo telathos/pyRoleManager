@@ -198,7 +198,7 @@ def select_skills():
 
     # Start loop
     skloop=True
-    if char_dict['lvl'] == 0 and char_dict['tempdp'] >= char_dict['dp']:
+    if char_dict['lvl'] == 0 and char_dict['tempdp'] >= iround(char_dict['dp']):
         print
         print "Are you ready to assign skill ranks for your Adolescence Level?"
         print "[Yes/No]"
@@ -213,7 +213,7 @@ def select_skills():
             else:
                 print "Invalid Selection! Enter Y or N"
 
-    elif char_dict['lvl'] == 0.5 and char_dict['tempdp'] <= char_dict['dp']:
+    elif char_dict['lvl'] == 0.5 and char_dict['tempdp'] >= iround(char_dict['dp']):
         print
         print "Are you ready to assign skill ranks for your Appenticeship Level?"
         print "[Yes/No]"
@@ -228,7 +228,7 @@ def select_skills():
             else:
                 print "Invalid Selection! Enter Y or N"
 
-    elif char_dict['lvl'] == 1 and char_dict['tempdp'] <= char_dict['dp']:
+    elif char_dict['lvl'] == 1 and char_dict['tempdp'] >= iround(char_dict['dp']):
         print
         print "Are you ready to assign skill ranks for level {}?".format(char_dict['lvl'])
         print "[Yes/No]"
@@ -246,6 +246,40 @@ def select_skills():
                 print "Invalid Selection! Enter Y or N"
 
     while skloop:
+        print char_dict['tempdp']
+        if char_dict['tempdp']<1.0:
+            print "Out of points"
+            print "Ready to raise to the next level?"
+            while True:
+                y=str(raw_input('Y/N: '))
+                if y.upper() =="N":
+                    global skloop
+                    skloop=False
+                    sys.exit()
+                    break
+                elif y.upper() == "Y":
+                    if char_dict['lvl']==0:
+                        char_dict['lvl']=0.5
+                        char_dict['tempdp']=iround(char_dict['dp'])
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    elif char_dict['lvl']==0.5:
+                        char_dict['lvl']=1
+                        char_dict['tempdp']=iround(char_dict['dp'])
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    else:
+                        lvl=char_dict['lvl']
+                        lvl+=1
+                        char_dict['lvl']=lvl
+                        char_dict['tempdp']=iround(char_dict['dp'])
+                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                    break
+                    # Write Character data to file
+
+                else:
+                    print "Invalid Selection! Enter Y or N"
         print
         print "| 1.) A      10.) J      19.) U"
         print "| 2.) B      11.) L      20.) V"
@@ -305,10 +339,8 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    #print char_dict[skill_menu_list[sr]][0]
-                    #print skill_menu_list[sr][1],":skill name"
 
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -328,7 +360,7 @@ def select_skills():
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
                         # Display newly added skill
-                        print skill_menu_list[sr],":sr"
+                        #print skill_menu_list[sr],":sr"
                         skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="2":
@@ -360,7 +392,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -379,6 +411,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
 
         if ska=="3":
@@ -410,7 +443,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -429,6 +462,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="4":
             cfgData.running_dp(current_dp)
@@ -459,7 +493,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -478,6 +512,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="5":
             cfgData.running_dp(current_dp)
@@ -508,7 +543,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -527,6 +562,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="6":
             cfgData.running_dp(current_dp)
@@ -557,7 +593,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -576,6 +612,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="7":
             cfgData.running_dp(current_dp)
@@ -606,7 +643,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -625,6 +662,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="8":
             cfgData.running_dp(current_dp)
@@ -655,7 +693,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -674,6 +712,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="9":
             cfgData.running_dp(current_dp)
@@ -704,7 +743,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -723,6 +762,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="10":
             cfgData.running_dp(current_dp)
@@ -753,7 +793,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -772,6 +812,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="11":
             cfgData.running_dp(current_dp)
@@ -802,7 +843,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -821,6 +862,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="12":
             cfgData.running_dp(current_dp)
@@ -851,7 +893,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -870,6 +912,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="13":
             cfgData.running_dp(current_dp)
@@ -900,7 +943,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -919,6 +962,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="14":
             cfgData.running_dp(current_dp)
@@ -949,7 +993,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -968,6 +1012,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="15":
             cfgData.running_dp(current_dp)
@@ -998,7 +1043,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -1017,6 +1062,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="16":
             cfgData.running_dp(current_dp)
@@ -1047,7 +1093,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -1066,6 +1112,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="17":
             cfgData.running_dp(current_dp)
@@ -1096,7 +1143,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -1115,6 +1162,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="18":
             cfgData.running_dp(current_dp)
@@ -1145,7 +1193,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -1164,6 +1212,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="19":
             cfgData.running_dp(current_dp)
@@ -1194,7 +1243,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -1213,6 +1262,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="20":
             cfgData.running_dp(current_dp)
@@ -1243,7 +1293,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -1262,6 +1312,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="21":
             cfgData.running_dp(current_dp)
@@ -1292,7 +1343,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -1311,6 +1362,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="22":
             cfgData.running_dp(current_dp)
@@ -1341,7 +1393,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
-                    current_dp-=float(dp_used)
+                    current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
                         current_dp+=dp_used
@@ -1360,6 +1412,7 @@ def select_skills():
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
+                        skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska.upper() == "X":
             skloop=False
