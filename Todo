@@ -1,28 +1,25 @@
-1.) Display skills and total after adding ranks - WIP
-  a.) Level bonuses - Done
-  b.) Finish updating pro.csv with level bonuses
-2.) Hobby Skills
+1.) Hobby Skills
   a.) List created
-3.) Get Archiving Working - Low priority
-4.) Get Character Deletion Working - Low priority
-5.) Export function to csv/pdf/word
-6.) Move more code to modules - Low priority
+2.) Get Archiving Working - Low priority
+3.) Get Character Deletion Working - Low priority
+4.) Export function to csv/pdf/word
+5.) Move more code to modules - Low priority
   a.) Maybe move create_char to module
-7.) List of all skills - Low priority
-8.) Armor Class/DB/Maneuver penalties
-9.) raise character
+6.) List of all skills - Low priority
+7.) Armor Class/DB/Maneuver penalties
+8.) raise character
   a.) prompt issues
   b.) Remaining dp displays wrong on restarting - Done
   c.) Rounding issue with dp and tempdp - Done
   d.) Increase level when out of DP - Done
     1.) Reload character data file after level increase
     2.) Write total ranks to character data file
-10.) Show Character
+9.) Show Character
   a.) Add assigned skills to show character
   b.) Add back to Show Character
   c.) Add to show character, current Skills only
-11.) Import characters
-12.) Add back to character menu code
+10.) Import characters
+11.) Add back to character menu code
 
 Completed
 1.) Hit Points - Done
@@ -30,3 +27,6 @@ Completed
   a.) Need way to push new skills into character json - Done
 3.) Move weapon assignment into character creation
 4.) Round tempdp from dp at character creation time, set to interger
+5.) Display skills and total after adding ranks - Done
+  a.) Level bonuses - Done
+  b.) Finish updating pro.csv with level bonuses - Done
