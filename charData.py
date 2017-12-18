@@ -193,6 +193,10 @@ def show_char():
     print "| Memory (ME)          |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['me_stat'],char_dict['me_pot'],meb,raceb[9],medp,mepp,char_dict['memb'],metb)
     print "| Reasoning (RE)       |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['re_stat'],char_dict['re_pot'],reb,raceb[10],redp,repp,char_dict['remb'],retb)
     print 89 * "-"
-    print "| Development Points:                                        | {:^4}| {:^4}|               |".format(tdp,tpp)
+    print "| Development/Power Points:                                  | {:^4}| {:^4}|               |".format(tdp,tpp)
     print 89 * "-"
     print
+    print 68 * "-"
+    print "|            | Hobby | AD  | AP  |     | Stat | Skill|Level| Total |"
+    print "| Skill Name | Ranks |Ranks|Ranks|Ranks| Bonus| Bonus|Bonus| Bonus |"
+    print 68 * "-"
