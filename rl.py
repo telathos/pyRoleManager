@@ -115,7 +115,7 @@ def skill_added_display(char,skill):
     ravg=iround(avg)
 
     lblist=[]
-    with open(cfgData.cfg_dir+"/pro0.csv") as f:
+    with open(cfgData.cfg_dir+"/pro.csv") as f:
         llbonus=f.read()
     for lb in llbonus.splitlines():
         rt=lb.split(",")
