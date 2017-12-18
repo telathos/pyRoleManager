@@ -164,11 +164,18 @@ def show_char():
     # Development Point Math
     stdp,qudp,emdp,indp,prdp="-","-","-","-","-"
 
+    if char_dict['lvl']==0:
+        lvl="AD"
+    elif char_dict['lvl']==0.5:
+        lvl="AP"
+    else:
+        lvl=char_dict['lvl']
     print ""
     print 89 * "-"
     print "| Name: %s" % char_dict['name'].title()
     print "| Profession: %s" % char_dict['pro_name'].title()
     print "| Race: %s" % char_dict['race'].title()
+    print "| Level: {:^3}{:77}|".format(lvl," ")
     print 89 * "-"
     print "|                                   Stats                                                |"
     print 89 * "-"
