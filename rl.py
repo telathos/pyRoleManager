@@ -14,7 +14,6 @@ limit=1
 def skill_rank_qty_check(srnk,cost,lvl,old):
     global dp_used
     global limit
-    #print old,":old"
     if len(cost) > 2:
         ecost=cost.split('/')
         if ecost[1] == "*":
@@ -26,8 +25,6 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
         limit=1
 
     nlimit = (limit - old)
-    #print limit,":limit"
-    #print nlimit,":nlimit"
 
     while srnk > limit or srnk > nlimit:
         print "You can not purchase that number of ranks."
@@ -79,10 +76,8 @@ def iround(x):
     return int(round(x) - .5) + (x > 0)
 
 def skill_added_display(char,skill):
-    #print skill,":skill in"
     with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
         char_dict=json.load(f)
-    #print char_dict[skill],":skill list"
     stats=[]
     cnt=0
     for stat in char_dict[skill][1].split("/"):
@@ -155,7 +150,6 @@ def skill_added_display(char,skill):
         lvl_bonus = int(lblist[14])
     if char_dict[skill][4] == "subterfuge":
         lvl_bonus = int(lblist[15])
-    print lvl_bonus,":: Level Bonus"
     if char_dict['lvl']<= 1:
         lvl_mult =1
     else:
@@ -168,6 +162,13 @@ def skill_added_display(char,skill):
     cfgData.skill_header_added_skill()
     print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(char_dict[skill][0],char_dict[skill][1],char_dict[skill][3],char_dict[skill][5],char_dict[skill][6],char_dict[skill][7],char_dict[skill][8],ravg,skill_bonus,lvl_bonus,total_bonus)
     print 99 * "-"
+
+    char_dict[skill].append(skill_bonus)
+    char_dict[skill].append(lvl_bonus)
+    char_dict[skill].append(total_bonus)
+    
+    with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
+        f.write(json.dumps(char_dict))
 
 def select_skills():
     p=charMenu.char_menu()

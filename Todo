@@ -1,25 +1,20 @@
 1.) Hobby Skills
   a.) List created
-2.) Get Archiving Working - Low priority
-3.) Get Character Deletion Working - Low priority
-4.) Export function to csv/pdf/word
-5.) Move more code to modules - Low priority
-  a.) Maybe move create_char to module
-6.) List of all skills - Low priority
-7.) Armor Class/DB/Maneuver penalties
-8.) raise character
+2.) Export function to csv/pdf/word
+3.) List of all skills - Low priority
+4.) Armor Class/DB/Maneuver penalties
+5.) raise character
   a.) prompt issues
   b.) Remaining dp displays wrong on restarting - Done
   c.) Rounding issue with dp and tempdp - Done
   d.) Increase level when out of DP - Done
     1.) Reload character data file after level increase
-    2.) Write total ranks to character data file
-9.) Show Character
+    2.) Write total ranks to character data file - Done
+6.) Show Character
   a.) Add assigned skills to show character
   b.) Add back to Show Character
   c.) Add to show character, current Skills only
-10.) Import characters
-11.) Add back to character menu code
+7.) Add back to character menu code
 
 Completed
 1.) Hit Points - Done
@@ -30,3 +25,10 @@ Completed
 5.) Display skills and total after adding ranks - Done
   a.) Level bonuses - Done
   b.) Finish updating pro.csv with level bonuses - Done
+
+Version 2.0 Work
+1.) Get Archiving Working - Low priority
+2.) Get Character Deletion Working - Low priority
+3.) Move more code to modules - Low priority
+  a.) Maybe move create_char to module
+4.) Import characters
