@@ -156,7 +156,7 @@ def skill_added_display(char,skill):
     else:
         lvl_mult=int(char_dict[lvl])
 
-    lvl_bonus = lvl_bonus + lvl_mult
+    lvl_bonus = lvl_bonus * lvl_mult
     total_bonus=(ravg+lvl_bonus+skill_bonus)
 
     print
