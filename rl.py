@@ -195,9 +195,9 @@ def select_skills():
 
     # Set Base dp
     if char_dict['tempdp']< char_dict['dp']:
-        current_dp=char_dict['tempdp']
+        current_dp=iround(char_dict['tempdp'])
     else:
-        current_dp=char_dict['dp']
+        current_dp=iround(char_dict['dp'])
         char_dict['tempdp']=current_dp
 
     # Start loop
