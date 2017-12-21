@@ -7,6 +7,7 @@ import charMenu
 from colorama import init
 from colorama import Fore, Back, Style
 import decimal
+import sys
 init()
 
 dp_used=0
@@ -155,7 +156,7 @@ def skill_added_display(char,skill):
     else:
         lvl_mult=int(char_dict[lvl])
 
-    lvl_bonus = lvl_bonus + lvl_mult
+    lvl_bonus = lvl_bonus * lvl_mult
     total_bonus=(ravg+lvl_bonus+skill_bonus)
 
     print
@@ -163,12 +164,14 @@ def skill_added_display(char,skill):
     print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(char_dict[skill][0],char_dict[skill][1],char_dict[skill][3],char_dict[skill][5],char_dict[skill][6],char_dict[skill][7],char_dict[skill][8],ravg,skill_bonus,lvl_bonus,total_bonus)
     print 99 * "-"
 
+    char_dict[skill].append(ravg)
     char_dict[skill].append(skill_bonus)
     char_dict[skill].append(lvl_bonus)
     char_dict[skill].append(total_bonus)
-    
+
     with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
         f.write(json.dumps(char_dict))
+    char_dict.clear()
 
 def select_skills():
     p=charMenu.char_menu()
@@ -192,9 +195,9 @@ def select_skills():
 
     # Set Base dp
     if char_dict['tempdp']< char_dict['dp']:
-        current_dp=char_dict['tempdp']
+        current_dp=iround(char_dict['tempdp'])
     else:
-        current_dp=char_dict['dp']
+        current_dp=iround(char_dict['dp'])
         char_dict['tempdp']=current_dp
 
     # Start loop
@@ -248,6 +251,9 @@ def select_skills():
 
     while skloop:
         print char_dict['tempdp']
+        char_dict.clear()
+        with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
+            char_dict=json.load(f)
         if char_dict['tempdp']<1.0:
             print "Out of points"
             print "Ready to raise to the next level?"
