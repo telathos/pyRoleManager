@@ -196,15 +196,15 @@ def show_char():
     print "| Development/Power Points:                                  | {:^4}| {:^4}|               |".format(tdp,tpp)
     print 89 * "-"
     print
-    print 92 * "-"
-    print "| {:35} | Hobby | AD  | AP  |     | Stat | Skill|Level| Total |".format(" ")
-    print "| {:35} | Ranks |Ranks|Ranks|Ranks| Bonus| Bonus|Bonus| Bonus |".format("Skill Name")
-    print 92 * "-"
+    print 96 * "-"
+    print "| {:32} | Hobby | AD  | AP  |     | Skill| Stat |Level| Misc | Total |".format(" ")
+    print "| {:32} | Ranks |Ranks|Ranks|Ranks| Bonus| Bonus|Bonus| Bonus| Bonus |".format("Skill Name")
+    print 96 * "-"
     sklist=[]
     for words in char_dict:
         if words.isdigit():
             if len(char_dict[words]) == 13:
-                print "| {:35} | {:^5} |{:^5}|{:^5}|{:^5}|{:^6}|{:^6}|{:^5}|{:^7}|".format(char_dict[words][0],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][9],char_dict[words][10],char_dict[words][11],char_dict[words][12])
-    print 92 * "-"
+                print "| {:32} | {:^5} |{:^5}|{:^5}|{:^5}|{:^6}|{:^6}|{:^5}|{:^6}|{:^7}|".format(char_dict[words][0],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][10],char_dict[words][9],char_dict[words][11]," ",char_dict[words][12])
+    print 96 * "-"
     print
     print

@@ -40,7 +40,7 @@ def print_menu():       ## Your menu design here
     print 30 * "-" , "MENU" , 30 * "-"
     print "1. Create New Character"
     print "2. Show Character"
-    print ""
+    print "3. Misc Stat Bonus"
     print ""
     print "5. Raise Character Level"
     #print "6. Delete Character"
