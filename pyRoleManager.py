@@ -498,8 +498,27 @@ def create_char():
 
     # Development Point Math
     stdp,qudp,emdp,indp,prdp="-","-","-","-","-"
+    print char['realm'],":Realm"
+    if char['realm'] == "EM":
+        skill_file="ds_em.csv"
+    if char['realm'] == "PR":
+        skill_file="ds_pr.csv"
+    if char['realm'] == "IN":
+        skill_file="ds_in.csv"
+    if char['realm'] == "IP":
+        skill_file="ds_ip.csv"
+    if char['realm'] == "PE":
+        skill_file="ds_pe.csv"
+    if char['realm'] == "IE":
+        skill_file="ds_ie.csv"
+    if char['realm'] == "AR":
+        print "*******  AR ********"
+        skill_file="ds_ar.csv"
+    if char['realm'] == "NULL":
+        skill_file="ds_na.csv"
 
-    with open(cfgData.cfg_dir+"/ds.csv") as f:
+    # Open skill list file and to character skill file
+    with open(cfgData.cfg_dir+"/"+skill_file) as f:
         sl=f.read().splitlines()
     f.close()
     skill_list=[]
@@ -515,19 +534,6 @@ def create_char():
     with open(char_path+'/'+user_name+'.json', 'w') as f:
         f.write(json.dumps(char))
 
-    # Open skill list file and to character skill file
-    with open(cfgData.cfg_dir+"/ds.csv") as f:
-        sl=f.read().splitlines()
-    f.close()
-    skill_list=[]
-    char_skill={}
-    for list in sl:
-        skill_list.append(list.split(","))
-        crt=1
-        for outer_list in skill_list:
-            index=int(plist[pro_ch][1])
-            char_skill[crt]=(outer_list[1],outer_list[5],outer_list[7],outer_list[index],outer_list[6],0,0,0,0)
-            crt+=1
     weapon_costs(user_name)
 
 #################################
