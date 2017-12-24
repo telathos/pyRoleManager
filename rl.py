@@ -114,6 +114,7 @@ def skill_added_display(char,skill):
         skill_bonus=rank_total*5
     ravg=iround(avg)
 
+    # Create list of the level bonus
     lblist=[]
     with open(cfgData.cfg_dir+"/pro.csv") as f:
         llbonus=f.read()
@@ -122,7 +123,7 @@ def skill_added_display(char,skill):
         if rt[0]==char_dict['pro_name']:
             lblist=[rt[9],rt[10],rt[11],rt[12],rt[13],rt[14],rt[15],rt[16],rt[17],rt[18],rt[19],rt[20],rt[21],rt[22],rt[23],rt[24]]
 
-    # Lookup and Calcalute lvl Bonus
+    # Lookup category and Calcalute lvl Bonus
     if char_dict[skill][4] == "academic":
         lvl_bonus = int(lblist[0])
     if char_dict[skill][4] == "arms":

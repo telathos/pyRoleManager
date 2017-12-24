@@ -498,7 +498,8 @@ def create_char():
 
     # Development Point Math
     stdp,qudp,emdp,indp,prdp="-","-","-","-","-"
-    print char['realm'],":Realm"
+
+    # Open skills csv based on magic realm of the character
     if char['realm'] == "EM":
         skill_file="ds_em.csv"
     if char['realm'] == "PR":
@@ -512,12 +513,12 @@ def create_char():
     if char['realm'] == "IE":
         skill_file="ds_ie.csv"
     if char['realm'] == "AR":
-        print "*******  AR ********"
         skill_file="ds_ar.csv"
     if char['realm'] == "NULL":
         skill_file="ds_na.csv"
 
-    # Open skill list file and to character skill file
+    # Open skill list file and write to character skill file. Set number of ranks for Hobby, AD, AP,
+    # normal to 0
     with open(cfgData.cfg_dir+"/"+skill_file) as f:
         sl=f.read().splitlines()
     f.close()
@@ -534,6 +535,7 @@ def create_char():
     with open(char_path+'/'+user_name+'.json', 'w') as f:
         f.write(json.dumps(char))
 
+    # Set Weapon costs using function
     weapon_costs(user_name)
 
 #################################
