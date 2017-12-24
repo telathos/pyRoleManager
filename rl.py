@@ -38,10 +38,14 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
             dp_used=int(cost)
         elif len(cost) > 2:
             if srnk <=3 and ecost[1] == "*": #1/*
+                print "**"
                 if old >= 1:
+                    print "*1*if"
+                    print ecost[0],":ecost[0]"
                     dp_used=int(ecost[0]) * (3 - srnk)
                     srnk-=old
                 else:
+                    print "*1*else"
                     dp_used=int(ecost[0]) * int(srnk)
             elif srnk == 2: # 1/3 2 ranks
                 dp_used=int(ecost[0])+int(ecost[1])
@@ -52,9 +56,9 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
                     srnk=1
                 else:
                     dp_used=int(ecost[0])
-    if srnk < 1:
-        dp_used=0
-        print dp_used
+    #if srnk < 1:
+    #    dp_used=0
+    #    print dp_used,":dp_used srnk<1"
     return dp_used,srnk
 
 skill_menu_list=[]
@@ -154,7 +158,7 @@ def skill_added_display(char,skill):
     if char_dict['lvl']<= 1:
         lvl_mult =1
     else:
-        lvl_mult=int(char_dict[lvl])
+        lvl_mult=int(char_dict['lvl'])
 
     lvl_bonus = lvl_bonus * lvl_mult
     total_bonus=(ravg+lvl_bonus+skill_bonus)
@@ -250,13 +254,12 @@ def select_skills():
                 print "Invalid Selection! Enter Y or N"
 
     while skloop:
-        print char_dict['tempdp']
         char_dict.clear()
         with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
             char_dict=json.load(f)
         if char_dict['tempdp']<1.0:
-            print "Out of points"
-            print "Ready to raise to the next level?"
+            next_lvl=int(char_dict['lvl']+1)
+            print "Ready to raise to the character to level {:<3}".format(next_lvl)
             while True:
                 y=str(raw_input('Y/N: '))
                 if y.upper() =="N":
@@ -1150,6 +1153,7 @@ def select_skills():
                         col = char_dict[skill_menu_list[sr]][8]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    print dpu,":dpu"
                     current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"
