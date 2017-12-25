@@ -31,10 +31,10 @@ def skill_header():
     print 80 * "-"
 
 def skill_header_added_skill():
-    print 99 * "-"
-    print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std","Stat","Skill","lvl","Total")
-    print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank","Bonus","Bonus","Bonus","Bonus")
-    print 99 * "-"
+    print 104 * "-"
+    print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std","Stat","Skill","Misc","lvl","Total")
+    print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("Skill","Stats","Cost","Rank","Rank","Rank","Rank","Bonus","Bonus","Bonus","Bonus","Bonus")
+    print 104 * "-"
 
 # Calcalute Potential stats based on current stats
 poten=0

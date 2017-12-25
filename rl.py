@@ -16,6 +16,7 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
     global dp_used
     global limit
     if len(cost) > 2:
+        print len(cost),":len(cost)"
         ecost=cost.split('/')
         if ecost[1] == "*":
             limit=3
@@ -26,6 +27,8 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
         limit=1
 
     nlimit = (limit - old)
+    print limit,":limit"
+    print nlimit,":nlimit"
 
     while srnk > limit or srnk > nlimit:
         print "You can not purchase that number of ranks."
@@ -38,14 +41,14 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
             dp_used=int(cost)
         elif len(cost) > 2:
             if srnk <=3 and ecost[1] == "*": #1/*
-                print "**"
+                #print "**"
                 if old >= 1:
-                    print "*1*if"
-                    print ecost[0],":ecost[0]"
-                    dp_used=int(ecost[0]) * (3 - srnk)
-                    srnk-=old
+                    #print "*1*if"
+                    #print ecost[0],":ecost[0]"
+                    #print old,":old 1"
+                    dp_used=int(ecost[0]) * int(srnk)
                 else:
-                    print "*1*else"
+                    #print "*1*else"
                     dp_used=int(ecost[0]) * int(srnk)
             elif srnk == 2: # 1/3 2 ranks
                 dp_used=int(ecost[0])+int(ecost[1])
@@ -56,9 +59,6 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
                     srnk=1
                 else:
                     dp_used=int(ecost[0])
-    #if srnk < 1:
-    #    dp_used=0
-    #    print dp_used,":dp_used srnk<1"
     return dp_used,srnk
 
 skill_menu_list=[]
@@ -162,17 +162,20 @@ def skill_added_display(char,skill):
         lvl_mult=int(char_dict['lvl'])
 
     lvl_bonus = lvl_bonus * lvl_mult
-    total_bonus=(ravg+lvl_bonus+skill_bonus)
+
+    skmb_bonus=99
+    total_bonus=(ravg+lvl_bonus+skill_bonus+skmb_bonus)
 
     print
     cfgData.skill_header_added_skill()
-    print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(char_dict[skill][0],char_dict[skill][1],char_dict[skill][3],char_dict[skill][5],char_dict[skill][6],char_dict[skill][7],char_dict[skill][8],ravg,skill_bonus,lvl_bonus,total_bonus)
-    print 99 * "-"
+    print "| {:32} |{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format(char_dict[skill][0],char_dict[skill][1],char_dict[skill][3],char_dict[skill][5],char_dict[skill][6],char_dict[skill][7],char_dict[skill][8],ravg,skill_bonus,skmb_bonus,lvl_bonus,total_bonus)
+    print 104 * "-"
 
-    char_dict[skill].append(ravg)
-    char_dict[skill].append(skill_bonus)
-    char_dict[skill].append(lvl_bonus)
-    char_dict[skill].append(total_bonus)
+    char_dict[skill][10]=ravg
+    char_dict[skill][11]=skill_bonus
+    char_dict[skill][12]=skmb_bonus
+    char_dict[skill][13]=lvl_bonus
+    char_dict[skill][14]=total_bonus
 
     with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
         f.write(json.dumps(char_dict))
@@ -340,8 +343,13 @@ def select_skills():
                     sr-=1
                     srnk=int(raw_input('Number of Ranks: '))
                     cost=char_dict[skill_menu_list[sr]][3]
-                    # Define which column to update
 
+                    '''
+                    Define which column to update
+                    column 6 for AD
+                    column 7 for AP
+                    column 9 for temp colum
+                    '''
                     if char_dict['lvl'] == 0:
                         col = char_dict[skill_menu_list[sr]][6]
                     elif char_dict['lvl'] == 0.5:
@@ -503,7 +511,10 @@ def select_skills():
                     else:
                         col = char_dict[skill_menu_list[sr]][8]
 
+                    #print col,":col before function"
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+                    #print dpu,":dpu"
+                    #print rnk,":ranks added"
                     current_dp-=int(dp_used)
                     if current_dp < 0:
                         print "You do not have enough development points for this skill"

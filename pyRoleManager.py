@@ -528,7 +528,7 @@ def create_char():
         crt=1
         for outer_list in skill_list:
             index=int(plist[pro_ch][1])
-            char[crt]=(outer_list[1],outer_list[5],outer_list[7],outer_list[index],outer_list[6],0,0,0,0)
+            char[crt]=(outer_list[1],outer_list[5],outer_list[7],outer_list[index],outer_list[6],0,0,0,0,0,0,0,0,0,0)
             crt+=1
 
     # Write Character data to file
