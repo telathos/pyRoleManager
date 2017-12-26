@@ -789,7 +789,8 @@ while loop:          ## While loop which will keep going until loop = False
         mbbonus()
         clear_screen()
     elif choice=="4":
-        pass
+        clear_screen()
+        rl.skill_mb_bonus()
     elif choice=="5":
         clear_screen()
         rl.select_skills()

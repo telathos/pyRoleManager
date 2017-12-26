@@ -203,8 +203,8 @@ def show_char():
     sklist=[]
     for words in char_dict:
         if words.isdigit():
-            if len(char_dict[words]) == 13:
-                print "| {:32} | {:^5} |{:^5}|{:^5}|{:^5}|{:^6}|{:^6}|{:^5}|{:^6}|{:^7}|".format(char_dict[words][0],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][10],char_dict[words][9],char_dict[words][11]," ",char_dict[words][12])
+            if char_dict[words][5]>0 or char_dict[words][6]>0 or char_dict[words][7]>0 or char_dict[words][8]>0:
+                print "| {:32} | {:^5} |{:^5}|{:^5}|{:^5}|{:^6}|{:^6}|{:^5}|{:^6}|{:^7}|".format(char_dict[words][0],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][11],char_dict[words][10],char_dict[words][13],char_dict[words][12],char_dict[words][14])
     print 96 * "-"
     print
     print

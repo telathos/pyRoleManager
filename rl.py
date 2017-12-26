@@ -163,6 +163,7 @@ def skill_added_display(char,skill):
 
     lvl_bonus = lvl_bonus * lvl_mult
 
+    #if skmb_bonus
     skmb_bonus=99
     total_bonus=(ravg+lvl_bonus+skill_bonus+skmb_bonus)
 
@@ -180,6 +181,27 @@ def skill_added_display(char,skill):
     with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
         f.write(json.dumps(char_dict))
     char_dict.clear()
+
+def skill_mb_bonus():
+    #global skill_menu_list
+    skill_menu_list=[]
+    sx=skill_to_list("A")
+    while sksubloop:
+        cfgData.skill_header()
+        sx,skill_menu_list=create_skill_menu(sx)
+        length=len(sx)+1
+        while True:
+            sr=int(raw_input("Select Skill: "))
+            if sr >=1 and sr<=length:
+                break
+            else:
+                print "Invalid Selection! Select a skill from the list"
+        if sr == length:
+            sksubloop=False
+        else:
+            # substrat one from menu select to line up with list
+            sr-=1
+            srnk=int(raw_input('Number of Ranks: '))
 
 def select_skills():
     p=charMenu.char_menu()

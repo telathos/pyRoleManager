@@ -4,14 +4,14 @@
 3.) List of all skills - Low priority
 4.) Armor Class/DB/Maneuver penalties
 5.) raise character
-  a.) prompt issues
+  a.) prompt issues - Done
   b.) Remaining dp displays wrong on restarting - Done
   c.) Rounding issue with dp and tempdp - Done
   d.) Increase level when out of DP - Done
     1.) Reload character data file after level increase
     2.) Write total ranks to character data file - Done
 6.) Show Character
-  a.) Add assigned skills to show character
+  a.) Add assigned skills to show character - Done
   b.) Add back to Show Character
   c.) Add to show character, current Skills only
 7.) Add back to character menu code
