@@ -41,7 +41,7 @@ def print_menu():       ## Your menu design here
     print "1. Create New Character"
     print "2. Show Character"
     print "3. Misc Stat Bonus"
-    print ""
+    print "4. Misc Skill Bonus"
     print "5. Raise Character Level"
     #print "6. Delete Character"
     #print "7. Skills"

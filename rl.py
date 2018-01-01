@@ -183,25 +183,60 @@ def skill_added_display(char,skill):
     char_dict.clear()
 
 def skill_mb_bonus():
-    #global skill_menu_list
-    skill_menu_list=[]
-    sx=skill_to_list("A")
-    while sksubloop:
-        cfgData.skill_header()
-        sx,skill_menu_list=create_skill_menu(sx)
-        length=len(sx)+1
-        while True:
-            sr=int(raw_input("Select Skill: "))
-            if sr >=1 and sr<=length:
-                break
-            else:
-                print "Invalid Selection! Select a skill from the list"
-        if sr == length:
-            sksubloop=False
+    p=charMenu.char_menu()
+    menu_len=len(p)
+    while True:
+        s=int(raw_input("Select Character: "))
+        if s >=1 and s<=menu_len:
+            break
         else:
-            # substrat one from menu select to line up with list
-            sr-=1
-            srnk=int(raw_input('Number of Ranks: '))
+            print "Invalid Selection! Select a character from the list"
+    s-=1
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
+        char_dict=json.load(f)
+    sklist=[]
+    sklst=[]
+
+    for words in char_dict:
+        if words.isdigit():
+            index=words
+            sklist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][10],char_dict[words][11],char_dict[words][12],char_dict[words][13],char_dict[words][14],index])
+            sklst=sorted(sklist, key=lambda skill: skill[0])
+    #print sklst
+    menu_loop=True
+    while menu_loop:
+        search=str(raw_input("Select Skill to add Misc bonus: "))
+        # Takes inputed search and adds regex matching code
+        regex = re.compile('^%s.+'%search,re.I)
+
+        # Create header
+        print "| {:5} | {:32} | {:5} |".format("","","Misc")
+        print "| {:>5} | {:32} | {:5} |".format("","Skill Name","Bonus")
+        print 52 * "-"
+        # Loop through skills
+        skill_menu=[]
+        for y in sklst:
+            if re.search(regex,y[0]):
+                print "| {:>3}.) | {:32} | {:^5} |".format(y[13],y[0],y[11])
+                #print char_dict[y[13]]
+                # Create list of skills in menu
+                skill_menu.append(int(y[13]))
+        #print
+        #print "| {:>3}.) | {:32} | {:^5} |".format("X","Back","")
+        while skill_menu:
+            m=int(raw_input("Select skill: "))
+            if m in skill_menu:
+                msb=int(raw_input("Bonus: "))
+                char_dict[`m`][13]=int(msb)
+
+                # Open character file to write update
+                with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json",'w') as f:
+                    f.write(json.dumps(char_dict))
+                skill_menu=False
+                menu_loop=False
+            else:
+                print "Select a skill on the list"
+                print
 
 def select_skills():
     p=charMenu.char_menu()
