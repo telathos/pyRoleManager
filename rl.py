@@ -41,7 +41,6 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
             dp_used=int(cost)
         elif len(cost) > 2:
             if srnk <=3 and ecost[1] == "*": #1/*
-                #print "**"
                 if old >= 1:
                     #print "*1*if"
                     #print ecost[0],":ecost[0]"
@@ -319,7 +318,12 @@ def select_skills():
         with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
             char_dict=json.load(f)
         if char_dict['tempdp']<1.0:
-            next_lvl=int(char_dict['lvl']+1)
+            if char_dict['lvl']==0:
+                next_lvl="Appenticeship"
+            elif char_dict['lvl']==0.5:
+                next_lvl=1
+            else:
+                next_lvl=int(char_dict['lvl']+1)
             print "Ready to raise to the character to level {:<3}".format(next_lvl)
             while True:
                 y=str(raw_input('Y/N: '))
@@ -351,6 +355,12 @@ def select_skills():
 
                 else:
                     print "Invalid Selection! Enter Y or N"
+        # Reload Character file
+        char_dict.clear()
+        with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
+            char_dict=json.load(f)
+        print char_dict['lvl']
+        print char_dict['tempdp']
         print
         print "| 1.) A      10.) J      19.) U"
         print "| 2.) B      11.) L      20.) V"
@@ -365,6 +375,20 @@ def select_skills():
         print "| X.) Back"
         ska=raw_input('Select First Letter of Skill: ')
         print
+        if char_dict['lvl']==0:
+            print "Suggested Adolescence skills:"
+            print
+            print "Basic Math"
+            print "Climbing"
+            print "Cookery"
+            print "First Aid"
+            print "General Perception"
+            print "Body Development"
+            print "Hygiene"
+            print "Stalk & Hide"
+            print "Swimming"
+            print "Dagger"
+            print
 
         def skill_to_list(g):
             sklist=[]
@@ -1494,8 +1518,9 @@ def select_skills():
                             f.write(json.dumps(char_dict))
                         skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
+
         if ska.upper() == "X":
             skloop=False
             print "Back to main menu"
-
-#select_skills()
+    # Clear dictionary
+    char_dict.clear()
