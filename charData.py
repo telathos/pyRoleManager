@@ -208,3 +208,4 @@ def show_char():
     print 96 * "-"
     print
     print
+    

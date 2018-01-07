@@ -163,7 +163,7 @@ def skill_added_display(char,skill):
     lvl_bonus = lvl_bonus * lvl_mult
 
     #if skmb_bonus
-    skmb_bonus=99
+    skmb_bonus=0
     total_bonus=(ravg+lvl_bonus+skill_bonus+skmb_bonus)
 
     print

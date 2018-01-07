@@ -3,19 +3,11 @@
 2.) Export function to csv/pdf/word
 3.) List of all skills - Low priority
 4.) Armor Class/DB/Maneuver penalties
-5.) raise character
-  a.) prompt issues - Done
-  b.) Remaining dp displays wrong on restarting - Done
-  c.) Rounding issue with dp and tempdp - Done
-  d.) Increase level when out of DP - Done
-    1.) Reload character data file after level increase
-    2.) Write total ranks to character data file - Done
-6.) Show Character
+5.) Show Character
   a.) Add assigned skills to show character - Done
   b.) Add back to Show Character
   c.) Add to show character, current Skills only
-7.) Add back to character menu code
-8.) Add Misc bonus to skills
+6.) Add back to character menu code
 
 Completed
 1.) Hit Points - Done
@@ -26,7 +18,14 @@ Completed
 5.) Display skills and total after adding ranks - Done
   a.) Level bonuses - Done
   b.) Finish updating pro.csv with level bonuses - Done
-
+6. ) Add Misc bonus to skills
+7.) raise character
+  a.) prompt issues - Done
+  b.) Remaining dp displays wrong on restarting - Done
+  c.) Rounding issue with dp and tempdp - Done
+  d.) Increase level when out of DP - Done
+    1.) Reload character data file after level increase
+    2.) Write total ranks to character data file - Done
 Version 2.0 Work
 1.) Get Archiving Working - Low priority
 2.) Get Character Deletion Working - Low priority
