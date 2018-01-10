@@ -1,5 +1,942 @@
-form openpyxl import Workbook
-import cfgdata
+from openpyxl import Workbook, load_workbook
+from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
+import charMenu
+import cfgData
+import json
 
+charXlPath="c:/users/tym.drlmini/Dropbox/Rolemaster/Characters"
+charXlFile="ptest.xlsx"
 
-def export_char():
+def export_to_excel():
+    p=charMenu.char_menu()
+    menu_len=len(p)
+    while True:
+        s=int(raw_input("Select Character: "))
+        if s >=1 and s<=menu_len:
+            break
+        else:
+            print "Invalid Selection! Select a character from the list"
+
+    # Open the file
+    char_dict={}
+    s-=1
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+        char_dict = json.load(cf)
+
+    with open(cfgData.cfg_dir+"/sttchart.csv") as f:
+        statchart =f.read().splitlines()
+    f.close()
+    sc=[]
+
+    for x in statchart:
+        sc.append(x.split(","))
+
+    # Loop through statistics to pull bonuses
+    for x1 in sc:
+        #print x1[0],":",x1[1],":",x1[2],":",x1[3]
+        if int(x1[0]) == int(char_dict['st_stat']):
+            stb,stdp,stpp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['qu_stat']):
+            qub,qudp,qupp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['pr_stat']):
+            prb,prdp,prpp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['in_stat']):
+            inb,indp,inpp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['em_stat']):
+            emb,emdp,empp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['co_stat']):
+            cob,codp,copp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['ag_stat']):
+            agb,agdp,agpp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['sd_stat']):
+            sdb,sddp,sdpp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['me_stat']):
+            meb,medp,mepp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['re_stat']):
+            reb,redp,repp=x1[1],x1[2],x1[3]
+    tdp = float(codp) + float(agdp) + float(sddp) + float(medp) + float(redp)
+    ###################
+    # Lookup Race Bonus
+    ###################
+    with open(cfgData.cfg_dir+"/race.csv") as r:
+        racechart =r.read().splitlines()
+    r.close()
+    rc=[]
+
+    for x in racechart:
+        rc.append(x.split(","))
+
+    # Race Bonus
+    for x2 in rc:
+        if x2[0] == char_dict['race']:
+            raceb=x2
+    if char_dict['realm'] == "NULL":
+        prpp,inpp,empp=0.0,0.0,0.0
+        tpp=0.0
+    if char_dict['realm'] == "PR":
+        inpp,empp=0.0,0.0
+        tpp=prpp
+        realm="Mentalism"
+    if char_dict['realm'] == "IN":
+        empp,prpp=0.0,0.0
+        tpp=inpp
+        realm="Channeling"
+    if char_dict['realm'] == "EM":
+        inpp,prpp=0.0,0.0
+        tpp=empp
+        realm="Essence"
+    if char_dict['realm'] == "IP":
+        empp=0.0
+        tpp=(float(inpp)+float(prpp))/2
+        realm="Channeling/Mentalism"
+    if char_dict['realm'] == "PE":
+        inpp=0.0
+        tpp=(float(empp)+float(prpp))/2
+        realm="Mentalism/Essence"
+    if char_dict['realm'] == "IE":
+        prpp=0.0
+        tpp=(float(inpp)+float(empp))/2
+        realm="Channeling/Essence"
+    if char_dict['realm'] == "AR":
+        tpp=(float(inpp)+float(prpp)+float(empp))/3
+        realm="Arcane"
+
+    wb = Workbook()
+    #wb = load_workbook(charXlPath+"/"+charXlFile)
+    # grab the active worksheet
+    ws = wb.active
+
+    # Data can be assigned directly to cells
+    ws.column_dimensions['A'].width = 14.0
+    ws.column_dimensions['B'].width = 8.25
+    ws.column_dimensions['C'].width = 8.25
+    ws.column_dimensions['E'].width = 10.85
+
+    # Define fonts
+    textFont = Font(name='Arial',size=10)
+    textBoldFont = Font(name='Arial',size=11, bold=True)
+    headerFont = Font(name='Old English Text MT',size=14,bold=True)
+    statFont = Font(name='Old English Text MT',size=18,bold=True)
+
+    # Define Borders
+    fullBorder = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
+    tbBorder = Border(top=Side(style='thin'), bottom=Side(style='thin'))
+    tblBorder = Border(top=Side(style='thin'), bottom=Side(style='thin'), left=Side(style='thin'))
+    tbrBorder = Border(top=Side(style='thin'), bottom=Side(style='thin'), right=Side(style='thin'))
+    rBorder = Border(right=Side(style='thin'))
+    lBorder = Border(left=Side(style='thin'))
+    tBorder = Border(top=Side(style='thin'))
+    bBorder = Border(bottom=Side(style='thin'))
+    tlrBorder = Border(top=Side(style='thin'), left=Side(style='thin'), right=Side(style='thin'))
+    blrBorder = Border(left=Side(style='thin'), bottom=Side(style='thin'), right=Side(style='thin'))
+    rlBorder = Border(left=Side(style='thin'), right=Side(style='thin'))
+    rbBorder = Border(bottom=Side(style='thin'), right=Side(style='thin'))
+    lbBorder = Border(bottom=Side(style='thin'), left=Side(style='thin'))
+
+    # Build Excel file
+    ws.merge_cells('A1:I1')
+    ws['A1'] = "Rolemaster Character Record"
+    ws['A1'].font = headerFont
+    ws['A1'].alignment = Alignment(horizontal='center',vertical='center')
+    ws['A1'].border = tblBorder
+
+    ws['B1'].border = tbBorder
+    ws['C1'].border = tbBorder
+    ws['D1'].border = tbBorder
+    ws['E1'].border = tbBorder
+    ws['F1'].border = tbBorder
+    ws['G1'].border = tbBorder
+    ws['H1'].border = tbBorder
+    ws['I1'].border = tbrBorder
+
+    ws['A2'] = "Name:"
+    ws.merge_cells('B2:C2')
+    ws['B2'] = char_dict['name'].title()
+    ws['E2'] = "Level:"
+    ws['G2'] = "Race:"
+    ws['F2'] = char_dict['lvl']
+    ws['H2'] = char_dict['race']
+    ws['A2'].border = lBorder
+    ws['I2'].border = rBorder
+    ws['A2'].font = textFont
+    ws['B2'].font = textFont
+    ws['E2'].font = textFont
+    ws['F2'].font = textFont
+    ws['G2'].font = textFont
+    ws['H2'].font = textFont
+
+    ws['A3'] = "Profession:"
+    ws['B3'] = char_dict['pro_name']
+    ws['E3'] = "Exp:"
+    ws['G3'] = "Next Lvl:"
+    ws['A3'].border = lBorder
+    ws['I3'].border = rBorder
+    ws['A3'].font = textFont
+    ws['B3'].font = textFont
+    ws['E3'].font = textFont
+    ws['F3'].font = textFont
+    ws['G3'].font = textFont
+    ws['H3'].font = textFont
+
+    ws['A4'] = "Sex:"
+    ws['C4'] = "Age:"
+    ws['F4'] = "Base Rate:"
+    ws['A4'].border = lBorder
+    ws['I4'].border = rBorder
+    ws['A4'].font = textFont
+    ws['B4'].font = textFont
+    ws['C4'].font = textFont
+    ws['D4'].font = textFont
+    ws['F4'].font = textFont
+    ws['G4'].font = textFont
+
+    ws['A5'] = "Height:"
+    ws['C5'] = "Weight:"
+    ws['F5'] = "Max Rate:"
+    ws['A5'].border = lBorder
+    ws['I5'].border = rBorder
+    ws['A5'].font = textFont
+    ws['B5'].font = textFont
+    ws['C5'].font = textFont
+    ws['D5'].font = textFont
+    ws['F5'].font = textFont
+    ws['G5'].font = textFont
+
+    ws['A6'] = "Hair:"
+    ws['C6'] = "Eyes:"
+    ws['A6'].border = lBorder
+    ws['I6'].border = rBorder
+    ws['A6'].font = textFont
+    ws['B6'].font = textFont
+    ws['C6'].font = textFont
+    ws['D6'].font = textFont
+
+    ws['A7'] = "Armor"
+    ws.merge_cells('A7:D7')
+    ws['A7'].alignment = Alignment(horizontal='center',vertical='center')
+    ws['A7'].font = textBoldFont
+    ws['E7'] = "Defensive Bonus"
+    ws.merge_cells('E7:I7')
+    ws['E7'].alignment = Alignment(horizontal='center',vertical='center')
+    ws['E7'].font = textBoldFont
+    ws['A7'].border = tblBorder
+    ws['B7'].border = tbBorder
+    ws['C7'].border = tbBorder
+    ws['D7'].border = tbrBorder
+    ws['E7'].border = tblBorder
+    ws['F7'].border = tbBorder
+    ws['G7'].border = tbBorder
+    ws['H7'].border = tbBorder
+    ws['I7'].border = tbrBorder
+
+    ws['A8'] = "Armor Worn:"
+    ws['E8'] = "Quickness:"
+    ws['F8'] = qub
+    ws['F8'].alignment = Alignment(horizontal='center')
+    ws['H8'] = "Total DB:"
+    ws['A8'].font = textFont
+    ws.merge_cells('B8:C8')
+    ws['B8'].font = textFont
+    ws['E8'].font = textFont
+    ws['F8'].font = textFont
+    ws['H8'].font = textFont
+    ws['I8'].font = textFont
+    ws['A8'].border = lBorder
+    ws['E8'].border = lBorder
+    ws['I8'].border = fullBorder
+    ws['H8'].alignment = Alignment(horizontal='right')
+
+    ws['A9'] = "Armor Type:"
+    ws['E9'] = "Shield:"
+    ws['H9'] = "vs Melee:"
+    ws['A9'].font = textFont
+    ws['B9'].font = textFont
+    ws['E9'].font = textFont
+    ws['F9'].font = textFont
+    ws['H9'].font = textFont
+    ws['I9'].font = textFont
+    ws['A9'].border = lBorder
+    ws['E9'].border = lBorder
+    ws['I9'].border = fullBorder
+    ws['H9'].alignment = Alignment(horizontal='right')
+
+    ws['A10'] = "Shield:"
+    ws['E10'] = "ADF:"
+    ws['H10'] = "vs Missile:"
+    ws['A10'].font = textFont
+    ws['B10'].font = textFont
+    ws['E10'].font = textFont
+    ws['F10'].font = textFont
+    ws['H10'].font = textFont
+    ws['I10'].font = textFont
+    ws['A10'].border = lBorder
+    ws['E10'].border = lBorder
+    ws['I10'].border = fullBorder
+    ws['H10'].alignment = Alignment(horizontal='right')
+
+    ws['A11'] = "Helm:"
+    ws['E11'] = "Magical:"
+    ws['H11'] = "vs Surprise:"
+    ws['A11'].font = textFont
+    ws['B11'].font = textFont
+    ws['E11'].font = textFont
+    ws['F11'].font = textFont
+    ws['H11'].font = textFont
+    ws['I11'].font = textFont
+    ws['A11'].border = lBorder
+    ws['E11'].border = lBorder
+    ws['I11'].border = fullBorder
+    ws['H11'].alignment = Alignment(horizontal='right')
+
+    ws['A12'] = "Arm Greaves:"
+    ws['H12'] = "vs Magic:"
+    ws['A12'].font = textFont
+    ws['B12'].font = textFont
+    ws['E12'].font = textFont
+    ws['F12'].font = textFont
+    ws['H12'].font = textFont
+    ws['I12'].font = textFont
+    ws['A12'].border = lBorder
+    ws['E12'].border = lBorder
+    ws['I12'].border = fullBorder
+    ws['H12'].alignment = Alignment(horizontal='right')
+
+    ws['A13'] = "Leg Greaves:"
+    ws['E13'] = "Hits"
+    ws['A13'].font = textFont
+    ws['B13'].font = textFont
+    ws['E13'].font = textBoldFont
+    ws.merge_cells('E13:H13')
+    ws['E13'].alignment = Alignment(horizontal='center',vertical='center')
+    ws['A13'].border = lBorder
+    ws['E13'].border = tblBorder
+    ws['F13'].border = tbBorder
+    ws['G13'].border = tbBorder
+    ws['H13'].border = tbrBorder
+    ws['I13'].border = rBorder
+
+    ws['A14'] = "Maneuver Modifiers"
+    ws.merge_cells('A14:C14')
+    ws['A14'].font = textBoldFont
+    ws['A14'].alignment = Alignment(horizontal='center',vertical='center')
+    ws['E14'] = "Total Hits:"
+    ws['G14'] = "Hit Die:"
+    ws['E14'].font = textFont
+    ws['F14'].font = textFont
+    ws['G14'].font = textFont
+    ws['H14'].font = textFont
+    ws['A14'].border = lBorder
+    ws['E14'].border = lBorder
+    ws['H14'].border = rBorder
+    ws['I14'].border = rBorder
+
+    ws['A15'] = "Minimum:"
+    ws['E15'] = "Base Hits:"
+    ws['A15'].font = textFont
+    ws['B15'].font = textFont
+    ws['E15'].font = textFont
+    ws['F15'].font = textFont
+    ws['A15'].border = lBorder
+    ws['E15'].border = lBorder
+    ws['H15'].border = rBorder
+    ws['I15'].border = rBorder
+
+    ws['A16'] = "Maximum:"
+    ws['A16'].font = textFont
+    ws['B16'].font = textFont
+    ws['A16'].border = lBorder
+    ws['E16'].border = lBorder
+    ws['H16'].border = rBorder
+    ws['I16'].border = rBorder
+
+    ws['A17'] = "Languages"
+    ws['A17'].font = textBoldFont
+    ws['A17'].alignment = Alignment(horizontal='center')
+    ws['A17'].border = tBorder
+    ws.merge_cells('A17:A18')
+    ws['B17'].border = tBorder
+    ws['C17'] = "-- Rank --"
+    ws['C17'].font = textFont
+    ws['C17'].border = tlrBorder
+    ws['D17'].border = tBorder
+    ws['E17'] = "Magical Statistics"
+    ws.merge_cells('E17:H17')
+    ws['E17'].font = textBoldFont
+    ws['E17'].alignment = Alignment(horizontal='center',vertical='center')
+    ws['E17'].border = tblBorder
+    ws['F17'].border = tbBorder
+    ws['G17'].border = tbBorder
+    ws['H17'].border = tbrBorder
+    ws['I17'].border = rBorder
+
+    ws['C18'] = "Spoken"
+    ws['D18'] = "Written"
+    ws['E18'] = "Realm:"
+    ws['A18'].border = bBorder
+    ws['B18'].border = bBorder
+    ws['C18'].border = blrBorder
+    ws['D18'].border = blrBorder
+    ws['E18'].border = lBorder
+    ws['F18'] = realm
+    ws['H18'].border = rBorder
+    ws['I18'].border = rBorder
+    ws['C18'].font = textFont
+    ws['D18'].font = textFont
+    ws['E18'].font = textFont
+    ws['F18'].font = textFont
+    ws.merge_cells('F18:G18')
+    ws['C18'].alignment = Alignment(horizontal='center')
+    ws['D18'].alignment = Alignment(horizontal='center')
+
+    ws.merge_cells('A19:B19')
+    ws['A19'].font = textFont
+    ws['E19'] = "Stat Bonus:"
+    ws['A19'].border = lBorder
+    ws['C19'].border = fullBorder
+    ws['D19'].border = fullBorder
+    ws['E19'].border = lBorder
+    ws['H19'].border = rBorder
+    ws['I19'].border = rBorder
+    ws['C19'].font = textFont
+    ws['D19'].font = textFont
+    ws['E19'].font = textFont
+    ws['F19'].font = textFont
+
+    ws.merge_cells('A20:B20')
+    ws['A20'].font = textFont
+    ws['E20'] = "Lvl Bonus:"
+    ws['A20'].border = lBorder
+    ws['C20'].border = fullBorder
+    ws['D20'].border = fullBorder
+    ws['E20'].border = lBorder
+    ws['H20'].border = rBorder
+    ws['I20'].border = rBorder
+    ws['C20'].font = textFont
+    ws['D20'].font = textFont
+    ws['E20'].font = textFont
+    ws['F20'].font = textFont
+
+    ws.merge_cells('A21:B21')
+    ws['A21'].font = textFont
+    ws['E21'] = "Resistance Roll Modifiers"
+    ws.merge_cells('E21:I21')
+    ws['E21'].font = textBoldFont
+    ws['E21'].alignment = Alignment(horizontal='center',vertical='center')
+    ws['A21'].border = lBorder
+    ws['C21'].border = fullBorder
+    ws['D21'].border = fullBorder
+    ws['E21'].border = tblBorder
+    ws['F21'].border = tbBorder
+    ws['G21'].border = tbBorder
+    ws['H21'].border = tbBorder
+    ws['I21'].border = tbrBorder
+
+    ws.merge_cells('A22:B22')
+    ws['A22'].font = textFont
+    ws['C22'].font = textFont
+    ws['D22'].font = textFont
+    ws['E22'].font = textFont
+    ws['F22'].font = textFont
+    ws['H22'].font = textFont
+    ws['I22'].font = textFont
+    ws['E22'] = "Essence:"
+    ws['H22'] = "Fear:"
+    ws['E22'].font = textFont
+    ws['E22'].alignment = Alignment(horizontal='right')
+    ws['H22'].alignment = Alignment(horizontal='right')
+    ws['A22'].border = lBorder
+    ws['C22'].border = fullBorder
+    ws['D22'].border = fullBorder
+    ws['I22'].border = rBorder
+
+    ws.merge_cells('A23:B23')
+    ws['A23'].font = textFont
+    ws['C23'].font = textFont
+    ws['D23'].font = textFont
+    ws['E23'].font = textFont
+    ws['F23'].font = textFont
+    ws['H23'].font = textFont
+    ws['I23'].font = textFont
+    ws['E23'] = "Mentalism:"
+    ws['H23'] = "Poison:"
+    ws['E23'].font = textFont
+    ws['E23'].alignment = Alignment(horizontal='right')
+    ws['H23'].alignment = Alignment(horizontal='right')
+    ws['A23'].border = lBorder
+    ws['C23'].border = fullBorder
+    ws['D23'].border = fullBorder
+    ws['I23'].border = rBorder
+
+    ws.merge_cells('A24:B24')
+    ws['A24'].font = textFont
+    ws['C24'].font = textFont
+    ws['D24'].font = textFont
+    ws['E24'].font = textFont
+    ws['F24'].font = textFont
+    ws['H24'].font = textFont
+    ws['I24'].font = textFont
+    ws['E24'] = "Channeling:"
+    ws['H24'] = "Disease:"
+    ws['E24'].font = textFont
+    ws['E24'].alignment = Alignment(horizontal='right')
+    ws['H24'].alignment = Alignment(horizontal='right')
+    ws['A24'].border = lBorder
+    ws['C24'].border = fullBorder
+    ws['D24'].border = fullBorder
+    ws['I24'].border = rBorder
+
+    ws['A25'] = "Background Options / Miscellaneous Notes"
+    ws.merge_cells('A25:I25')
+    ws['A25'].alignment = Alignment(horizontal='center',vertical='center')
+    ws['A25'].font = textBoldFont
+    ws['A25'].border = tblBorder
+    ws['B25'].border = tbBorder
+    ws['C25'].border = tbBorder
+    ws['D25'].border = tbBorder
+    ws['E25'].border = tbBorder
+    ws['F25'].border = tbBorder
+    ws['G25'].border = tbBorder
+    ws['H25'].border = tbBorder
+    ws['I25'].border = tbrBorder
+
+    ws.merge_cells('A26:I26')
+    ws['A26'].border = lBorder
+    ws['I26'].border = rBorder
+
+    ws.merge_cells('A27:I27')
+    ws['A27'].border = lBorder
+    ws['I27'].border = rBorder
+
+    ws.merge_cells('A28:I28')
+    ws['A28'].border = lBorder
+    ws['I28'].border = rBorder
+
+    ws.merge_cells('A29:I29')
+    ws['A29'].border = lBorder
+    ws['I29'].border = rBorder
+
+    ws.merge_cells('A30:I30')
+    ws['A30'].border = lBorder
+    ws['I30'].border = rBorder
+
+    ws.merge_cells('A31:I31')
+    ws['A31'].border = lBorder
+    ws['I31'].border = rBorder
+
+    ws.merge_cells('A32:I32')
+    ws['A32'].border = lBorder
+    ws['I32'].border = rBorder
+
+    ws.merge_cells('A33:I33')
+    ws['A33'].border = lbBorder
+    ws['B33'].border = bBorder
+    ws['C33'].border = bBorder
+    ws['D33'].border = bBorder
+    ws['E33'].border = bBorder
+    ws['F33'].border = bBorder
+    ws['G33'].border = bBorder
+    ws['H33'].border = bBorder
+    ws['I33'].border = rbBorder
+
+    ws.merge_cells('A34:A35')
+    ws['A34'].font = statFont
+    ws['A34'] = "Stats"
+    ws.merge_cells('B34:B35')
+    ws.merge_cells('C34:C35')
+    ws.merge_cells('D34:D35')
+    ws.merge_cells('E34:G34')
+    ws.merge_cells('H34:H35')
+    ws.merge_cells('I34:I35')
+    ws['B34'].font = textBoldFont
+    ws['C34'].font = textBoldFont
+    ws['D34'].font = textBoldFont
+    ws['E34'].font = textBoldFont
+    ws['E35'].font = textBoldFont
+    ws['F35'].font = textBoldFont
+    ws['G35'].font = textBoldFont
+    ws['H34'].font = textBoldFont
+    ws['I34'].font = textBoldFont
+    ws['B34'].alignment = Alignment(horizontal='center',vertical='center')
+    ws['C34'].alignment = Alignment(horizontal='center',vertical='center')
+    ws['D34'].alignment = Alignment(horizontal='center',vertical='center')
+    ws['E34'].alignment = Alignment(horizontal='center',vertical='center')
+    ws['E35'].alignment = Alignment(horizontal='center')
+    ws['F35'].alignment = Alignment(horizontal='center')
+    ws['G35'].alignment = Alignment(horizontal='center')
+    ws['H34'].alignment = Alignment(horizontal='center',vertical='center',wrapText=True)
+    ws['I34'].alignment = Alignment(horizontal='center',vertical='center',wrapText=True)
+    ws['A34'].border = lBorder
+    ws['A35'].border = lBorder
+    ws['B34'].border = lBorder
+    ws['B35'].border = lBorder
+    ws['C34'].border = lBorder
+    ws['C35'].border = lBorder
+    ws['D34'].border = lBorder
+    ws['D35'].border = lBorder
+    ws['E34'].border = lBorder
+    ws['E35'].border = fullBorder
+    ws['F35'].border = fullBorder
+    ws['G35'].border = fullBorder
+    ws['H34'].border = lBorder
+    ws['H35'].border = lBorder
+    ws['I34'].border = rlBorder
+    ws['I35'].border = rlBorder
+    ws['B34'] = "Cur"
+    ws['C34'] = "Pot"
+    ws['D34'] = "Total"
+    ws['E34'] = "-- BONUSES --"
+    ws['E35'] = "Stat"
+    ws['F35'] = "Race"
+    ws['G35'] = "Misc"
+    ws['H34'] = "Dev. Pts"
+    ws['I34'] = "Power Pts"
+
+    ws['A36'] = "Strength"
+    ws['A36'].font = textFont
+    ws['A36'].border = fullBorder
+    ws['B36'] = char_dict['st_stat']
+    ws['B36'].alignment = Alignment(horizontal='center')
+    ws['B36'].font = textFont
+    ws['B36'].border = fullBorder
+    ws['C36'] = char_dict['st_pot']
+    ws['C36'].alignment = Alignment(horizontal='center')
+    ws['C36'].font = textFont
+    ws['C36'].border = fullBorder
+    ws['D36'] = char_dict['sttb']
+    ws['D36'].alignment = Alignment(horizontal='center')
+    ws['D36'].font = textFont
+    ws['D36'].border = fullBorder
+    ws['E36'] = stb
+    ws['E36'].alignment = Alignment(horizontal='center')
+    ws['E36'].font = textFont
+    ws['E36'].border = fullBorder
+    ws['F36'] = raceb[1]
+    ws['F36'].alignment = Alignment(horizontal='center')
+    ws['F36'].font = textFont
+    ws['F36'].border = fullBorder
+    ws['G36'] = char_dict['stmb']
+    ws['G36'].alignment = Alignment(horizontal='center')
+    ws['G36'].font = textFont
+    ws['G36'].border = fullBorder
+    ws['H36'].font = textFont
+    ws['H36'].border = fullBorder
+    ws['I36'].font = textFont
+    ws['I36'].border = fullBorder
+
+    ws['A37'] = "Quickness"
+    ws['A37'].font = textFont
+    ws['A37'].border = fullBorder
+    ws['B37'] = char_dict['qu_stat']
+    ws['B37'].alignment = Alignment(horizontal='center')
+    ws['B37'].font = textFont
+    ws['B37'].border = fullBorder
+    ws['C37'] = char_dict['qu_pot']
+    ws['C37'].alignment = Alignment(horizontal='center')
+    ws['C37'].font = textFont
+    ws['C37'].border = fullBorder
+    ws['D37'] = char_dict['qutb']
+    ws['D37'].alignment = Alignment(horizontal='center')
+    ws['D37'].font = textFont
+    ws['D37'].border = fullBorder
+    ws['E37'] = qub
+    ws['E37'].alignment = Alignment(horizontal='center')
+    ws['E37'].font = textFont
+    ws['E37'].border = fullBorder
+    ws['F37'] = raceb[2]
+    ws['F37'].alignment = Alignment(horizontal='center')
+    ws['F37'].font = textFont
+    ws['F37'].border = fullBorder
+    ws['G37'] = char_dict['qumb']
+    ws['G37'].alignment = Alignment(horizontal='center')
+    ws['G37'].font = textFont
+    ws['G37'].border = fullBorder
+    ws['H37'].font = textFont
+    ws['H37'].border = fullBorder
+    ws['I37'].font = textFont
+    ws['I37'].border = fullBorder
+
+    ws['A38'] = "Presence"
+    ws['A38'].font = textFont
+    ws['A38'].border = fullBorder
+    ws['B38'] = char_dict['pr_stat']
+    ws['B38'].alignment = Alignment(horizontal='center')
+    ws['B38'].font = textFont
+    ws['B38'].border = fullBorder
+    ws['C38'] = char_dict['pr_pot']
+    ws['C38'].alignment = Alignment(horizontal='center')
+    ws['C38'].font = textFont
+    ws['C38'].border = fullBorder
+    ws['D38'] = char_dict['prtb']
+    ws['D38'].alignment = Alignment(horizontal='center')
+    ws['D38'].font = textFont
+    ws['D38'].border = fullBorder
+    ws['E38'] = prb
+    ws['E38'].alignment = Alignment(horizontal='center')
+    ws['E38'].font = textFont
+    ws['E38'].border = fullBorder
+    ws['F38'] = raceb[3]
+    ws['F38'].alignment = Alignment(horizontal='center')
+    ws['F38'].font = textFont
+    ws['F38'].border = fullBorder
+    ws['G38'] = char_dict['prmb']
+    ws['G38'].alignment = Alignment(horizontal='center')
+    ws['G38'].font = textFont
+    ws['G38'].border = fullBorder
+    ws['H38'].font = textFont
+    ws['H38'].border = fullBorder
+    ws['I38'] = prpp
+    ws['I38'].alignment = Alignment(horizontal='center')
+    ws['I38'].font = textFont
+    ws['I38'].border = fullBorder
+
+    ws['A39'] = "Intuition"
+    ws['A39'].font = textFont
+    ws['A39'].border = fullBorder
+    ws['B39'] = char_dict['in_stat']
+    ws['B39'].alignment = Alignment(horizontal='center')
+    ws['B39'].font = textFont
+    ws['B39'].border = fullBorder
+    ws['C39'] = char_dict['in_pot']
+    ws['C39'].alignment = Alignment(horizontal='center')
+    ws['C39'].font = textFont
+    ws['C39'].border = fullBorder
+    ws['D39'] = char_dict['intb']
+    ws['D39'].alignment = Alignment(horizontal='center')
+    ws['D39'].font = textFont
+    ws['D39'].border = fullBorder
+    ws['E39'] = inb
+    ws['E39'].alignment = Alignment(horizontal='center')
+    ws['E39'].font = textFont
+    ws['E39'].border = fullBorder
+    ws['F39'] = raceb[4]
+    ws['F39'].alignment = Alignment(horizontal='center')
+    ws['F39'].font = textFont
+    ws['F39'].border = fullBorder
+    ws['G39'] = char_dict['inmb']
+    ws['G39'].alignment = Alignment(horizontal='center')
+    ws['G39'].font = textFont
+    ws['G39'].border = fullBorder
+    ws['H39'].font = textFont
+    ws['H39'].border = fullBorder
+    ws['I39'] = inpp
+    ws['I39'].alignment = Alignment(horizontal='center')
+    ws['I39'].font = textFont
+    ws['I39'].border = fullBorder
+
+    ws['A40'] = "Empathy"
+    ws['A40'].font = textFont
+    ws['A40'].border = fullBorder
+    ws['B40'] = char_dict['em_stat']
+    ws['B40'].alignment = Alignment(horizontal='center')
+    ws['B40'].font = textFont
+    ws['B40'].border = fullBorder
+    ws['C40'] = char_dict['em_pot']
+    ws['C40'].alignment = Alignment(horizontal='center')
+    ws['C40'].font = textFont
+    ws['C40'].border = fullBorder
+    ws['D40'] = char_dict['emtb']
+    ws['D40'].alignment = Alignment(horizontal='center')
+    ws['D40'].font = textFont
+    ws['D40'].border = fullBorder
+    ws['E40'] = emb
+    ws['E40'].alignment = Alignment(horizontal='center')
+    ws['E40'].font = textFont
+    ws['E40'].border = fullBorder
+    ws['F40'] = raceb[5]
+    ws['F40'].alignment = Alignment(horizontal='center')
+    ws['F40'].font = textFont
+    ws['F40'].border = fullBorder
+    ws['G40'] = char_dict['emmb']
+    ws['G40'].alignment = Alignment(horizontal='center')
+    ws['G40'].font = textFont
+    ws['G40'].border = fullBorder
+    ws['H40'].font = textFont
+    ws['H40'].border = fullBorder
+    ws['I40'] = empp
+    ws['I40'].alignment = Alignment(horizontal='center')
+    ws['I40'].font = textFont
+    ws['I40'].border = fullBorder
+
+    ws['A41'] = "Constitution"
+    ws['A41'].font = textFont
+    ws['A41'].border = fullBorder
+    ws['B41'] = char_dict['co_stat']
+    ws['B41'].alignment = Alignment(horizontal='center')
+    ws['B41'].font = textFont
+    ws['B41'].border = fullBorder
+    ws['C41'] = char_dict['co_pot']
+    ws['C41'].alignment = Alignment(horizontal='center')
+    ws['C41'].font = textFont
+    ws['C41'].border = fullBorder
+    ws['D41'] = char_dict['cotb']
+    ws['D41'].alignment = Alignment(horizontal='center')
+    ws['D41'].font = textFont
+    ws['D41'].border = fullBorder
+    ws['E41'] = cob
+    ws['E41'].alignment = Alignment(horizontal='center')
+    ws['E41'].font = textFont
+    ws['E41'].border = fullBorder
+    ws['F41'] = raceb[6]
+    ws['F41'].alignment = Alignment(horizontal='center')
+    ws['F41'].font = textFont
+    ws['F41'].border = fullBorder
+    ws['G41'] = char_dict['comb']
+    ws['G41'].alignment = Alignment(horizontal='center')
+    ws['G41'].font = textFont
+    ws['G41'].border = fullBorder
+    ws['H41'] = codp
+    ws['H41'].alignment = Alignment(horizontal='center')
+    ws['H41'].font = textFont
+    ws['H41'].border = fullBorder
+    ws['I41'].font = textFont
+    ws['I41'].border = fullBorder
+
+    ws['A42'] = "Agility"
+    ws['A42'].font = textFont
+    ws['A42'].border = fullBorder
+    ws['B42'] = char_dict['ag_stat']
+    ws['B42'].alignment = Alignment(horizontal='center')
+    ws['B42'].font = textFont
+    ws['B42'].border = fullBorder
+    ws['C42'] = char_dict['ag_pot']
+    ws['C42'].alignment = Alignment(horizontal='center')
+    ws['C42'].font = textFont
+    ws['C42'].border = fullBorder
+    ws['D42'] = char_dict['agtb']
+    ws['D42'].alignment = Alignment(horizontal='center')
+    ws['D42'].font = textFont
+    ws['D42'].border = fullBorder
+    ws['E42'] = agb
+    ws['E42'].alignment = Alignment(horizontal='center')
+    ws['E42'].font = textFont
+    ws['E42'].border = fullBorder
+    ws['F42'] = raceb[7]
+    ws['F42'].alignment = Alignment(horizontal='center')
+    ws['F42'].font = textFont
+    ws['F42'].border = fullBorder
+    ws['G42'] = char_dict['agmb']
+    ws['G42'].alignment = Alignment(horizontal='center')
+    ws['G42'].font = textFont
+    ws['G42'].border = fullBorder
+    ws['H42'] = agdp
+    ws['H42'].alignment = Alignment(horizontal='center')
+    ws['H42'].font = textFont
+    ws['H42'].border = fullBorder
+    ws['I42'].font = textFont
+    ws['I42'].border = fullBorder
+
+    ws['A43'] = "Self Discipline"
+    ws['A43'].font = textFont
+    ws['A43'].border = fullBorder
+    ws['B43'] = char_dict['sd_stat']
+    ws['B43'].alignment = Alignment(horizontal='center')
+    ws['B43'].font = textFont
+    ws['B43'].border = fullBorder
+    ws['C43'] = char_dict['sd_pot']
+    ws['C43'].alignment = Alignment(horizontal='center')
+    ws['C43'].font = textFont
+    ws['C43'].border = fullBorder
+    ws['D43'] = char_dict['sdtb']
+    ws['D43'].alignment = Alignment(horizontal='center')
+    ws['D43'].font = textFont
+    ws['D43'].border = fullBorder
+    ws['E43'] = sdb
+    ws['E43'].alignment = Alignment(horizontal='center')
+    ws['E43'].font = textFont
+    ws['E43'].border = fullBorder
+    ws['F43'] = raceb[8]
+    ws['F43'].alignment = Alignment(horizontal='center')
+    ws['F43'].font = textFont
+    ws['F43'].border = fullBorder
+    ws['G43'] = char_dict['sdmb']
+    ws['G43'].alignment = Alignment(horizontal='center')
+    ws['G43'].font = textFont
+    ws['G43'].border = fullBorder
+    ws['H43'] = sddp
+    ws['H43'].alignment = Alignment(horizontal='center')
+    ws['H43'].font = textFont
+    ws['H43'].border = fullBorder
+    ws['I43'].font = textFont
+    ws['I43'].border = fullBorder
+
+    ws['A44'] = "Memory"
+    ws['A44'].font = textFont
+    ws['A44'].border = fullBorder
+    ws['B44'] = char_dict['me_stat']
+    ws['B44'].alignment = Alignment(horizontal='center')
+    ws['B44'].font = textFont
+    ws['B44'].border = fullBorder
+    ws['C44'] = char_dict['me_pot']
+    ws['C44'].alignment = Alignment(horizontal='center')
+    ws['C44'].font = textFont
+    ws['C44'].border = fullBorder
+    ws['D44'] = char_dict['metb']
+    ws['D44'].alignment = Alignment(horizontal='center')
+    ws['D44'].font = textFont
+    ws['D44'].border = fullBorder
+    ws['E44'] = meb
+    ws['E44'].alignment = Alignment(horizontal='center')
+    ws['E44'].font = textFont
+    ws['E44'].border = fullBorder
+    ws['F44'] = raceb[9]
+    ws['F44'].alignment = Alignment(horizontal='center')
+    ws['F44'].font = textFont
+    ws['F44'].border = fullBorder
+    ws['G44'] = char_dict['memb']
+    ws['G44'].alignment = Alignment(horizontal='center')
+    ws['G44'].font = textFont
+    ws['G44'].border = fullBorder
+    ws['H44'] = medp
+    ws['H44'].alignment = Alignment(horizontal='center')
+    ws['H44'].font = textFont
+    ws['H44'].border = fullBorder
+    ws['I44'].font = textFont
+    ws['I44'].border = fullBorder
+
+    ws['A45'] = "Reasoning"
+    ws['A45'].font = textFont
+    ws['A45'].border = fullBorder
+    ws['B45'] = char_dict['re_stat']
+    ws['B45'].alignment = Alignment(horizontal='center')
+    ws['B45'].font = textFont
+    ws['B45'].border = fullBorder
+    ws['C45'] = char_dict['re_pot']
+    ws['C45'].alignment = Alignment(horizontal='center')
+    ws['C45'].font = textFont
+    ws['C45'].border = fullBorder
+    ws['D45'] = char_dict['retb']
+    ws['D45'].alignment = Alignment(horizontal='center')
+    ws['D45'].font = textFont
+    ws['D45'].border = fullBorder
+    ws['E45'] = reb
+    ws['E45'].alignment = Alignment(horizontal='center')
+    ws['E45'].font = textFont
+    ws['E45'].border = fullBorder
+    ws['F45'] = raceb[10]
+    ws['F45'].alignment = Alignment(horizontal='center')
+    ws['F45'].font = textFont
+    ws['F45'].border = fullBorder
+    ws['G45'] = char_dict['remb']
+    ws['G45'].alignment = Alignment(horizontal='center')
+    ws['G45'].font = textFont
+    ws['G45'].border = fullBorder
+    ws['H45'] = redp
+    ws['H45'].alignment = Alignment(horizontal='center')
+    ws['H45'].font = textFont
+    ws['H45'].border = fullBorder
+    ws['I45'].font = textFont
+    ws['I45'].border = fullBorder
+
+    ws['H46'].font = textFont
+    ws['H46'].border = fullBorder
+    ws['H46'] = tdp
+    ws['H46'].alignment = Alignment(horizontal='center')
+    ws['I46'] = tpp * char_dict['lvl']
+    ws['I46'].alignment = Alignment(horizontal='center')
+    ws['I46'].font = textFont
+    ws['I46'].border = fullBorder
+
+    # Save the file
+    #wb.save("sample.xlsx")
+    wb.save(charXlPath+"/"+charXlFile)
+export_to_excel()
