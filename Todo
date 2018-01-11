@@ -8,13 +8,17 @@
   b.) Add back to Show Character
   c.) Add to show character, current Skills only
 6.) Add back to character menu code
+7.) Add Height, Weight, Sex, Eyes and Hair
+8.) Add Armor types and stats
+9.) Add Experience
+10.) Add Languages
 
 Completed
 1.) Hit Points - Done
 2.) Add new skills breaks weapon cost assigning. - Done
   a.) Need way to push new skills into character json - Done
 3.) Move weapon assignment into character creation
-4.) Round tempdp from dp at character creation time, set to interger
+4.) Round tempdp from dp at character creation time, set to integer
 5.) Display skills and total after adding ranks - Done
   a.) Level bonuses - Done
   b.) Finish updating pro.csv with level bonuses - Done
