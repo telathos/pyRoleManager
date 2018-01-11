@@ -208,4 +208,8 @@ def show_char():
     print 96 * "-"
     print
     print
-    
+
+def lang_set():
+    with open(cfgData.cfg_dir+"/lang.csv","r") as la:
+        #lan = json.load(la)
+    #print lan

@@ -332,6 +332,7 @@ def export_to_excel():
 
     ws['A15'] = "Minimum:"
     ws['E15'] = "Base Hits:"
+    ws['F15'] = char_dict['hp_base']
     ws['A15'].font = textFont
     ws['B15'].font = textFont
     ws['E15'].font = textFont
