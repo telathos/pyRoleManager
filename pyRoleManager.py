@@ -542,6 +542,62 @@ def create_char():
 ## End of create_char function ##
 #################################
 
+def lang_set():
+    p=charMenu.char_menu()
+    menu_len=len(p)
+    while True:
+        s=int(raw_input("Select Character: "))
+        if s >=1 and s<=menu_len:
+            break
+        else:
+            print "Invalid Selection! Select a character from the list"
+
+    # Open the file
+    char_dict={}
+    s-=1
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+        char_dict = json.load(cf)
+    with open(cfgData.cfg_dir+"/lang.csv","r") as la:
+    #with open("c:/pyrolemanager/cfg/lang.csv","r") as la:
+        lan = la.read().splitlines()
+        # Pull number of languages from race.csv
+    num_of_lang=0
+    with open(cfgData.cfg_dir+"/race.csv","r") as rf:
+        racelist = rf.read().splitlines()
+    # loop thru race list to find a matching race
+    f=0
+    while f < len(racelist):
+        x = racelist[f].split(',')
+        f+=1
+        if x[0] == char_dict['race']:
+            print x[0]
+            num_of_lang = x[16]
+            print num_of_lang,":lang"
+
+    lanlist=[]
+    while len(lanlist)< int(num_of_lang):
+        num=1
+        for y in lan:
+            print "{:<2}.) {:20}".format(num,y)
+            num+=1
+        lanch = int(raw_input("Select Language: "))
+
+        lanlist.append(lan[lanch-1])
+        lan.pop(lanch-1)
+    # Add languages to dictionary
+    lcnt=1
+    while lcnt <= len(lanlist):
+        y="lang"+`lcnt`
+        char_dict[`y`] = lanlist[lcnt-1]
+        lcnt+=1
+    # Open character file to write out data
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
+        f.write(json.dumps(char_dict))
+
+#################
+# End of lang_set
+#################
+
 mb=""
 setstmb,setqumb,setprmb,setinmb,setemmb=0,0,0,0,0
 setcomb,setagmb,setsdmb,setmemb,setremb=0,0,0,0,0
@@ -795,9 +851,8 @@ while loop:          ## While loop which will keep going until loop = False
         clear_screen()
         rl.select_skills()
     elif choice=="7":
-        import skills
         clear_screen()
-        skills.select_skills()
+        lang_set()
     elif choice=="9":
         charData.new_skill_check()
     elif choice=="x":
