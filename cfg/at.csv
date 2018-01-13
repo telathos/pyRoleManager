@@ -1,0 +1,21 @@
+AT,Base,Desc,Min Man,Max Man,Miss Pen,Qu Pen,arm greaves,leg greaves
+1,Cloth,Skin,0,0,0,0,,
+2,Cloth,Robes,0,0,0,0,,
+3,Cloth,Light Hide,0,0,0,0,,
+4,Cloth,Heavy Hide,0,0,0,0,,
+5,Soft Lther,Leather Jerkin,0,0,0,0,,
+6,Soft Lther,Leather Coat,0,-20,5,0,Leather,Leather
+7,Soft Lther,Reinforced Leather Coat,-10,-40,15,10,Leather,Leather
+8,Soft Lther,Reinforced Full-Length Leather Coat,-15,-50,15,15,Leather,Leather
+9,Rigid Lthr,Leather Breastplate,-5,-50,0,0,,
+10,Rigid Lthr,Leather Breastplate,-10,-70,10,5,Leather,Leather
+11,Rigid Lthr,Half-Hide Plate,-15,-90,20,15,Leather,Leather
+12,Rigid Lthr,Full-Hide Plate,-15,-110,30,15,Leather,Leather
+13,Chain,Chain Shirt,-10,-70,0,5,,
+14,Chain,Chain Shirt,-15,-90,10,10,Chain,Chain
+15,Chain,Full Chain,-25,-120,20,20,Chain,Chain
+16,Chain,Chain Hauberk,-25,-130,20,20,Chain,Chain
+17,Plate,Metal Breastplate,-15,-110,0,10,,
+18,Plate,Metal Breastplate,-20,-110,10,20,Plate,Plate
+19,Plate,Half Plate,-35,-150,30,30,,
+20,Plate,Full Plate,-45,-165,40,40,,

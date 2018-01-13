@@ -40,9 +40,11 @@ def print_menu():       ## Your menu design here
     print 30 * "-" , "MENU" , 30 * "-"
     print "1. Create New Character"
     print "2. Show Character"
-    print "3. Misc Stat Bonus"
-    print "4. Misc Skill Bonus"
-    print "5. Raise Character Level"
+    print "3. Add Misc Stat Bonus"
+    print "4. Add Misc Skill Bonus"
+    print "5. Add Languages to Character"
+    print "6. Assign Armor Type to Character"
+    print "7. Raise Character Level"
     #print "6. Delete Character"
     #print "7. Skills"
     print ""
@@ -360,28 +362,50 @@ def create_char():
     re_pot_in=int(raw_input('Potential Roll (RE): '))
     re_pot=cfgData.pot_calc(re_stat,re_pot_in)
     print 10 * "-"
+    print
+    print 20 * "="
+    x,s=0,1
+    while x<len(cfgData.sexlist):
+        print "|{:<2}.) {:10}".format(s,cfgData.sexlist[x])
+        x+=1
+        s+=1
+    print 20 * "="
+    x,s=0,1
+    while x<len(cfgData.hairlist):
+        print "|{:<2}.) {:10}".format(s,cfgData.hairlist[x])
+        x+=1
+        s+=1
+    print 20 * "="
+    x,s=0,1
+    while x<len(cfgData.eyelist):
+        print "|{:<2}.) {:10}".format(s,cfgData.eyelist[x])
+        x+=1
+        s+=1
+    print 20 * "="
+    sexch = int(raw_input("Select Sex: "))
+    sex = cfgData.sexlist[sexch-1]
+    char['gender'] = sex
+    hairch = int(raw_input("Select Hair color: "))
+    hair = cfgData.hairlist[hairch-1]
+    char['hair'] = hair
+    eyech = int(raw_input("Select Eye color: "))
+    eye = cfgData.eyelist[eyech-1]
+    char['eye'] = eye
+    age = int(raw_input("Character's Age: "))
+    char['age'] = age
+    print
 
     # Load data into dictionary for saving of the character
-    char['st_stat']=st_stat
-    char['st_pot']=st_pot
-    char['qu_stat']=qu_stat
-    char['qu_pot']=qu_pot
-    char['pr_stat']=pr_stat
-    char['pr_pot']=pr_pot
-    char['in_stat']=in_stat
-    char['in_pot']=in_pot
-    char['em_stat']=em_stat
-    char['em_pot']=em_pot
-    char['co_stat']=co_stat
-    char['co_pot']=co_pot
-    char['ag_stat']=ag_stat
-    char['ag_pot']=ag_pot
-    char['sd_stat']=sd_stat
-    char['sd_pot']=sd_pot
-    char['me_stat']=me_stat
-    char['me_pot']=me_pot
-    char['re_stat']=re_stat
-    char['re_pot']=re_pot
+    char['st_stat'],char['st_pot']=st_stat,st_pot
+    char['qu_stat'],char['qu_pot']=qu_stat,qu_pot
+    char['pr_stat'],char['pr_pot']=pr_stat,pr_pot
+    char['in_stat'],char['in_pot']=in_stat,in_pot
+    char['em_stat'],char['em_pot']=em_stat,em_pot
+    char['co_stat'],char['co_pot']=co_stat,co_pot
+    char['ag_stat'],char['ag_pot']=ag_stat,ag_pot
+    char['sd_stat'],char['sd_pot']=sd_stat,sd_pot
+    char['me_stat'],char['me_pot']=me_stat,me_pot
+    char['re_stat'],char['re_pot']=re_stat,re_pot
     char['lvl']=0
     char['realm']=plist[pro_ch][8]
     char['stmb'],char['qumb'],char['emmb'],char['inmb'],char['prmb']=0,0,0,0,0
@@ -832,7 +856,7 @@ loop=True
 
 while loop:          ## While loop which will keep going until loop = False
     print_menu()    ## Displays menu
-    choice = raw_input("Enter your choice [1-5]: ")
+    choice = raw_input("Enter your choice [1-7]: ")
     print ""
     if choice=="1":
         clear_screen()
@@ -849,10 +873,13 @@ while loop:          ## While loop which will keep going until loop = False
         rl.skill_mb_bonus()
     elif choice=="5":
         clear_screen()
-        rl.select_skills()
+        lang_set()
+    elif choice=="6":
+        clear_screen()
+        charData.assign_at()
     elif choice=="7":
         clear_screen()
-        lang_set()
+        rl.select_skills()
     elif choice=="9":
         charData.new_skill_check()
     elif choice=="x":

@@ -55,6 +55,45 @@ def new_skill_check():
                 f.write(json.dumps(char_dict))
             i+=1
 
+def assign_at():
+    p=charMenu.char_menu()
+    menu_len=len(p)
+    while True:
+        s=int(raw_input("Select Character: "))
+        if s >=1 and s<=menu_len:
+            break
+        else:
+            print "Invalid Selection! Select a character from the list"
+
+    # Open the character file
+    char_dict={}
+    s-=1
+    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+        char_dict = json.load(cf)
+
+    # Open Armor Type file
+    with open(cfgData.cfg_dir+"/at.csv","r") as atl:
+        atlist = atl.read().splitlines()
+
+    print 85 * "="
+    print "|    |                                     | Minimum  | Maximum  | Missile|          |"
+    print "|    |                                     | Maneuver | Maneuver | Attack | Quickness|"
+    print "| AT | Description                         |   Mod.   |   Mod.   | Penalty| Penalty  |"
+    print 85 * "-"
+    for a in range(1,21,1):
+        t = atlist[a].split(',')
+        print "| {:<2} | {:35} | {:^8} | {:^8} | {:^6} | {:^8} |".format(t[0],t[2],t[3],t[4],t[5],t[6])
+    print 85 * "-"
+    print
+
+    atloop = True
+    while atloop:
+        at = int(raw_input("Armor Type [1-20]: "))
+        if not at>=1 or not at<=20:
+            print "Wrong Armor Type Selection. Please try again.. "
+        else:
+            atloop=False
+
 def show_char():
     p=charMenu.char_menu()
     menu_len=len(p)

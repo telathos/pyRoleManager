@@ -179,8 +179,11 @@ def export_to_excel():
     ws['H3'].font = textFont
 
     ws['A4'] = "Sex:"
+    ws['B4'] = char_dict['gender']
     ws['C4'] = "Age:"
+    ws['D4'] = char_dict['age']
     ws['F4'] = "Base Rate:"
+    ws['F4'].alignment = Alignment(horizontal='right')
     ws['A4'].border = lBorder
     ws['I4'].border = rBorder
     ws['A4'].font = textFont
@@ -203,7 +206,9 @@ def export_to_excel():
     ws['G5'].font = textFont
 
     ws['A6'] = "Hair:"
+    ws['B6'] = char_dict['hair']
     ws['C6'] = "Eyes:"
+    ws['D6'] = char_dict['eye']
     ws['A6'].border = lBorder
     ws['I6'].border = rBorder
     ws['A6'].font = textFont
