@@ -612,7 +612,7 @@ def lang_set():
     lcnt=1
     while lcnt <= len(lanlist):
         y="lang"+`lcnt`
-        char_dict[`y`] = lanlist[lcnt-1]
+        char_dict[y] = lanlist[lcnt-1]
         lcnt+=1
     # Open character file to write out data
     with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:

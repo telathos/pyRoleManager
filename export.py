@@ -132,6 +132,7 @@ def export_to_excel():
     rlBorder = Border(left=Side(style='thin'), right=Side(style='thin'))
     rbBorder = Border(bottom=Side(style='thin'), right=Side(style='thin'))
     lbBorder = Border(bottom=Side(style='thin'), left=Side(style='thin'))
+    tlBorder = Border(top=Side(style='thin'), left=Side(style='thin'))
 
     # Build Excel file
     ws.merge_cells('A1:I1')
@@ -338,6 +339,7 @@ def export_to_excel():
     ws['A15'] = "Minimum:"
     ws['E15'] = "Base Hits:"
     ws['F15'] = char_dict['hp_base']
+    ws['F15'].alignment = Alignment(horizontal='center')
     ws['A15'].font = textFont
     ws['B15'].font = textFont
     ws['E15'].font = textFont
@@ -358,12 +360,14 @@ def export_to_excel():
     ws['A17'] = "Languages"
     ws['A17'].font = textBoldFont
     ws['A17'].alignment = Alignment(horizontal='center')
-    ws['A17'].border = tBorder
+    ws['A17'].border = tlBorder
     ws.merge_cells('A17:A18')
     ws['B17'].border = tBorder
+    ws.merge_cells('C17:D17')
     ws['C17'] = "-- Rank --"
     ws['C17'].font = textFont
     ws['C17'].border = tlrBorder
+    ws['C17'].alignment = Alignment(horizontal='center')
     ws['D17'].border = tBorder
     ws['E17'] = "Magical Statistics"
     ws.merge_cells('E17:H17')
@@ -378,10 +382,10 @@ def export_to_excel():
     ws['C18'] = "Spoken"
     ws['D18'] = "Written"
     ws['E18'] = "Realm:"
-    ws['A18'].border = bBorder
+    ws['A18'].border = lbBorder
     ws['B18'].border = bBorder
-    ws['C18'].border = blrBorder
-    ws['D18'].border = blrBorder
+    ws['C18'].border = fullBorder
+    ws['D18'].border = fullBorder
     ws['E18'].border = lBorder
     ws['F18'] = realm
     ws['H18'].border = rBorder
@@ -396,6 +400,7 @@ def export_to_excel():
 
     ws.merge_cells('A19:B19')
     ws['A19'].font = textFont
+    ws['A19'] = char_dict['lang1']
     ws['E19'] = "Stat Bonus:"
     ws['A19'].border = lBorder
     ws['C19'].border = fullBorder
@@ -409,6 +414,7 @@ def export_to_excel():
     ws['F19'].font = textFont
 
     ws.merge_cells('A20:B20')
+    ws['A20'] = char_dict['lang2']
     ws['A20'].font = textFont
     ws['E20'] = "Lvl Bonus:"
     ws['A20'].border = lBorder
@@ -422,7 +428,10 @@ def export_to_excel():
     ws['E20'].font = textFont
     ws['F20'].font = textFont
 
+    if char_dict.has_key("lang3") == False:
+        char_dict['lang3'] = ""
     ws.merge_cells('A21:B21')
+    ws['A21'] = char_dict['lang3']
     ws['A21'].font = textFont
     ws['E21'] = "Resistance Roll Modifiers"
     ws.merge_cells('E21:I21')
@@ -437,7 +446,10 @@ def export_to_excel():
     ws['H21'].border = tbBorder
     ws['I21'].border = tbrBorder
 
+    if char_dict.has_key('lang4') == False:
+        char_dict['lang4'] = ""
     ws.merge_cells('A22:B22')
+    ws['A22'] = char_dict['lang4']
     ws['A22'].font = textFont
     ws['C22'].font = textFont
     ws['D22'].font = textFont
@@ -455,7 +467,10 @@ def export_to_excel():
     ws['D22'].border = fullBorder
     ws['I22'].border = rBorder
 
+    if char_dict.has_key('lang5') == False:
+        char_dict['lang5'] = ""
     ws.merge_cells('A23:B23')
+    ws['A23'] = char_dict['lang5']
     ws['A23'].font = textFont
     ws['C23'].font = textFont
     ws['D23'].font = textFont
@@ -473,7 +488,10 @@ def export_to_excel():
     ws['D23'].border = fullBorder
     ws['I23'].border = rBorder
 
+    if char_dict.has_key('lang6') == False:
+        char_dict['lang6'] = ""
     ws.merge_cells('A24:B24')
+    ws['A24'] = char_dict['lang6']
     ws['A24'].font = textFont
     ws['C24'].font = textFont
     ws['D24'].font = textFont
