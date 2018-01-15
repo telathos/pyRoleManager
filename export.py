@@ -1,5 +1,5 @@
 from openpyxl import Workbook, load_workbook
-from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
+from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font, numbers
 import charMenu
 import cfgData
 import json
@@ -73,6 +73,7 @@ def export_to_excel():
     if char_dict['realm'] == "NULL":
         prpp,inpp,empp=0.0,0.0,0.0
         tpp=0.0
+        realm="Non"
     if char_dict['realm'] == "PR":
         inpp,empp=0.0,0.0
         tpp=prpp
@@ -102,15 +103,23 @@ def export_to_excel():
         realm="Arcane"
 
     wb = Workbook()
+    wb.create_sheet(index=1, title='Skills')
     #wb = load_workbook(charXlPath+"/"+charXlFile)
     # grab the active worksheet
     ws = wb.active
+    sheet = wb.active
+    sheet.title = 'Character'
 
     # Data can be assigned directly to cells
     ws.column_dimensions['A'].width = 14.0
     ws.column_dimensions['B'].width = 8.25
     ws.column_dimensions['C'].width = 8.25
     ws.column_dimensions['E'].width = 10.85
+
+    # Define colors
+    gray = PatternFill("solid",fgColor="969696")
+
+    # Define number formatting
 
     # Define fonts
     textFont = Font(name='Arial',size=10)
@@ -157,6 +166,7 @@ def export_to_excel():
     ws['G2'] = "Race:"
     ws['F2'] = char_dict['lvl']
     ws['H2'] = char_dict['race']
+    ws['F2'].alignment = Alignment(horizontal='left')
     ws['A2'].border = lBorder
     ws['I2'].border = rBorder
     ws['A2'].font = textFont
@@ -167,9 +177,12 @@ def export_to_excel():
     ws['H2'].font = textFont
 
     ws['A3'] = "Profession:"
+    ws.merge_cells('B3:C3')
     ws['B3'] = char_dict['pro_name']
     ws['E3'] = "Exp:"
     ws['G3'] = "Next Lvl:"
+    ws['F3'].number_format = "#,###"
+    ws['H3'].number_format = "#,###"
     ws['A3'].border = lBorder
     ws['I3'].border = rBorder
     ws['A3'].font = textFont
@@ -184,6 +197,7 @@ def export_to_excel():
     ws['C4'] = "Age:"
     ws['D4'] = char_dict['age']
     ws['F4'] = "Base Rate:"
+    ws['D4'].alignment = Alignment(horizontal='center')
     ws['F4'].alignment = Alignment(horizontal='right')
     ws['A4'].border = lBorder
     ws['I4'].border = rBorder
@@ -237,11 +251,12 @@ def export_to_excel():
 
     ws['A8'] = "Armor Worn:"
     ws['E8'] = "Quickness:"
-    ws['F8'] = qub
+    ws['F8'] = int(qub)
     ws['F8'].alignment = Alignment(horizontal='center')
     ws['H8'] = "Total DB:"
     ws['A8'].font = textFont
     ws.merge_cells('B8:C8')
+    ws['I8'] = '=SUM(F8:F11)'
     ws['B8'].font = textFont
     ws['E8'].font = textFont
     ws['F8'].font = textFont
@@ -251,6 +266,7 @@ def export_to_excel():
     ws['E8'].border = lBorder
     ws['I8'].border = fullBorder
     ws['H8'].alignment = Alignment(horizontal='right')
+    ws['I8'].alignment = Alignment(horizontal='center')
 
     ws['A9'] = "Armor Type:"
     ws['E9'] = "Shield:"
@@ -335,7 +351,9 @@ def export_to_excel():
     ws['E14'].border = lBorder
     ws['H14'].border = rBorder
     ws['I14'].border = rBorder
-
+    ws['H14'] = char_dict['hitdie']
+    ws['H14'].alignment = Alignment(horizontal='center')
+    
     ws['A15'] = "Minimum:"
     ws['E15'] = "Base Hits:"
     ws['F15'] = char_dict['hp_base']
@@ -398,6 +416,8 @@ def export_to_excel():
     ws['C18'].alignment = Alignment(horizontal='center')
     ws['D18'].alignment = Alignment(horizontal='center')
 
+    if char_dict.has_key("lang1") == False:
+        char_dict['lang1'] = ""
     ws.merge_cells('A19:B19')
     ws['A19'].font = textFont
     ws['A19'] = char_dict['lang1']
@@ -413,6 +433,8 @@ def export_to_excel():
     ws['E19'].font = textFont
     ws['F19'].font = textFont
 
+    if char_dict.has_key("lang2") == False:
+        char_dict['lang2'] = ""
     ws.merge_cells('A20:B20')
     ws['A20'] = char_dict['lang2']
     ws['A20'].font = textFont
@@ -449,6 +471,10 @@ def export_to_excel():
     if char_dict.has_key('lang4') == False:
         char_dict['lang4'] = ""
     ws.merge_cells('A22:B22')
+    ws['F22'] = char_dict['essmod']
+    ws['I22'] = char_dict['sdtb']
+    ws['F22'].alignment = Alignment(horizontal='center')
+    ws['I22'].alignment = Alignment(horizontal='center')
     ws['A22'] = char_dict['lang4']
     ws['A22'].font = textFont
     ws['C22'].font = textFont
@@ -470,6 +496,10 @@ def export_to_excel():
     if char_dict.has_key('lang5') == False:
         char_dict['lang5'] = ""
     ws.merge_cells('A23:B23')
+    ws['F23'] = char_dict['mentmod']
+    ws['I23'] = char_dict['poimod']
+    ws['F23'].alignment = Alignment(horizontal='center')
+    ws['I23'].alignment = Alignment(horizontal='center')
     ws['A23'] = char_dict['lang5']
     ws['A23'].font = textFont
     ws['C23'].font = textFont
@@ -491,6 +521,10 @@ def export_to_excel():
     if char_dict.has_key('lang6') == False:
         char_dict['lang6'] = ""
     ws.merge_cells('A24:B24')
+    ws['F24'] = char_dict['chanmod']
+    ws['I24'] = char_dict['dismod']
+    ws['F24'].alignment = Alignment(horizontal='center')
+    ws['I24'].alignment = Alignment(horizontal='center')
     ws['A24'] = char_dict['lang6']
     ws['A24'].font = textFont
     ws['C24'].font = textFont
@@ -630,11 +664,11 @@ def export_to_excel():
     ws['D36'].alignment = Alignment(horizontal='center')
     ws['D36'].font = textFont
     ws['D36'].border = fullBorder
-    ws['E36'] = stb
+    ws['E36'] = int(stb)
     ws['E36'].alignment = Alignment(horizontal='center')
     ws['E36'].font = textFont
     ws['E36'].border = fullBorder
-    ws['F36'] = raceb[1]
+    ws['F36'] = int(raceb[1])
     ws['F36'].alignment = Alignment(horizontal='center')
     ws['F36'].font = textFont
     ws['F36'].border = fullBorder
@@ -646,6 +680,8 @@ def export_to_excel():
     ws['H36'].border = fullBorder
     ws['I36'].font = textFont
     ws['I36'].border = fullBorder
+    ws['H36'].fill = gray
+    ws['I36'].fill = gray
 
     ws['A37'] = "Quickness"
     ws['A37'].font = textFont
@@ -662,11 +698,11 @@ def export_to_excel():
     ws['D37'].alignment = Alignment(horizontal='center')
     ws['D37'].font = textFont
     ws['D37'].border = fullBorder
-    ws['E37'] = qub
+    ws['E37'] = int(qub)
     ws['E37'].alignment = Alignment(horizontal='center')
     ws['E37'].font = textFont
     ws['E37'].border = fullBorder
-    ws['F37'] = raceb[2]
+    ws['F37'] = int(raceb[2])
     ws['F37'].alignment = Alignment(horizontal='center')
     ws['F37'].font = textFont
     ws['F37'].border = fullBorder
@@ -678,6 +714,8 @@ def export_to_excel():
     ws['H37'].border = fullBorder
     ws['I37'].font = textFont
     ws['I37'].border = fullBorder
+    ws['H37'].fill = gray
+    ws['I37'].fill = gray
 
     ws['A38'] = "Presence"
     ws['A38'].font = textFont
@@ -694,11 +732,11 @@ def export_to_excel():
     ws['D38'].alignment = Alignment(horizontal='center')
     ws['D38'].font = textFont
     ws['D38'].border = fullBorder
-    ws['E38'] = prb
+    ws['E38'] = int(prb)
     ws['E38'].alignment = Alignment(horizontal='center')
     ws['E38'].font = textFont
     ws['E38'].border = fullBorder
-    ws['F38'] = raceb[3]
+    ws['F38'] = int(raceb[3])
     ws['F38'].alignment = Alignment(horizontal='center')
     ws['F38'].font = textFont
     ws['F38'].border = fullBorder
@@ -712,6 +750,8 @@ def export_to_excel():
     ws['I38'].alignment = Alignment(horizontal='center')
     ws['I38'].font = textFont
     ws['I38'].border = fullBorder
+    ws['I38'].number_format = '#,##0.0'
+    ws['H38'].fill = gray
 
     ws['A39'] = "Intuition"
     ws['A39'].font = textFont
@@ -728,11 +768,11 @@ def export_to_excel():
     ws['D39'].alignment = Alignment(horizontal='center')
     ws['D39'].font = textFont
     ws['D39'].border = fullBorder
-    ws['E39'] = inb
+    ws['E39'] = int(inb)
     ws['E39'].alignment = Alignment(horizontal='center')
     ws['E39'].font = textFont
     ws['E39'].border = fullBorder
-    ws['F39'] = raceb[4]
+    ws['F39'] = int(raceb[4])
     ws['F39'].alignment = Alignment(horizontal='center')
     ws['F39'].font = textFont
     ws['F39'].border = fullBorder
@@ -746,6 +786,8 @@ def export_to_excel():
     ws['I39'].alignment = Alignment(horizontal='center')
     ws['I39'].font = textFont
     ws['I39'].border = fullBorder
+    ws['I39'].number_format = '#,##0.0'
+    ws['H39'].fill = gray
 
     ws['A40'] = "Empathy"
     ws['A40'].font = textFont
@@ -762,11 +804,11 @@ def export_to_excel():
     ws['D40'].alignment = Alignment(horizontal='center')
     ws['D40'].font = textFont
     ws['D40'].border = fullBorder
-    ws['E40'] = emb
+    ws['E40'] = int(emb)
     ws['E40'].alignment = Alignment(horizontal='center')
     ws['E40'].font = textFont
     ws['E40'].border = fullBorder
-    ws['F40'] = raceb[5]
+    ws['F40'] = int(raceb[5])
     ws['F40'].alignment = Alignment(horizontal='center')
     ws['F40'].font = textFont
     ws['F40'].border = fullBorder
@@ -780,6 +822,8 @@ def export_to_excel():
     ws['I40'].alignment = Alignment(horizontal='center')
     ws['I40'].font = textFont
     ws['I40'].border = fullBorder
+    ws['I40'].number_format = '#,##0.0'
+    ws['H40'].fill = gray
 
     ws['A41'] = "Constitution"
     ws['A41'].font = textFont
@@ -796,11 +840,11 @@ def export_to_excel():
     ws['D41'].alignment = Alignment(horizontal='center')
     ws['D41'].font = textFont
     ws['D41'].border = fullBorder
-    ws['E41'] = cob
+    ws['E41'] = int(cob)
     ws['E41'].alignment = Alignment(horizontal='center')
     ws['E41'].font = textFont
     ws['E41'].border = fullBorder
-    ws['F41'] = raceb[6]
+    ws['F41'] = int(raceb[6])
     ws['F41'].alignment = Alignment(horizontal='center')
     ws['F41'].font = textFont
     ws['F41'].border = fullBorder
@@ -808,12 +852,14 @@ def export_to_excel():
     ws['G41'].alignment = Alignment(horizontal='center')
     ws['G41'].font = textFont
     ws['G41'].border = fullBorder
-    ws['H41'] = codp
+    ws['H41'] = float(codp)
     ws['H41'].alignment = Alignment(horizontal='center')
     ws['H41'].font = textFont
     ws['H41'].border = fullBorder
+    ws['H41'].number_format = '#,##0.0'
     ws['I41'].font = textFont
     ws['I41'].border = fullBorder
+    ws['I41'].fill = gray
 
     ws['A42'] = "Agility"
     ws['A42'].font = textFont
@@ -830,11 +876,11 @@ def export_to_excel():
     ws['D42'].alignment = Alignment(horizontal='center')
     ws['D42'].font = textFont
     ws['D42'].border = fullBorder
-    ws['E42'] = agb
+    ws['E42'] = int(agb)
     ws['E42'].alignment = Alignment(horizontal='center')
     ws['E42'].font = textFont
     ws['E42'].border = fullBorder
-    ws['F42'] = raceb[7]
+    ws['F42'] = int(raceb[7])
     ws['F42'].alignment = Alignment(horizontal='center')
     ws['F42'].font = textFont
     ws['F42'].border = fullBorder
@@ -842,12 +888,14 @@ def export_to_excel():
     ws['G42'].alignment = Alignment(horizontal='center')
     ws['G42'].font = textFont
     ws['G42'].border = fullBorder
-    ws['H42'] = agdp
+    ws['H42'] = float(agdp)
     ws['H42'].alignment = Alignment(horizontal='center')
     ws['H42'].font = textFont
     ws['H42'].border = fullBorder
+    ws['H42'].number_format = '#,##0.0'
     ws['I42'].font = textFont
     ws['I42'].border = fullBorder
+    ws['I42'].fill = gray
 
     ws['A43'] = "Self Discipline"
     ws['A43'].font = textFont
@@ -864,11 +912,11 @@ def export_to_excel():
     ws['D43'].alignment = Alignment(horizontal='center')
     ws['D43'].font = textFont
     ws['D43'].border = fullBorder
-    ws['E43'] = sdb
+    ws['E43'] = int(sdb)
     ws['E43'].alignment = Alignment(horizontal='center')
     ws['E43'].font = textFont
     ws['E43'].border = fullBorder
-    ws['F43'] = raceb[8]
+    ws['F43'] = int(raceb[8])
     ws['F43'].alignment = Alignment(horizontal='center')
     ws['F43'].font = textFont
     ws['F43'].border = fullBorder
@@ -876,12 +924,14 @@ def export_to_excel():
     ws['G43'].alignment = Alignment(horizontal='center')
     ws['G43'].font = textFont
     ws['G43'].border = fullBorder
-    ws['H43'] = sddp
+    ws['H43'] = float(sddp)
     ws['H43'].alignment = Alignment(horizontal='center')
     ws['H43'].font = textFont
     ws['H43'].border = fullBorder
+    ws['H43'].number_format = '#,##0.0'
     ws['I43'].font = textFont
     ws['I43'].border = fullBorder
+    ws['I43'].fill = gray
 
     ws['A44'] = "Memory"
     ws['A44'].font = textFont
@@ -898,11 +948,11 @@ def export_to_excel():
     ws['D44'].alignment = Alignment(horizontal='center')
     ws['D44'].font = textFont
     ws['D44'].border = fullBorder
-    ws['E44'] = meb
+    ws['E44'] = int(meb)
     ws['E44'].alignment = Alignment(horizontal='center')
     ws['E44'].font = textFont
     ws['E44'].border = fullBorder
-    ws['F44'] = raceb[9]
+    ws['F44'] = int(raceb[9])
     ws['F44'].alignment = Alignment(horizontal='center')
     ws['F44'].font = textFont
     ws['F44'].border = fullBorder
@@ -910,12 +960,14 @@ def export_to_excel():
     ws['G44'].alignment = Alignment(horizontal='center')
     ws['G44'].font = textFont
     ws['G44'].border = fullBorder
-    ws['H44'] = medp
+    ws['H44'] = float(medp)
     ws['H44'].alignment = Alignment(horizontal='center')
     ws['H44'].font = textFont
     ws['H44'].border = fullBorder
+    ws['H44'].number_format = '#,##0.0'
     ws['I44'].font = textFont
     ws['I44'].border = fullBorder
+    ws['I44'].fill = gray
 
     ws['A45'] = "Reasoning"
     ws['A45'].font = textFont
@@ -932,11 +984,11 @@ def export_to_excel():
     ws['D45'].alignment = Alignment(horizontal='center')
     ws['D45'].font = textFont
     ws['D45'].border = fullBorder
-    ws['E45'] = reb
+    ws['E45'] = int(reb)
     ws['E45'].alignment = Alignment(horizontal='center')
     ws['E45'].font = textFont
     ws['E45'].border = fullBorder
-    ws['F45'] = raceb[10]
+    ws['F45'] = int(raceb[10])
     ws['F45'].alignment = Alignment(horizontal='center')
     ws['F45'].font = textFont
     ws['F45'].border = fullBorder
@@ -944,12 +996,14 @@ def export_to_excel():
     ws['G45'].alignment = Alignment(horizontal='center')
     ws['G45'].font = textFont
     ws['G45'].border = fullBorder
-    ws['H45'] = redp
+    ws['H45'] = float(redp)
     ws['H45'].alignment = Alignment(horizontal='center')
     ws['H45'].font = textFont
     ws['H45'].border = fullBorder
+    ws['H45'].number_format = '#,##0.0'
     ws['I45'].font = textFont
     ws['I45'].border = fullBorder
+    ws['I45'].fill = gray
 
     ws['H46'].font = textFont
     ws['H46'].border = fullBorder

@@ -451,12 +451,31 @@ def create_char():
     ###################
     with open(cfgData.cfg_dir+"/race.csv") as r:
         racechart =r.read().splitlines()
-    r.close()
     rc=[]
 
     for x in racechart:
         rc.append(x.split(","))
 
+    f=0
+    while f < len(racechart):
+        x3 = racechart[f].split(',')
+        f+=1
+        if x3[0] == char['race']:
+            '''
+            print x3[0]
+            print x3[11],":Essence"
+            print x3[12],":Channeling"
+            print x3[13],":Mentalism"
+            print x3[14],":Poison"
+            print x3[15],":Disease"
+            print x3[17]
+            '''
+            essModBase = x3[11]
+            chanModBase = x3[12]
+            mentModBase = x3[13]
+            poiModBase = x3[14]
+            disModBase = x3[15]
+            HitDie = x3[17]
     # Race Bonus
     for x2 in rc:
         if x2[0] == char['race']:
@@ -494,6 +513,14 @@ def create_char():
     char['metb']=metb
     char['retb']=retb
 
+    # Set Resistance Roll Modifiers
+    char['essmod'] = int(essModBase)+int(emtb)
+    char['chanmod'] = int(chanModBase)+int(intb)
+    char['mentmod'] = int(mentModBase)+int(prtb)
+    char['poimod'] = int(poiModBase)+int(cotb)
+    char['dismod'] = int(disModBase)+int(cotb)
+    char['hitdie'] = HitDie
+    
     # Power Point Math
     stpp,qupp,copp,agpp,sdpp,mepp,repp="-","-","-","-","-","-","-"
     if char['realm'] == "NULL":
@@ -540,6 +567,7 @@ def create_char():
         skill_file="ds_ar.csv"
     if char['realm'] == "NULL":
         skill_file="ds_na.csv"
+
 
     # Open skill list file and write to character skill file. Set number of ranks for Hobby, AD, AP,
     # normal to 0
