@@ -520,7 +520,7 @@ def create_char():
     char['poimod'] = int(poiModBase)+int(cotb)
     char['dismod'] = int(disModBase)+int(cotb)
     char['hitdie'] = HitDie
-    
+
     # Power Point Math
     stpp,qupp,copp,agpp,sdpp,mepp,repp="-","-","-","-","-","-","-"
     if char['realm'] == "NULL":
@@ -609,10 +609,11 @@ def lang_set():
     s-=1
     with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
         char_dict = json.load(cf)
+    # Pull number of languages from race.csv
     with open(cfgData.cfg_dir+"/lang.csv","r") as la:
-    #with open("c:/pyrolemanager/cfg/lang.csv","r") as la:
         lan = la.read().splitlines()
-        # Pull number of languages from race.csv
+
+    #clear_screen()
     num_of_lang=0
     with open(cfgData.cfg_dir+"/race.csv","r") as rf:
         racelist = rf.read().splitlines()
@@ -622,26 +623,35 @@ def lang_set():
         x = racelist[f].split(',')
         f+=1
         if x[0] == char_dict['race']:
-            print x[0]
             num_of_lang = x[16]
-            print num_of_lang,":lang"
+
+    with open(cfgData.cfg_dir+"/langchart.csv","r") as lr:
+        ld = lr.read().splitlines()
+    x=1
+    while x < len(ld):
+        ll = ld[x].split(',')
+        print ll[0],":",ll[1],":",ll[2]
+        x+=1
 
     lanlist=[]
+    lcnt=1
     while len(lanlist)< int(num_of_lang):
         num=1
+        print 25 * "="
         for y in lan:
+
             print "{:<2}.) {:20}".format(num,y)
             num+=1
         lanch = int(raw_input("Select Language: "))
+        lanspoke = int(raw_input("Enter Spoken rank: "))
+        lanwritten = int(raw_input("Enter Written rank: "))
 
         lanlist.append(lan[lanch-1])
         lan.pop(lanch-1)
-    # Add languages to dictionary
-    lcnt=1
-    while lcnt <= len(lanlist):
         y="lang"+`lcnt`
-        char_dict[y] = lanlist[lcnt-1]
+        char_dict[y] = [lanlist[lcnt-1],lanspoke,lanwritten]
         lcnt+=1
+    # Add languages to dictionary
     # Open character file to write out data
     with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
         f.write(json.dumps(char_dict))
