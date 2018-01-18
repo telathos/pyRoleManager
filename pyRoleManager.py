@@ -625,21 +625,22 @@ def lang_set():
         if x[0] == char_dict['race']:
             num_of_lang = x[16]
 
-    with open(cfgData.cfg_dir+"/langchart.csv","r") as lr:
-        ld = lr.read().splitlines()
-    x=1
-    while x < len(ld):
-        ll = ld[x].split(',')
-        print ll[0],":",ll[1],":",ll[2]
-        x+=1
-
+    with open(cfgData.cfg_dir+"/lc.csv","r") as r:
+        lc=r.read().splitlines()
+    
     lanlist=[]
     lcnt=1
     while len(lanlist)< int(num_of_lang):
         num=1
-        print 25 * "="
+        j=0
+        print "+",87 * "=","+"
+        for x in lc:
+            j=x.split(';')
+            print "| {:<2} | {:40}| {:40} |".format(j[0],j[1],j[2])
+        print "+",87 * "=","+"
+        print
+        # Create menu of languages
         for y in lan:
-
             print "{:<2}.) {:20}".format(num,y)
             num+=1
         lanch = int(raw_input("Select Language: "))
@@ -651,11 +652,12 @@ def lang_set():
         y="lang"+`lcnt`
         char_dict[y] = [lanlist[lcnt-1],lanspoke,lanwritten]
         lcnt+=1
+
     # Add languages to dictionary
     # Open character file to write out data
     with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
         f.write(json.dumps(char_dict))
-
+    clear_screen()
 #################
 # End of lang_set
 #################

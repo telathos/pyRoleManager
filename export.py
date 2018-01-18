@@ -1,5 +1,6 @@
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font, numbers
+from openpyxl.worksheet.table import Table, TableStyleInfo
 import charMenu
 import cfgData
 import json
@@ -104,11 +105,11 @@ def export_to_excel():
 
     wb = Workbook()
     wb.create_sheet(index=1, title='Skills')
-    #wb = load_workbook(charXlPath+"/"+charXlFile)
     # grab the active worksheet
     ws = wb.active
-    sheet = wb.active
-    sheet.title = 'Character'
+    ws.title = "Characters"
+    ws = wb['Characters']
+    ws1 = wb['Skills']
 
     # Data can be assigned directly to cells
     ws.column_dimensions['A'].width = 14.0
@@ -124,6 +125,7 @@ def export_to_excel():
     # Define fonts
     textFont = Font(name='Arial',size=10)
     textBoldFont = Font(name='Arial',size=11, bold=True)
+    textCalBoldFont = Font(name='Calibri',size=11, bold=True)
     headerFont = Font(name='Old English Text MT',size=14,bold=True)
     statFont = Font(name='Old English Text MT',size=18,bold=True)
 
@@ -353,7 +355,7 @@ def export_to_excel():
     ws['I14'].border = rBorder
     ws['H14'] = char_dict['hitdie']
     ws['H14'].alignment = Alignment(horizontal='center')
-    
+
     ws['A15'] = "Minimum:"
     ws['E15'] = "Base Hits:"
     ws['F15'] = char_dict['hp_base']
@@ -417,10 +419,17 @@ def export_to_excel():
     ws['D18'].alignment = Alignment(horizontal='center')
 
     if char_dict.has_key("lang1") == False:
-        char_dict['lang1'] = ""
+        char_dict['lang1'] = ["","",""]
+    lang1 = char_dict['lang1'][0]
+    lang1s = char_dict['lang1'][1]
+    lang1w = char_dict['lang1'][2]
     ws.merge_cells('A19:B19')
     ws['A19'].font = textFont
-    ws['A19'] = char_dict['lang1']
+    ws['A19'] = lang1
+    ws['C19'] = lang1s
+    ws['D19'] = lang1w
+    ws['C19'].alignment = Alignment(horizontal='center')
+    ws['D19'].alignment = Alignment(horizontal='center')
     ws['E19'] = "Stat Bonus:"
     ws['A19'].border = lBorder
     ws['C19'].border = fullBorder
@@ -434,9 +443,16 @@ def export_to_excel():
     ws['F19'].font = textFont
 
     if char_dict.has_key("lang2") == False:
-        char_dict['lang2'] = ""
+        char_dict['lang2'] = ["","",""]
+    lang2 = char_dict['lang2'][0]
+    lang2s = char_dict['lang2'][1]
+    lang2w = char_dict['lang2'][2]
     ws.merge_cells('A20:B20')
-    ws['A20'] = char_dict['lang2']
+    ws['A20'] = lang2
+    ws['C20'] = lang2s
+    ws['D20'] = lang2w
+    ws['C20'].alignment = Alignment(horizontal='center')
+    ws['D20'].alignment = Alignment(horizontal='center')
     ws['A20'].font = textFont
     ws['E20'] = "Lvl Bonus:"
     ws['A20'].border = lBorder
@@ -451,9 +467,16 @@ def export_to_excel():
     ws['F20'].font = textFont
 
     if char_dict.has_key("lang3") == False:
-        char_dict['lang3'] = ""
+        char_dict['lang3'] = ["","",""]
+    lang3 = char_dict['lang3'][0]
+    lang3s = char_dict['lang3'][1]
+    lang3w = char_dict['lang3'][2]
     ws.merge_cells('A21:B21')
-    ws['A21'] = char_dict['lang3']
+    ws['A21'] = lang3
+    ws['C21'] = lang3s
+    ws['D21'] = lang3w
+    ws['C21'].alignment = Alignment(horizontal='center')
+    ws['D21'].alignment = Alignment(horizontal='center')
     ws['A21'].font = textFont
     ws['E21'] = "Resistance Roll Modifiers"
     ws.merge_cells('E21:I21')
@@ -469,13 +492,20 @@ def export_to_excel():
     ws['I21'].border = tbrBorder
 
     if char_dict.has_key('lang4') == False:
-        char_dict['lang4'] = ""
+        char_dict['lang4'] = ["","",""]
+    lang4 = char_dict['lang4'][0]
+    lang4s = char_dict['lang4'][1]
+    lang4w = char_dict['lang4'][2]
     ws.merge_cells('A22:B22')
+    ws['A22'] = lang4
+    ws['C22'] = lang4s
+    ws['D22'] = lang4w
     ws['F22'] = char_dict['essmod']
     ws['I22'] = char_dict['sdtb']
+    ws['C22'].alignment = Alignment(horizontal='center')
+    ws['D22'].alignment = Alignment(horizontal='center')
     ws['F22'].alignment = Alignment(horizontal='center')
     ws['I22'].alignment = Alignment(horizontal='center')
-    ws['A22'] = char_dict['lang4']
     ws['A22'].font = textFont
     ws['C22'].font = textFont
     ws['D22'].font = textFont
@@ -494,13 +524,20 @@ def export_to_excel():
     ws['I22'].border = rBorder
 
     if char_dict.has_key('lang5') == False:
-        char_dict['lang5'] = ""
+        char_dict['lang5'] = ["","",""]
+    lang5 = char_dict['lang5'][0]
+    lang5s = char_dict['lang5'][1]
+    lang5w = char_dict['lang5'][2]
     ws.merge_cells('A23:B23')
+    ws['A23'] = lang5
+    ws['C23'] = lang5s
+    ws['D23'] = lang5w
     ws['F23'] = char_dict['mentmod']
     ws['I23'] = char_dict['poimod']
+    ws['C23'].alignment = Alignment(horizontal='center')
+    ws['D23'].alignment = Alignment(horizontal='center')
     ws['F23'].alignment = Alignment(horizontal='center')
     ws['I23'].alignment = Alignment(horizontal='center')
-    ws['A23'] = char_dict['lang5']
     ws['A23'].font = textFont
     ws['C23'].font = textFont
     ws['D23'].font = textFont
@@ -519,13 +556,20 @@ def export_to_excel():
     ws['I23'].border = rBorder
 
     if char_dict.has_key('lang6') == False:
-        char_dict['lang6'] = ""
+        char_dict['lang6'] = ["","",""]
+    lang6 = char_dict['lang6'][0]
+    lang6s = char_dict['lang6'][1]
+    lang6w = char_dict['lang6'][2]
     ws.merge_cells('A24:B24')
+    ws['A24'] = lang6
+    ws['C24'] = lang6s
+    ws['D24'] = lang6w
     ws['F24'] = char_dict['chanmod']
     ws['I24'] = char_dict['dismod']
+    ws['C24'].alignment = Alignment(horizontal='center')
+    ws['D24'].alignment = Alignment(horizontal='center')
     ws['F24'].alignment = Alignment(horizontal='center')
     ws['I24'].alignment = Alignment(horizontal='center')
-    ws['A24'] = char_dict['lang6']
     ws['A24'].font = textFont
     ws['C24'].font = textFont
     ws['D24'].font = textFont
@@ -1014,7 +1058,104 @@ def export_to_excel():
     ws['I46'].font = textFont
     ws['I46'].border = fullBorder
 
+    ######## Skills sheet ########
+    ws1['A1'] = "Skills"
+    ws1['B1'] = "Cost"
+    ws1.merge_cells('A1:A2')
+    ws1.merge_cells('B1:B2')
+    ws1.merge_cells('C1:F1')
+    ws1.merge_cells('G1:K1')
+    ws1['C1'] = "-- SKILL RANKS --"
+    ws1['G1'] = "-- BONUSES --"
+    ws1['C2'] = "Hobby"
+    ws1['D2'] = "Adol"
+    ws1['E2'] = "App"
+    ws1['F2'] = "Ranks"
+    ws1['G2'] = "Skill"
+    ws1['H2'] = "Stat"
+    ws1['I2'] = "Lvl"
+    ws1['J2'] = "Misc"
+    ws1['K2'] = "Total"
+    ws1['C1'].alignment = Alignment(horizontal='center')
+    ws1['G1'].alignment = Alignment(horizontal='center')
+    ws1['C2'].alignment = Alignment(horizontal='center')
+    ws1['D2'].alignment = Alignment(horizontal='center')
+    ws1['E2'].alignment = Alignment(horizontal='center')
+    ws1['F2'].alignment = Alignment(horizontal='center')
+    ws1['G2'].alignment = Alignment(horizontal='center')
+    ws1['H2'].alignment = Alignment(horizontal='center')
+    ws1['I2'].alignment = Alignment(horizontal='center')
+    ws1['J2'].alignment = Alignment(horizontal='center')
+    ws1['K2'].alignment = Alignment(horizontal='center')
+    ws1['A1'].border = fullBorder
+    ws1['A2'].border = fullBorder
+    ws1['B1'].border = fullBorder
+    ws1['B2'].border = fullBorder
+    ws1['C1'].border = fullBorder
+    ws1['D1'].border = tbBorder
+    ws1['E1'].border = tbBorder
+    ws1['F1'].border = tbBorder
+    ws1['G1'].border = fullBorder
+    ws1['H1'].border = tbBorder
+    ws1['I1'].border = tbBorder
+    ws1['J1'].border = tbBorder
+    ws1['K1'].border = fullBorder
+    ws1['C2'].border = fullBorder
+    ws1['D2'].border = fullBorder
+    ws1['E2'].border = fullBorder
+    ws1['F2'].border = fullBorder
+    ws1['G2'].border = fullBorder
+    ws1['H2'].border = fullBorder
+    ws1['I2'].border = fullBorder
+    ws1['J2'].border = fullBorder
+    ws1['K2'].border = fullBorder
+    ws1['A1'].font = textCalBoldFont
+    ws1['B1'].font = textCalBoldFont
+    ws1['C1'].font = textCalBoldFont
+    ws1['C2'].font = textCalBoldFont
+    ws1['D2'].font = textCalBoldFont
+    ws1['E2'].font = textCalBoldFont
+    ws1['F2'].font = textCalBoldFont
+    ws1['G1'].font = textCalBoldFont
+    ws1['G2'].font = textCalBoldFont
+    ws1['H2'].font = textCalBoldFont
+    ws1['I2'].font = textCalBoldFont
+    ws1['J2'].font = textCalBoldFont
+    ws1['K2'].font = textCalBoldFont
+
+    skill=[]
+    ###### Test ######
+    ws1.column_dimensions['A'].width = 26.0
+    ws1.column_dimensions['B'].width = 5.5
+    ws1.column_dimensions['C'].width = 6.5
+    ws1.column_dimensions['D'].width = 6.5
+    ws1.column_dimensions['E'].width = 6.5
+    ws1.column_dimensions['F'].width = 6.5
+    ws1.column_dimensions['G'].width = 5.0
+    ws1.column_dimensions['H'].width = 5.0
+    ws1.column_dimensions['I'].width = 5.0
+    ws1.column_dimensions['J'].width = 6.0
+    ws1.column_dimensions['K'].width = 8.0
+
+    for words in char_dict:
+        if words.isdigit():
+            if char_dict[words][5] > 0 or char_dict[words][6]>0 or char_dict[words][7]>0 or char_dict[words][8]>0:
+                print char_dict[words]
+                skill.append([char_dict[words][0],char_dict[words][3],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][10],char_dict[words][11],char_dict[words][13],char_dict[words][12],char_dict[words][14]])
+
+    for row in skill:
+        ws1.append(row)
+    for row in ws1.iter_rows(min_row=4,min_col=1):
+        pass
+    # loop thru rows, then cells in the row to apply alignment and border
+    rows,nrows=1,3
+    while rows <= len(skill):
+        for cell in ws1[nrows:nrows]:
+            cell.border = fullBorder
+            cell.alignment = Alignment(horizontal='center')
+        rows+=1
+        nrows+=1
+
     # Save the file
-    #wb.save("sample.xlsx")
     wb.save(charXlPath+"/"+charXlFile)
 export_to_excel()
