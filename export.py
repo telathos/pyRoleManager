@@ -1140,13 +1140,14 @@ def export_to_excel():
     for words in char_dict:
         if words.isdigit():
             if char_dict[words][5] > 0 or char_dict[words][6]>0 or char_dict[words][7]>0 or char_dict[words][8]>0:
-                print char_dict[words]
                 skill.append([char_dict[words][0],char_dict[words][3],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][10],char_dict[words][11],char_dict[words][13],char_dict[words][12],char_dict[words][14]])
+                skill.sort()
 
     for row in skill:
         ws1.append(row)
     for row in ws1.iter_rows(min_row=4,min_col=1):
         pass
+
     # loop thru rows, then cells in the row to apply alignment and border
     rows,nrows=1,3
     while rows <= len(skill):
@@ -1155,6 +1156,10 @@ def export_to_excel():
             cell.alignment = Alignment(horizontal='center')
         rows+=1
         nrows+=1
+    # Loop thru columns and alignment column 'A'
+    for col in ws.iter_cols(min_row=1, max_col=11):
+        for cell in ws1['A']:
+            cell.alignment = Alignment(horizontal='left')
 
     # Save the file
     wb.save(charXlPath+"/"+charXlFile)
