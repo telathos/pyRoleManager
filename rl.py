@@ -237,7 +237,8 @@ def skill_mb_bonus():
                 print "Select a skill on the list"
                 print
 
-def select_skills():
+def select_skills(char):
+    '''
     p=charMenu.char_menu()
     menu_len=len(p)
     while True:
@@ -252,6 +253,9 @@ def select_skills():
         char_dict=json.load(f)
     # Create snapshot of the data before starting
     char_dict_orig=char_dict
+    '''
+    with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
+        char_dict=json.load(f)
 
     # load for skill list count
     with open(cfgData.cfg_dir+"/ds.csv") as f:

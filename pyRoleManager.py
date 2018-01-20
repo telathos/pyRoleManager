@@ -10,6 +10,7 @@ import cfgData
 import charMenu
 import rl
 import charData
+import exp
 
 # Update character records if a new skill is added
 charData.new_skill_check()
@@ -44,7 +45,8 @@ def print_menu():       ## Your menu design here
     print "4. Add Misc Skill Bonus"
     print "5. Add Languages to Character"
     print "6. Assign Armor Type to Character"
-    print "7. Raise Character Level"
+    print "7. Add experience to character"
+    print "8. Raise Character Level"
     #print "6. Delete Character"
     #print "7. Skills"
     print ""
@@ -103,6 +105,9 @@ def create_char():
     else:
         # Write character name to list
         char['name']=user_name
+
+    # Set base Experience
+    char['exp'] = 10000
 
     print 25 * "-" , "Professions", 25 * "-"
     print ""
@@ -627,7 +632,7 @@ def lang_set():
 
     with open(cfgData.cfg_dir+"/lc.csv","r") as r:
         lc=r.read().splitlines()
-    
+
     lanlist=[]
     lcnt=1
     while len(lanlist)< int(num_of_lang):
@@ -919,7 +924,20 @@ while loop:          ## While loop which will keep going until loop = False
         charData.assign_at()
     elif choice=="7":
         clear_screen()
-        rl.select_skills()
+        exp.exp_check()
+    elif choice=="8":
+        clear_screen()
+        p=charMenu.char_menu()
+        menu_len=len(p)
+        while True:
+            s=int(raw_input("Select Character: "))
+            if s >=1 and s<=menu_len:
+                break
+            else:
+                print "Invalid Selection! Select a character from the list"
+        skill_list=[]
+        s-=1
+        rl.select_skills(p[s])
     elif choice=="9":
         charData.new_skill_check()
     elif choice=="x":

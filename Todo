@@ -8,7 +8,7 @@
   b.) Add back to Show Character
   c.) Add to show character, current Skills only
 6.) Add back to character menu code
-7.) Add Height, Weight, Sex, Eyes and Hair
+7.) Add Height, Weight
 8.) Add Armor types and stats
 9.) Add Experience
 10.) Add Languages
@@ -34,6 +34,8 @@ Completed
 8.) Add skills to excel export file
 9.) Add RR Modifiers to excel export
   a.) Update race.csv with RR Modifiers - Done
+10.) Added Sex, Eyes and Hair
+
 
 Version 2.0 Work
 1.) Get Archiving Working - Low priority
