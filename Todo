@@ -12,9 +12,7 @@
 8.) Add Armor types and stats
 9.) Add Experience
 10.) Add Languages
-11.) Add skills to excel export file
-12.) Add RR Modifiers to excel export
-  a.) Update race.csv with RR Modifiers - Done
+
 
 Completed
 1.) Hit Points - Done
@@ -33,6 +31,10 @@ Completed
   d.) Increase level when out of DP - Done
     1.) Reload character data file after level increase
     2.) Write total ranks to character data file - Done
+8.) Add skills to excel export file
+9.) Add RR Modifiers to excel export
+  a.) Update race.csv with RR Modifiers - Done
+
 Version 2.0 Work
 1.) Get Archiving Working - Low priority
 2.) Get Character Deletion Working - Low priority
