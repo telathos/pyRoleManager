@@ -5,13 +5,13 @@
 4.) Armor Class/DB/Maneuver penalties
 5.) Show Character
   a.) Add assigned skills to show character - Done
-  b.) Add back to Show Character
+  b.) Add back to Show Character - Low priority
   c.) Add to show character, current Skills only
-6.) Add back to character menu code
+6.) Add back to character menu code - Low priority
 7.) Add Height, Weight
 8.) Add Armor types and stats
 9.) Add Experience
-10.) Add Languages
+10.) stat gain
 
 
 Completed
@@ -35,7 +35,7 @@ Completed
 9.) Add RR Modifiers to excel export
   a.) Update race.csv with RR Modifiers - Done
 10.) Added Sex, Eyes and Hair
-
+11.) Add Languages
 
 Version 2.0 Work
 1.) Get Archiving Working - Low priority
@@ -43,3 +43,4 @@ Version 2.0 Work
 3.) Move more code to modules - Low priority
   a.) Maybe move create_char to module
 4.) Import characters
+5.) Add/increase languages and ranks

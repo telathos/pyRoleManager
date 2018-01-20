@@ -43,12 +43,11 @@ def print_menu():       ## Your menu design here
     print "2. Show Character"
     print "3. Add Misc Stat Bonus"
     print "4. Add Misc Skill Bonus"
-    print "5. Add Languages to Character"
+    print
+    #print "5. Add Languages to Character"
     print "6. Assign Armor Type to Character"
     print "7. Add experience to character"
     print "8. Raise Character Level"
-    #print "6. Delete Character"
-    #print "7. Skills"
     print ""
     print "X. Exit"
     print 67 * "-"
@@ -592,6 +591,8 @@ def create_char():
     with open(char_path+'/'+user_name+'.json', 'w') as f:
         f.write(json.dumps(char))
 
+    # Set Languages
+    lang_set(user_name)
     # Set Weapon costs using function
     weapon_costs(user_name)
 
@@ -599,7 +600,8 @@ def create_char():
 ## End of create_char function ##
 #################################
 
-def lang_set():
+def lang_set(char):
+    '''
     p=charMenu.char_menu()
     menu_len=len(p)
     while True:
@@ -612,8 +614,10 @@ def lang_set():
     # Open the file
     char_dict={}
     s-=1
-    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+    '''
+    with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
+
     # Pull number of languages from race.csv
     with open(cfgData.cfg_dir+"/lang.csv","r") as la:
         lan = la.read().splitlines()
@@ -629,40 +633,52 @@ def lang_set():
         f+=1
         if x[0] == char_dict['race']:
             num_of_lang = x[16]
-
-    with open(cfgData.cfg_dir+"/lc.csv","r") as r:
-        lc=r.read().splitlines()
-
-    lanlist=[]
-    lcnt=1
-    while len(lanlist)< int(num_of_lang):
-        num=1
-        j=0
-        print "+",87 * "=","+"
-        for x in lc:
-            j=x.split(';')
-            print "| {:<2} | {:40}| {:40} |".format(j[0],j[1],j[2])
-        print "+",87 * "=","+"
+    # Check if character's languages are set
+    check=1
+    lcheck=[]
+    while check <= int(num_of_lang):
+        lanSearch = "lang"+`check`
+        if lanSearch in char_dict:
+            lcheck.append(check)
+        check+=1
+    if len(lcheck) == int(num_of_lang):
+        print "Base languages are already set."
+        print "Returning to Main Menu"
         print
-        # Create menu of languages
-        for y in lan:
-            print "{:<2}.) {:20}".format(num,y)
-            num+=1
-        lanch = int(raw_input("Select Language: "))
-        lanspoke = int(raw_input("Enter Spoken rank: "))
-        lanwritten = int(raw_input("Enter Written rank: "))
+    else:
+        with open(cfgData.cfg_dir+"/lc.csv","r") as r:
+            lc=r.read().splitlines()
 
-        lanlist.append(lan[lanch-1])
-        lan.pop(lanch-1)
-        y="lang"+`lcnt`
-        char_dict[y] = [lanlist[lcnt-1],lanspoke,lanwritten]
-        lcnt+=1
+        lanlist=[]
+        lcnt=1
+        while len(lanlist)< int(num_of_lang):
+            num=1
+            j=0
+            print "+",87 * "=","+"
+            for x in lc:
+                j=x.split(';')
+                print "| {:<2} | {:40}| {:40} |".format(j[0],j[1],j[2])
+            print "+",87 * "=","+"
+            print
+            # Create menu of languages
+            for y in lan:
+                print "{:<2}.) {:20}".format(num,y)
+                num+=1
+            lanch = int(raw_input("Select Language: "))
+            lanspoke = int(raw_input("Enter Spoken rank: "))
+            lanwritten = int(raw_input("Enter Written rank: "))
 
-    # Add languages to dictionary
-    # Open character file to write out data
-    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
-        f.write(json.dumps(char_dict))
-    clear_screen()
+            lanlist.append(lan[lanch-1])
+            lan.pop(lanch-1)
+            y="lang"+`lcnt`
+            char_dict[y] = [lanlist[lcnt-1],lanspoke,lanwritten]
+            lcnt+=1
+
+        # Add languages to dictionary
+        # Open character file to write out data
+        with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
+            f.write(json.dumps(char_dict))
+        clear_screen()
 #################
 # End of lang_set
 #################
@@ -918,7 +934,6 @@ while loop:          ## While loop which will keep going until loop = False
         rl.skill_mb_bonus()
     elif choice=="5":
         clear_screen()
-        lang_set()
     elif choice=="6":
         clear_screen()
         charData.assign_at()
