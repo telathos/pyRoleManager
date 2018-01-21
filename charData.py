@@ -112,7 +112,6 @@ def show_char():
     # Open chart of stat values
     with open(cfgData.cfg_dir+"/sttchart.csv") as f:
         statchart =f.read().splitlines()
-    f.close()
     sc=[]
 
     for x in statchart:

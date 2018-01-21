@@ -26,7 +26,6 @@ def export_to_excel():
 
     with open(cfgData.cfg_dir+"/sttchart.csv") as f:
         statchart =f.read().splitlines()
-    f.close()
     sc=[]
 
     for x in statchart:
@@ -56,12 +55,12 @@ def export_to_excel():
         if int(x1[0]) == int(char_dict['re_stat']):
             reb,redp,repp=x1[1],x1[2],x1[3]
     tdp = float(codp) + float(agdp) + float(sddp) + float(medp) + float(redp)
+
     ###################
     # Lookup Race Bonus
     ###################
     with open(cfgData.cfg_dir+"/race.csv") as r:
         racechart =r.read().splitlines()
-    r.close()
     rc=[]
 
     for x in racechart:

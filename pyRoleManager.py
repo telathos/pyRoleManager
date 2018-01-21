@@ -909,6 +909,325 @@ def weapon_costs(user_name):
     with open(cfgData.char_dir+"/"+user_name+"/"+user_name+".json","w") as sw:
         sw.write(json.dumps(skill_dict))
 
+def stat_gain_lookup(diff,roll):
+    global change
+    if diff == 0:
+        if roll <= 4:
+            change = roll * -2
+        else:
+            change =0
+    elif diff == 1:
+        if roll <= 4:
+            change = roll * -2
+        elif roll >= 5 and roll <= 50:
+            change =0
+        else:
+            change = 1
+    elif diff == 2:
+        if roll <=4:
+            change = roll * -2
+        elif roll <= 30:
+            change = 0
+        elif roll >= 31 and roll <= 65:
+            change = 1
+        else:
+            change = 2
+    elif diff == 3:
+        if roll <= 4:
+            change = roll * -2
+        elif roll >= 5 and roll <= 25:
+            change = 0
+        elif roll >= 26 and roll <= 50:
+            change = 1
+        elif roll >= 51 and roll <= 75:
+            change = 2
+        else:
+            change = 3
+    elif diff >= 4 and diff <= 5:
+        if roll <= 4:
+            change = roll * -2
+        elif roll >= 5 and roll <= 20:
+            change = 0
+        elif roll >= 21 and roll <= 40:
+            change = 1
+        elif roll >= 41 and roll <= 60:
+            change = 2
+        elif roll >= 61 and roll <= 80:
+            change = 3
+        else:
+            change = 4
+    elif diff >= 6 and diff <= 7:
+        if roll <= 4:
+            change = roll * -2
+        elif roll >= 5 and roll <= 15:
+            change = 0
+        elif roll >= 16 and roll <= 25:
+            change = 1
+        elif roll >= 26 and roll <= 40:
+            change = 2
+        elif roll >= 41 and roll <= 55:
+            change =3
+        elif roll >= 56 and roll <= 70:
+            change = 4
+        elif roll >= 71 and roll <= 85:
+            change = 5
+        else:
+            change = 6
+    elif diff >= 8 and diff <= 9:
+        if roll <= 4:
+            change = roll * -2
+        elif roll >= 5 and roll <= 10:
+            change = 0
+        elif roll >= 11 and roll <= 20:
+            change = 1
+        elif roll >= 21 and roll <= 35:
+            change = 2
+        elif roll >= 36 and roll <= 50:
+            change = 3
+        elif roll >= 51 and roll <= 65:
+            change = 4
+        elif roll >= 66 and roll <= 75:
+            change = 5
+        elif roll >= 76 and roll <= 85:
+            change = 6
+        elif roll >= 86 and roll <= 95:
+            change = 7
+        else:
+            change = 8
+    elif diff >=10 and diff <= 11:
+        if roll <= 4:
+            change = roll * -2
+        elif roll >= 5 and roll <= 15:
+            change = 1
+        elif roll >= 16 and roll <= 25:
+            change = 2
+        elif roll >= 26 and roll <= 35:
+            change = 3
+        elif roll >= 36 and roll <= 45:
+            change = 4
+        elif roll >= 46 and roll <= 55:
+            change = 5
+        elif roll >= 56 and roll <= 65:
+            change = 6
+        elif roll >= 66 and roll <= 75:
+            change = 7
+        elif roll >= 76 and roll <= 85:
+            change = 8
+        elif roll >= 86 and roll <= 95:
+            change = 9
+        else:
+            change = 10
+    elif diff >= 12 and diff <= 14:
+        if roll <= 4:
+            change = roll * -2
+        elif roll >= 5 and roll <= 10:
+            change = 1
+        elif roll >= 11 and roll <= 15:
+            change = 2
+        elif roll >= 16 and roll <= 20:
+            change = 3
+        elif roll >= 21 and roll <= 25:
+            change = 4
+        elif roll >= 26 and roll <= 35:
+            change = 5
+        elif roll >= 36 and roll <= 45:
+            change = 6
+        elif roll >= 46 and roll <= 55:
+            change = 7
+        elif roll >= 56 and roll <= 65:
+            change = 8
+        elif roll >= 66 and roll <= 75:
+            change = 9
+        elif roll >= 76 and roll <= 85:
+            change = 10
+        elif roll >= 86 and roll <= 95:
+            change = 11
+        else:
+            change = 12
+    else:
+        if roll <= 4:
+            change = roll * -2
+        elif roll >= 5 and roll <= 10:
+            change = 1
+        elif roll >= 11 and roll <= 15:
+            change = 2
+        elif roll >= 16 and roll <= 20:
+            change = 3
+        elif roll >= 21 and roll <= 25:
+            change = 4
+        elif roll >= 26 and roll <= 30:
+            change = 5
+        elif roll >= 31 and roll <= 35:
+            change = 6
+        elif roll >= 36 and roll <= 40:
+            change = 7
+        elif roll >= 41 and roll <= 45:
+            change = 8
+        elif roll >= 46 and roll <= 50:
+            change = 9
+        elif roll >= 51 and roll <= 55:
+            change = 10
+        elif roll >= 56 and roll <= 65:
+            change = 11
+        elif roll >= 66 and roll <= 75:
+            change = 12
+        elif roll >= 76 and roll <= 85:
+            change = 13
+        elif roll >= 86 and roll <= 95:
+            change = 14
+        else:
+            change = 15
+    return change
+
+def stat_gain():
+    clear_screen()
+    p=charMenu.char_menu()
+    menu_len=len(p)
+    while True:
+        s=int(raw_input("Select Character: "))
+        if s >=1 and s<=menu_len:
+            break
+        else:
+            print "Invalid Selection! Select a character from the list"
+    skill_list=[]
+    s-=1
+    user_name = p[s]
+    with open(cfgData.char_dir+"/"+user_name+"/"+user_name+".json","r") as cf:
+        char_dict = json.load(cf)
+    st_diff = char_dict['st_pot'] - char_dict['st_stat']
+    qu_diff = char_dict['qu_pot'] - char_dict['qu_stat']
+    pr_diff = char_dict['pr_pot'] - char_dict['pr_stat']
+    em_diff = char_dict['em_pot'] - char_dict['em_stat']
+    in_diff = char_dict['in_pot'] - char_dict['in_stat']
+    co_diff = char_dict['co_pot'] - char_dict['co_stat']
+    sd_diff = char_dict['sd_pot'] - char_dict['sd_stat']
+    ag_diff = char_dict['ag_pot'] - char_dict['ag_stat']
+    me_diff = char_dict['me_pot'] - char_dict['me_stat']
+    re_diff = char_dict['re_pot'] - char_dict['re_stat']
+    st_stat, qu_stat, pr_stat, em_stat, in_stat = char_dict['st_stat'], char_dict['qu_stat'],char_dict['pr_stat'],char_dict['em_stat'],char_dict['in_stat']
+    co_stat, sd_stat, ag_stat, me_stat, re_stat = char_dict['co_stat'], char_dict['sd_stat'],char_dict['ag_stat'],char_dict['me_stat'],char_dict['re_stat']
+
+    difflist = [[st_stat,st_diff,"ST","st_stat"], [qu_stat,qu_diff,"QU","qu_stat"], [pr_stat,pr_diff,"PR","pr_stat"],
+    [in_stat,in_diff,"IN","in_stat"], [em_stat,em_diff,"EM","em_stat"], [co_stat,co_diff,"CO","co_stat"],
+    [ag_stat,ag_diff,"AG","ag_stat"], [sd_stat,sd_diff,"SD","sd_stat"], [me_stat, me_diff,"ME","me_stat"],
+    [re_stat,re_diff,"RE","re_stat"]]
+    change=0
+
+    #print difflist
+    for x in difflist:
+        print
+        print "Stat: {:2}".format(x[2])
+        roll = int(raw_input("Enter roll: "))
+        change = stat_gain_lookup(x[1], roll)
+        newStat = x[0]+change
+        print "Stat: {:2} had a change of {:<2}".format(x[2],change)
+        print "Prev: {:<3}".format(x[0])
+        print "Cur:  {:<3}".format(newStat)
+        char_dict[x[3]]=newStat
+        #print char_dict[x[3]]
+
+    # Open chart of stat values
+    with open(cfgData.cfg_dir+"/sttchart.csv") as f:
+        statchart =f.read().splitlines()
+    sc=[]
+
+    for x in statchart:
+        sc.append(x.split(","))
+
+    # Loop through statistics to pull bonuses
+    for x1 in sc:
+        if int(x1[0]) == int(char_dict['st_stat']):
+            stb,stdp,stpp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['qu_stat']):
+            qub,qudp,qupp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['pr_stat']):
+            prb,prdp,prpp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['in_stat']):
+            inb,indp,inpp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['em_stat']):
+            emb,emdp,empp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['co_stat']):
+            cob,codp,copp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['ag_stat']):
+            agb,agdp,agpp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['sd_stat']):
+            sdb,sddp,sdpp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['me_stat']):
+            meb,medp,mepp=x1[1],x1[2],x1[3]
+        if int(x1[0]) == int(char_dict['re_stat']):
+            reb,redp,repp=x1[1],x1[2],x1[3]
+
+    ###################
+    # Lookup Race Bonus
+    ###################
+    with open(cfgData.cfg_dir+"/race.csv") as r:
+        racechart =r.read().splitlines()
+    r.close()
+    rc=[]
+
+    for x in racechart:
+        rc.append(x.split(","))
+
+    # Race Bonus
+    for x2 in rc:
+        if x2[0] == char_dict['race']:
+            raceb=x2
+
+    #######################
+    # Calcalute Total Bonus
+    #######################
+
+    sttb=(int(stb)+int(raceb[1])+int(char_dict['stmb']))
+    qutb=(int(qub)+int(raceb[2])+int(char_dict['qumb']))
+    prtb=(int(prb)+int(raceb[3])+int(char_dict['prmb']))
+    intb=(int(inb)+int(raceb[4])+int(char_dict['inmb']))
+    emtb=(int(emb)+int(raceb[5])+int(char_dict['emmb']))
+    cotb=(int(cob)+int(raceb[6])+int(char_dict['comb']))
+    agtb=(int(agb)+int(raceb[7])+int(char_dict['agmb']))
+    sdtb=(int(sdb)+int(raceb[8])+int(char_dict['sdmb']))
+    metb=(int(meb)+int(raceb[9])+int(char_dict['memb']))
+    retb=(int(reb)+int(raceb[10])+int(char_dict['remb']))
+    tdp=char_dict['dp']
+    # Updaet character file
+    char_dict['sttb'],char_dict['qutb']= sttb,qutb
+    char_dict['prtb'],char_dict['intb']= prtb,intb
+    char_dict['emtb'],char_dict['cotb']= emtb,cotb
+    char_dict['agtb'],char_dict['sdtb']= agtb,sdtb
+    char_dict['metb'],char_dict['retb']= metb,retb
+
+    # Power Point Math
+    stpp,qupp,copp,agpp,sdpp,mepp,repp="-","-","-","-","-","-","-"
+    if char_dict['realm'] == "NULL":
+        prpp,inpp,empp=0.0,0.0,0.0
+        tpp=0.0
+    if char_dict['realm'] == "PR":
+        inpp,empp=0.0,0.0
+        tpp=prpp
+    if char_dict['realm'] == "IN":
+        empp,prpp=0.0,0.0
+        tpp=inpp
+    if char_dict['realm'] == "EM":
+        inpp,prpp=0.0,0.0
+        tpp=empp
+    if char_dict['realm'] == "IP":
+        empp=0.0
+        tpp=(float(inpp)+float(prpp))/2
+    if char_dict['realm'] == "PE":
+        inpp=0.0
+        tpp=(float(empp)+float(prpp))/2
+    if char_dict['realm'] == "IE":
+        prpp=0.0
+        tpp=(float(inpp)+float(empp))/2
+    if char_dict['realm'] == "AR":
+        tpp=(float(inpp)+float(prpp)+float(empp))/3
+
+    # Development Point Math
+    stdp,qudp,emdp,indp,prdp="-","-","-","-","-"
+
+    # Write Character data to file
+    with open(cfgData.char_dir+'/'+user_name+'/'+user_name+'.json', 'w') as f:
+        f.write(json.dumps(char_dict))
+
 ###########################
 ###   Start Menu Loop   ###
 ###########################
@@ -934,6 +1253,7 @@ while loop:          ## While loop which will keep going until loop = False
         rl.skill_mb_bonus()
     elif choice=="5":
         clear_screen()
+        stat_gain()
     elif choice=="6":
         clear_screen()
         charData.assign_at()
