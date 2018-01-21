@@ -16,7 +16,7 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
     global dp_used
     global limit
     if len(cost) > 2:
-        print len(cost),":len(cost)"
+        #print len(cost),":len(cost)"
         ecost=cost.split('/')
         if ecost[1] == "*":
             limit=3
@@ -27,8 +27,8 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
         limit=1
 
     nlimit = (limit - old)
-    print limit,":limit"
-    print nlimit,":nlimit"
+    #print limit,":limit"
+    #print nlimit,":nlimit"
 
     while srnk > limit or srnk > nlimit:
         print "You can not purchase that number of ranks."
@@ -251,8 +251,6 @@ def select_skills(char):
     s-=1
     with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
         char_dict=json.load(f)
-    # Create snapshot of the data before starting
-    char_dict_orig=char_dict
     '''
     with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
         char_dict=json.load(f)
@@ -319,7 +317,7 @@ def select_skills(char):
 
     while skloop:
         char_dict.clear()
-        with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
+        with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
             char_dict=json.load(f)
         if char_dict['tempdp']<1.0:
             if char_dict['lvl']==0:
@@ -361,7 +359,7 @@ def select_skills(char):
                     print "Invalid Selection! Enter Y or N"
         # Reload Character file
         char_dict.clear()
-        with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
+        with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
             char_dict=json.load(f)
         print char_dict['lvl']
         print char_dict['tempdp']
