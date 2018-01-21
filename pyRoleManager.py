@@ -43,8 +43,7 @@ def print_menu():       ## Your menu design here
     print "2. Show Character"
     print "3. Add Misc Stat Bonus"
     print "4. Add Misc Skill Bonus"
-    print
-    #print "5. Add Languages to Character"
+    print "5. Stat Gain Roll"
     print "6. Assign Armor Type to Character"
     print "7. Add experience to character"
     print "8. Raise Character Level"
