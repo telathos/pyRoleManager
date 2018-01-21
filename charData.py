@@ -210,7 +210,7 @@ def show_char():
         lvl=char_dict['lvl']
     print ""
     print 89 * "-"
-    print "| Name: %s" % char_dict['name'].title()
+    print "| Name: %s" % char_dict['FullName'].title()
     print "| Profession: %s" % char_dict['pro_name'].title()
     print "| Race: %s" % char_dict['race'].title()
     print "| Level: {:^3}{:77}|".format(lvl," ")

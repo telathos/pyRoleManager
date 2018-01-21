@@ -93,8 +93,12 @@ co_pot_in,ag_pot_in,sd_pot_in,me_pot_in,re_pot_in=0,0,0,0,0
 # Start of the basic character creation, Name, Profession, Race and Stats
 def create_char():
     user_name=str(raw_input('Please enter your first name: '))
+    last_name = str(raw_input('Pleae enter last name: '))
     char_path=cfgData.char_dir+"/"+user_name
-    print char_path
+    fullName = user_name +" "+ last_name
+    char['FullName'] = fullName
+    #print fullName
+    #print char_path
     if not os.path.exists(char_path):
         os.makedirs(char_path)
     if os.path.exists(char_path+"/"+user_name+".json") == True:
@@ -600,20 +604,6 @@ def create_char():
 #################################
 
 def lang_set(char):
-    '''
-    p=charMenu.char_menu()
-    menu_len=len(p)
-    while True:
-        s=int(raw_input("Select Character: "))
-        if s >=1 and s<=menu_len:
-            break
-        else:
-            print "Invalid Selection! Select a character from the list"
-
-    # Open the file
-    char_dict={}
-    s-=1
-    '''
     with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
 
@@ -675,7 +665,7 @@ def lang_set(char):
 
         # Add languages to dictionary
         # Open character file to write out data
-        with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
+        with open(cfgData.char_dir+"/"+char+"/"+char+".json", 'w') as f:
             f.write(json.dumps(char_dict))
         clear_screen()
 #################
