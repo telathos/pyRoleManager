@@ -11,8 +11,6 @@
 7.) Add Height, Weight
 8.) Add Armor types and stats
 9.) Add Experience
-10.) stat gain
-
 
 Completed
 1.) Hit Points - Done
@@ -36,6 +34,7 @@ Completed
   a.) Update race.csv with RR Modifiers - Done
 10.) Added Sex, Eyes and Hair
 11.) Add Languages
+12.) stat gain roll
 
 Version 2.0 Work
 1.) Get Archiving Working - Low priority
