@@ -371,18 +371,24 @@ def create_char():
     print 10 * "-"
     print
     print 20 * "="
+    print "| Gender"
+    print "|"
     x,s=0,1
     while x<len(cfgData.sexlist):
         print "|{:<2}.) {:10}".format(s,cfgData.sexlist[x])
         x+=1
         s+=1
     print 20 * "="
+    print "| Hair Color"
+    print "|"
     x,s=0,1
     while x<len(cfgData.hairlist):
         print "|{:<2}.) {:10}".format(s,cfgData.hairlist[x])
         x+=1
         s+=1
     print 20 * "="
+    print "| Eye Color"
+    print "|"
     x,s=0,1
     while x<len(cfgData.eyelist):
         print "|{:<2}.) {:10}".format(s,cfgData.eyelist[x])

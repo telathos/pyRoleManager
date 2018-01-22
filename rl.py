@@ -326,7 +326,12 @@ def select_skills(char):
                 next_lvl=1
             else:
                 next_lvl=int(char_dict['lvl']+1)
+            # Clear temp column
+            for words in char_dict:
+                if words.isdigit():
+                    char_dict[words][9] = 0
             print "Ready to raise to the character to level {:<3}".format(next_lvl)
+
             while True:
                 y=str(raw_input('Y/N: '))
                 if y.upper() =="N":
@@ -361,8 +366,8 @@ def select_skills(char):
         char_dict.clear()
         with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
             char_dict=json.load(f)
-        print char_dict['lvl']
-        print char_dict['tempdp']
+        #print char_dict['lvl']
+        #print char_dict['tempdp']
         print
         print "| 1.) A      10.) J      19.) U"
         print "| 2.) B      11.) L      20.) V"
@@ -431,14 +436,14 @@ def select_skills(char):
                     Define which column to update
                     column 6 for AD
                     column 7 for AP
-                    column 9 for temp colum
+                    column 9 for temp column
                     '''
                     if char_dict['lvl'] == 0:
                         col = char_dict[skill_menu_list[sr]][6]
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
 
@@ -457,12 +462,13 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
                         # Display newly added skill
-                        #print skill_menu_list[sr],":sr"
                         skill_added_display(char_dict['name'],skill_menu_list[sr])
                     sksubloop=False
         if ska=="2":
@@ -491,7 +497,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -509,7 +515,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -542,7 +550,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -560,7 +568,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -592,7 +602,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     #print col,":col before function"
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
@@ -613,7 +623,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -645,7 +657,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -663,7 +675,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -695,7 +709,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -713,7 +727,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -745,7 +761,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -763,7 +779,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -795,7 +813,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -813,7 +831,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -845,7 +865,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -863,7 +883,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -895,7 +917,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -913,7 +935,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -945,7 +969,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -963,7 +987,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -995,7 +1021,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -1013,7 +1039,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -1045,7 +1073,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -1063,7 +1091,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -1095,7 +1125,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -1113,7 +1143,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -1145,7 +1177,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -1163,7 +1195,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -1195,7 +1229,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -1213,7 +1247,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -1245,7 +1281,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     print dpu,":dpu"
@@ -1264,7 +1300,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -1296,7 +1334,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -1314,7 +1352,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -1346,7 +1386,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -1364,7 +1404,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -1396,7 +1438,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -1414,7 +1456,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -1446,7 +1490,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -1464,7 +1508,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
@@ -1496,7 +1542,7 @@ def select_skills(char):
                     elif char_dict['lvl'] == 0.5:
                         col = char_dict[skill_menu_list[sr]][7]
                     else:
-                        col = char_dict[skill_menu_list[sr]][8]
+                        col = char_dict[skill_menu_list[sr]][9]
 
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
                     current_dp-=int(dp_used)
@@ -1514,7 +1560,9 @@ def select_skills(char):
                         elif char_dict['lvl'] == 0.5:
                             char_dict[skill_menu_list[sr]][7] += rnk
                         else:
-                            char_dict[skill_menu_list[sr]][8] += rnk
+                            char_dict[skill_menu_list[sr]][9] += rnk
+                            char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
+                            
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
