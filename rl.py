@@ -367,7 +367,7 @@ def select_skills(char):
         with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
             char_dict=json.load(f)
         #print char_dict['lvl']
-        #print char_dict['tempdp']
+        print char_dict['tempdp']
         print
         print "| 1.) A      10.) J      19.) U"
         print "| 2.) B      11.) L      20.) V"
@@ -380,7 +380,6 @@ def select_skills(char):
         print "| 9.) I      18.) T"
         print
         print "| X.) Back"
-        ska=raw_input('Select First Letter of Skill: ')
         print
         if char_dict['lvl']==0:
             print "Suggested Adolescence skills:"
@@ -396,6 +395,7 @@ def select_skills(char):
             print "Swimming"
             print "Dagger"
             print
+        ska=raw_input('Select First Letter of Skill: ')
 
         def skill_to_list(g):
             sklist=[]
@@ -1562,7 +1562,7 @@ def select_skills(char):
                         else:
                             char_dict[skill_menu_list[sr]][9] += rnk
                             char_dict[skill_menu_list[sr]][8] += char_dict[skill_menu_list[sr]][9]
-                            
+
                         # Write Character data to file
                         with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
                             f.write(json.dumps(char_dict))
