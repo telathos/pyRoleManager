@@ -29,6 +29,21 @@ def running_dp(num):
 
     return dp_cur
 
+def adolescence_skills():
+    print(Fore.BLUE + Back.WHITE + "Suggested Adolescence skills:")
+    print
+    print(Fore.BLUE + Back.WHITE + "Basic Math")
+    print(Fore.BLUE + Back.WHITE +  "Climbing")
+    print(Fore.BLUE + Back.WHITE +  "Cookery")
+    print(Fore.BLUE + Back.WHITE +  "First Aid")
+    print(Fore.BLUE + Back.WHITE +  "General Perception")
+    print(Fore.BLUE + Back.WHITE +  "Body Development")
+    print(Fore.BLUE + Back.WHITE +  "Hygiene")
+    print(Fore.BLUE + Back.WHITE +  "Stalk & Hide")
+    print(Fore.BLUE + Back.WHITE +  "Swimming")
+    print(Fore.BLUE + Back.WHITE +  "Dagger")
+    print (Style.RESET_ALL)
+
 def skill_header():
     print 80 * "-"
     print "      | {:32}|{:^8}|{:^5}|{:^5}|{:^5}|{:^5}|{:^5}|".format("","","","H","AD","AP","Std")

@@ -11,6 +11,7 @@ import charMenu
 import rl
 import charData
 import exp
+import rl2
 
 # Update character records if a new skill is added
 charData.new_skill_check()
@@ -1269,7 +1270,18 @@ while loop:          ## While loop which will keep going until loop = False
         s-=1
         rl.select_skills(p[s])
     elif choice=="9":
-        charData.new_skill_check()
+        clear_screen()
+        p=charMenu.char_menu()
+        menu_len=len(p)
+        while True:
+            s=int(raw_input("Select Character: "))
+            if s >=1 and s<=menu_len:
+                break
+            else:
+                print "Invalid Selection! Select a character from the list"
+        skill_list=[]
+        s-=1
+        rl2.select_skills(p[s])
     elif choice=="x":
         print "Exiting Program"
         loop=False

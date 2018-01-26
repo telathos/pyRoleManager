@@ -201,7 +201,6 @@ def skill_mb_bonus():
             index=words
             sklist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][10],char_dict[words][11],char_dict[words][12],char_dict[words][13],char_dict[words][14],index])
             sklst=sorted(sklist, key=lambda skill: skill[0])
-    #print sklst
     menu_loop=True
     while menu_loop:
         search=str(raw_input("Select Skill to add Misc bonus: "))
@@ -217,11 +216,8 @@ def skill_mb_bonus():
         for y in sklst:
             if re.search(regex,y[0]):
                 print "| {:>3}.) | {:32} | {:^5} |".format(y[13],y[0],y[11])
-                #print char_dict[y[13]]
                 # Create list of skills in menu
                 skill_menu.append(int(y[13]))
-        #print
-        #print "| {:>3}.) | {:32} | {:^5} |".format("X","Back","")
         while skill_menu:
             m=int(raw_input("Select skill: "))
             if m in skill_menu:
@@ -238,26 +234,30 @@ def skill_mb_bonus():
                 print
 
 def select_skills(char):
-    '''
-    p=charMenu.char_menu()
-    menu_len=len(p)
-    while True:
-        s=int(raw_input("Select Character: "))
-        if s >=1 and s<=menu_len:
-            break
-        else:
-            print "Invalid Selection! Select a character from the list"
-    skill_list=[]
-    s-=1
-    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json") as f:
-        char_dict=json.load(f)
-    '''
     with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
         char_dict=json.load(f)
 
     # load for skill list count
     with open(cfgData.cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
+    sklist=[]
+    sklst=[]
+
+    for words in char_dict:
+        if words.isdigit():
+            index=words
+            sklist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][10],char_dict[words][11],char_dict[words][12],char_dict[words][13],char_dict[words][14],index])
+            sklst=sorted(sklist, key=lambda skill: skill[0])
+    #print sklst
+    for y in sklst:
+        if y[0] == "Jumping":
+            print y[4] # Hobby
+            print y[5] # AD
+            print y[6] # AP
+            print y[7] # Std
+        if y[4] == 0:
+            pass
+
 
     # Set Base dp
     if char_dict['tempdp']< char_dict['dp']:
@@ -271,10 +271,9 @@ def select_skills(char):
     if char_dict['lvl'] == 0 and char_dict['tempdp'] >= iround(char_dict['dp']):
         print
         print "Are you ready to assign skill ranks for your Adolescence Level?"
-        print "[Yes/No]"
         print
         while True:
-            y=str(raw_input('Y/N: '))
+            y=str(raw_input('[Y/N]: '))
             if y.upper() =="N":
                 skloop=False
                 break
@@ -286,10 +285,9 @@ def select_skills(char):
     elif char_dict['lvl'] == 0.5 and char_dict['tempdp'] >= iround(char_dict['dp']):
         print
         print "Are you ready to assign skill ranks for your Appenticeship Level?"
-        print "[Yes/No]"
         print
         while True:
-            y=str(raw_input('Y/N: '))
+            y=str(raw_input('[Y/N]: '))
             if y.upper() =="N":
                 skloop=False
                 break
@@ -298,77 +296,121 @@ def select_skills(char):
             else:
                 print "Invalid Selection! Enter Y or N"
 
-    elif char_dict['lvl'] == 1 and char_dict['tempdp'] >= iround(char_dict['dp']):
+    elif char_dict['lvl'] >= 1 and char_dict['tempdp'] >= iround(char_dict['dp']):
         print
         print "Are you ready to assign skill ranks for level {}?".format(char_dict['lvl'])
-        print "[Yes/No]"
         print
         while True:
-            y=str(raw_input('Y/N: '))
+            y=str(raw_input('[Y/N]: '))
             if y.upper() =="N":
                 skloop=False
                 break
             elif y.upper() == "Y":
-                lvl="ap"
-                char_dict['lvl_raise']= "ap"
                 break
             else:
                 print "Invalid Selection! Enter Y or N"
 
     while skloop:
-        char_dict.clear()
-        with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
-            char_dict=json.load(f)
         if char_dict['tempdp']<1.0:
             if char_dict['lvl']==0:
                 next_lvl="Appenticeship"
+                print next_lvl
             elif char_dict['lvl']==0.5:
                 next_lvl=1
             else:
                 next_lvl=int(char_dict['lvl']+1)
-            # Clear temp column
-            for words in char_dict:
-                if words.isdigit():
-                    char_dict[words][9] = 0
-            print "pointer"
-            print "Ready to raise to the character to level {:<3}".format(next_lvl)
-
-            while True:
-                y=str(raw_input('Y/N: '))
-                if y.upper() =="N":
-                    global skloop
-                    sys.exit()
-                    break
-                elif y.upper() == "Y":
-                    if char_dict['lvl']==0:
-                        char_dict['lvl']=0.5
-                        char_dict['tempdp']=iround(char_dict['dp'])
-                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
-                            f.write(json.dumps(char_dict))
-                    elif char_dict['lvl']==0.5:
-                        char_dict['lvl']=1
-                        char_dict['tempdp']=iround(char_dict['dp'])
-                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
-                            f.write(json.dumps(char_dict))
-                    else:
-                        lvl=char_dict['lvl']
-                        lvl+=1
-                        char_dict['lvl']=lvl
-                        char_dict['tempdp']=iround(char_dict['dp'])
-                        with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name']+".json","w") as f:
-                            f.write(json.dumps(char_dict))
-                    break
-                    # Write Character data to file
-
-                else:
-                    print "Invalid Selection! Enter Y or N"
+                # Clear temp column
+                for words in char_dict:
+                    if words.isdigit():
+                        char_dict[words][9] = 0
         # Reload Character file
         char_dict.clear()
         with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
             char_dict=json.load(f)
         #print char_dict['lvl']
-        print char_dict['tempdp']
+        #print char_dict['tempdp']
         print
+        if char_dict['lvl']==0:
+            # Call suggested adolescence skills module
+            cfgData.adolescence_skills()
+            print
+        print "Enter the start of the Skill to increase:"
+        print 'Example: entering b will list all skills that start with "B"'
+        print
+        print "Enter 'Exit' to return the previous menu"
+        search=str(raw_input(": "))
+        # Takes inputed search and adds regex matching code
+        regex = re.compile('^%s.+'%search,re.I)
+
+        if search.upper() == "EXIT":
+            skloop=False
+        else:
+            # Create header
+            print "*",78 * "=","*"
+            print "| {:5} | {:32} | {:^3} | {:5} | {:^5} | {:^5} | {:^5} |".format("","","","Hobby","AD","AP","Std")
+            print "| {:>5} | {:32} | {:^3}| {:5} | {:5} | {:5} | {:5} |".format("","Skill Name","Cost","Bonus","Bonus","Bonus","Bonus")
+            print "*",78 * "-","*"
+            # Loop through skills
+            skill_menu=[]
+            for y in sklst:
+                if re.search(regex,y[0]):
+                    print "| {:>3}.) | {:32} | {:^3} | {:^5} | {:^5} | {:^5} | {:^5} |".format(y[13],y[0],y[3],y[4],y[5],y[6],y[7])
+                    # Create list of skills in menu
+                    skill_menu.append(int(y[13]))
+            print "*",78 * "-","*"
+
+            while skill_menu:
+                cfgData.running_dp(current_dp)
+                print "Enter the skill number or 'Exit' to return to the previous menu"
+                m=raw_input("Skill: ")
+                if m.upper() == "EXIT":
+                    skill_menu = False
+                else:
+                    print char_dict[`m`]
+                    if char_dict['lvl'] == 0:
+                        col = char_dict[`m`][6]
+                    elif char_dict['lvl'] == 0.5:
+                        col = char_dict[`m`][7]
+                    else:
+                        col = char_dict[`m`][9]
+
+                    print col
+                    srnk=int(raw_input('Number of Ranks: '))
+                    cost=char_dict[`m`][3]
+                    dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
+
+                    current_dp-=int(dp_used)
+                    if current_dp < 0:
+                        print "You do not have enough development points for this skill"
+                        current_dp+=dp_used
+                        cfgData.running_dp(current_dp)
+                    else:
+                        # Current DP update
+                        char_dict['tempdp']=current_dp
+
+                        # Update dictionary
+                        if char_dict['lvl'] == 0:
+                            char_dict[`m`][6] += rnk
+                        elif char_dict['lvl'] == 0.5:
+                            char_dict[`m`][7] += rnk
+                        else:
+                            char_dict[`m`][9] += rnk
+                            char_dict[`m`][8] += char_dict[`m`][9]
+
+                        # Write Character data to file
+                        with open(cfgData.char_dir+"/"+char+"/"+char+".json","w") as f:
+                            f.write(json.dumps(char_dict))
+                        # Display newly added skill
+                        print "*"
+                        print "| {:32} | {:^3} | {:^3} | {:^3} | {:^3} |".format(char_dict[`m`][0],char_dict[`m`][5],char_dict[`m`][6],char_dict[`m`][7],char_dict[`m`][8])
+                        print "*"
+                        #skill_added_display(char_dict['name'],skill_menu_list[`m`])
+            '''
+            if m in skill_menu:
+                skill=int(raw_input("Bonus: "))
+                char_dict[`m`][13]=int(skill)
+            print char_dict[`m`][13]
+
         print "| 1.) A      10.) J      19.) U"
         print "| 2.) B      11.) L      20.) V"
         print "| 3.) C      12.) M      21.) W"
@@ -411,6 +453,7 @@ def select_skills(char):
         sksubloop=True
         skill_menu_list=[]
 
+        sys.exit()
         if ska=="1":
             cfgData.running_dp(current_dp)
             sx=skill_to_list("A")
@@ -432,12 +475,6 @@ def select_skills(char):
                     srnk=int(raw_input('Number of Ranks: '))
                     cost=char_dict[skill_menu_list[sr]][3]
 
-                    '''
-                    Define which column to update
-                    column 6 for AD
-                    column 7 for AP
-                    column 9 for temp column
-                    '''
                     if char_dict['lvl'] == 0:
                         col = char_dict[skill_menu_list[sr]][6]
                     elif char_dict['lvl'] == 0.5:
@@ -1574,3 +1611,4 @@ def select_skills(char):
             print "Back to main menu"
     # Clear dictionary
     char_dict.clear()
+'''
