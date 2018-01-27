@@ -1,6 +1,7 @@
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font, numbers
 from openpyxl.worksheet.table import Table, TableStyleInfo
+from openpyxl.worksheet.page import PageMargins
 import charMenu
 import cfgData
 import json
@@ -21,9 +22,10 @@ def export_to_excel():
     # Open the file
     char_dict={}
     s-=1
-    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+    char = p[s]
+    with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
-
+    charXlFile=char_dict['FullName']+".xlsx"
     with open(cfgData.cfg_dir+"/sttchart.csv") as f:
         statchart =f.read().splitlines()
     sc=[]
@@ -109,6 +111,10 @@ def export_to_excel():
     ws.title = "Characters"
     ws = wb['Characters']
     ws1 = wb['Skills']
+    ws.page_margins.bottom=0.5
+    ws.page_margins.top=0.5
+    ws1.page_margins.top=0.25
+    ws1.page_margins.bottom=0.25
 
     # Data can be assigned directly to cells
     ws.column_dimensions['A'].width = 14.0
@@ -1161,5 +1167,5 @@ def export_to_excel():
             cell.alignment = Alignment(horizontal='left')
 
     # Save the file
-    wb.save(charXlPath+"/"+charXlFile)
-export_to_excel()
+    wb.save(charXlPath+"/"+char+"/"+charXlFile)
+#export_to_excel()

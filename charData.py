@@ -209,17 +209,19 @@ def show_char():
     else:
         lvl=char_dict['lvl']
     print ""
-    print 89 * "-"
-    print "| Name: %s" % char_dict['FullName'].title()
-    print "| Profession: %s" % char_dict['pro_name'].title()
-    print "| Race: %s" % char_dict['race'].title()
-    print "| Level: {:^3}{:77}|".format(lvl," ")
-    print 89 * "-"
+    print " ",86 * "-"," "
+    print "/",86 * " ","\\"
+    print "| Name: {:<23} Level: {:2}{:13}Race: {:12}{:17}|".format(char_dict['FullName'].title(),lvl,"",char_dict['race'],"")
+    print "| Profession: {:<18}Exp: {:<8}{:5}Next Level: {:26} |".format(char_dict['pro_name'].title(),char_dict['exp'],"","")
+    print "| Sex: {:<7}{:10}Age: {:<4}{:56}|".format(char_dict['race'].title(),"",char_dict['age'],"")
+    print "| Height: {:<7}{:4}Weight: {:<4}{:56}|".format("H"," ","W","")
+    print "| Hair: {:<8}{:7}Eyes: {:<8}{:50}|".format(char_dict['hair'],"",char_dict['eye'],"")
+    print "*", 86 * "-","*"
     print "|                                   Stats                                                |"
-    print 89 * "-"
+    print "*", 86 * "-","*"
     print "|                      |         |           |  Stat |  Race | Dev | PP  | Misc  | Total |"
     print "|                      | Current |   Pot'l   | Bonus | Bonus | Pts | Pts | Bonus | Bonus |"
-    print 89 * "-"
+    print "*", 86 * "-","*"
     print "| Strength (ST)        |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['st_stat'],char_dict['st_pot'],stb,raceb[1],stdp,stpp,char_dict['stmb'],sttb)
     print "| Quickness (QU)       |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['qu_stat'],char_dict['qu_pot'],qub,raceb[2],qudp,qupp,char_dict['qumb'],qutb)
     print "| Presence (PR)        |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['pr_stat'],char_dict['pr_pot'],prb,raceb[3],prdp,prpp,char_dict['prmb'],prtb)
@@ -230,9 +232,9 @@ def show_char():
     print "| Self Discipline (SD) |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['sd_stat'],char_dict['sd_pot'],sdb,raceb[8],sddp,sdpp,char_dict['sdmb'],sdtb)
     print "| Memory (ME)          |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['me_stat'],char_dict['me_pot'],meb,raceb[9],medp,mepp,char_dict['memb'],metb)
     print "| Reasoning (RE)       |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['re_stat'],char_dict['re_pot'],reb,raceb[10],redp,repp,char_dict['remb'],retb)
-    print 89 * "-"
+    print "*", 86 * "-","*"
     print "| Development/Power Points:                                  | {:^4}| {:^4}|               |".format(tdp,tpp)
-    print 89 * "-"
+    print "*", 86 * "-","*"
     print
     print 96 * "-"
     print "| {:32} | Hobby | AD  | AP  |     | Skill| Stat |Level| Misc | Total |".format(" ")

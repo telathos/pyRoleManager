@@ -11,7 +11,7 @@ import charMenu
 import rl
 import charData
 import exp
-import rl2
+import export
 
 # Update character records if a new skill is added
 charData.new_skill_check()
@@ -48,6 +48,7 @@ def print_menu():       ## Your menu design here
     print "6. Assign Armor Type to Character"
     print "7. Add experience to character"
     print "8. Raise Character Level"
+    print "9. Export Character to Excel"
     print ""
     print "X. Exit"
     print 67 * "-"
@@ -1271,17 +1272,8 @@ while loop:          ## While loop which will keep going until loop = False
         rl.select_skills(p[s])
     elif choice=="9":
         clear_screen()
-        p=charMenu.char_menu()
-        menu_len=len(p)
-        while True:
-            s=int(raw_input("Select Character: "))
-            if s >=1 and s<=menu_len:
-                break
-            else:
-                print "Invalid Selection! Select a character from the list"
-        skill_list=[]
-        s-=1
-        rl2.select_skills(p[s])
+        export.export_to_excel()
+        #rl2.select_skills(p[s])
     elif choice=="x":
         print "Exiting Program"
         loop=False
