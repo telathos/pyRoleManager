@@ -99,8 +99,6 @@ def create_char():
     char_path=cfgData.char_dir+"/"+user_name
     fullName = user_name +" "+ last_name
     char['FullName'] = fullName
-    #print fullName
-    #print char_path
     if not os.path.exists(char_path):
         os.makedirs(char_path)
     if os.path.exists(char_path+"/"+user_name+".json") == True:
@@ -409,6 +407,10 @@ def create_char():
     age = int(raw_input("Character's Age: "))
     char['age'] = age
     print
+
+    ht = str(raw_input("Enter Height: "))
+    wt = str(raw_input("Enter Weight: "))
+    char['height'],char['weight'] = ht,wt
 
     # Load data into dictionary for saving of the character
     char['st_stat'],char['st_pot']=st_stat,st_pot
@@ -1233,7 +1235,7 @@ loop=True
 
 while loop:          ## While loop which will keep going until loop = False
     print_menu()    ## Displays menu
-    choice = raw_input("Enter your choice [1-7]: ")
+    choice = raw_input("Enter your choice [1-9]: ")
     print ""
     if choice=="1":
         clear_screen()
@@ -1270,10 +1272,11 @@ while loop:          ## While loop which will keep going until loop = False
         skill_list=[]
         s-=1
         rl.select_skills(p[s])
+        clear_screen()
     elif choice=="9":
         clear_screen()
         export.export_to_excel()
-        #rl2.select_skills(p[s])
+        clear_screen()
     elif choice=="x":
         print "Exiting Program"
         loop=False

@@ -213,9 +213,9 @@ def show_char():
     print "/",86 * " ","\\"
     print "| Name: {:<23} Level: {:2}{:13}Race: {:12}{:17}|".format(char_dict['FullName'].title(),lvl,"",char_dict['race'],"")
     print "| Profession: {:<18}Exp: {:<8}{:5}Next Level: {:26} |".format(char_dict['pro_name'].title(),char_dict['exp'],"","")
-    print "| Sex: {:<7}{:10}Age: {:<4}{:56}|".format(char_dict['race'].title(),"",char_dict['age'],"")
-    print "| Height: {:<7}{:4}Weight: {:<4}{:56}|".format("H"," ","W","")
-    print "| Hair: {:<8}{:7}Eyes: {:<8}{:50}|".format(char_dict['hair'],"",char_dict['eye'],"")
+    print "| Sex: {:<7}{:10}Age: {:<4}{:53}|".format(char_dict['race'].title(),"",char_dict['age'],"")
+    print "| Height: {:<7}{:4}Weight: {:<4}{:56}|".format(char_dict['height']," ",char_dict['weight'],"")
+    print "| Hair: {:<8}{:7}Eyes: {:<8}{:52}|".format(char_dict['hair'],"",char_dict['eye'],"")
     print "*", 86 * "-","*"
     print "|                                   Stats                                                |"
     print "*", 86 * "-","*"

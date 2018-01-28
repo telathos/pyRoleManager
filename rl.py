@@ -248,16 +248,6 @@ def select_skills(char):
             index=words
             sklist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][10],char_dict[words][11],char_dict[words][12],char_dict[words][13],char_dict[words][14],index])
             sklst=sorted(sklist, key=lambda skill: skill[0])
-    #print sklst
-    for y in sklst:
-        if y[0] == "Jumping":
-            print y[4] # Hobby
-            print y[5] # AD
-            print y[6] # AP
-            print y[7] # Std
-        if y[4] == 0:
-            pass
-
 
     # Set Base dp
     if char_dict['tempdp']< char_dict['dp']:
@@ -314,7 +304,6 @@ def select_skills(char):
         if char_dict['tempdp']<1.0:
             if char_dict['lvl']==0:
                 next_lvl="Appenticeship"
-                print next_lvl
                 char_dict['lvl']=0.5
                 char_dict['tempdp'] = iround(char_dict['dp'])
             elif char_dict['lvl']==0.5:
@@ -323,6 +312,8 @@ def select_skills(char):
                 char_dict['tempdp'] = iround(char_dict['dp'])
             else:
                 next_lvl=int(char_dict['lvl']+1)
+                char_dict['lvl']=next_lvl
+                char_dict['tempdp'] = iround(char_dict['dp'])
                 # Clear temp column
                 for words in char_dict:
                     if words.isdigit():
@@ -350,7 +341,6 @@ def select_skills(char):
 
         # Check if exiting loop
         if search.upper() == "EXIT":
-            clear_screen()
             skloop=False
         else:
             # Create header
@@ -371,12 +361,12 @@ def select_skills(char):
                 cfgData.running_dp(current_dp)
                 print "Enter the skill number or 'Exit' to return to the previous menu"
                 m=raw_input("Skill: ")
+
                 # Check if exiting loop
                 if m.upper() == "EXIT":
-                    clear_screen()
                     skill_menu = False
                 else:
-                    print char_dict[`int(m)`]
+                    print char_dict[`int(m)`][0]
                     if char_dict['lvl'] == 0:
                         col = char_dict[`int(m)`][6]
                     elif char_dict['lvl'] == 0.5:
@@ -384,7 +374,7 @@ def select_skills(char):
                     else:
                         col = char_dict[`int(m)`][9]
 
-                    print col
+                    #print col
                     srnk=int(raw_input('Number of Ranks: '))
                     cost=char_dict[`int(m)`][3]
                     dpu,rnk = skill_rank_qty_check(srnk,cost,char_dict['lvl'],col)
@@ -411,7 +401,10 @@ def select_skills(char):
                         with open(cfgData.char_dir+"/"+char+"/"+char+".json","w") as f:
                             f.write(json.dumps(char_dict))
                         # Display newly added skill
-                        print "*"
-                        print "| {:32} | {:^3} | {:^3} | {:^3} | {:^3} |".format(char_dict[`int(m)`][0],char_dict[`int(m)`][5],char_dict[`int(m)`][6],char_dict[`int(m)`][7],char_dict[`int(m)`][8])
-                        print "*"
+                        print "*",64 * "=","*"
+                        print "| {:32} | {:5} | {:^5} | {:^5} | {:^5} |".format("","Hobby","AD","AP","Std")
+                        print "| {:32} | {:5} | {:5} | {:5} | {:5} |".format("Skill Name","Bonus","Bonus","Bonus","Bonus")
+                        print "*",64 * "-","*"
+                        print "| {:32} | {:^5} | {:^5} | {:^5} | {:^5} |".format(char_dict[`int(m)`][0],char_dict[`int(m)`][5],char_dict[`int(m)`][6],char_dict[`int(m)`][7],char_dict[`int(m)`][8])
+                        print "*",64 * "-","*"
                         #skill_added_display(char_dict['name'],skill_menu_list[`m`])

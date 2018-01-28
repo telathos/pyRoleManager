@@ -8,8 +8,7 @@
   b.) Add back to Show Character - Low priority
   c.) Add to show character, current Skills only
 6.) Add back to character menu code - Low priority
-7.) Add Height, Weight
-8.) Add Armor types and stats
+7.) Add Armor types and stats
 9.) Add Experience
 10.) Fix lvl 1+ skill rank code - use temp column
 
@@ -36,6 +35,7 @@ Completed
 10.) Added Sex, Eyes and Hair
 11.) Add Languages
 12.) stat gain roll
+13.) Add Height, Weight
 
 Version 2.0 Work
 1.) Get Archiving Working - Low priority
