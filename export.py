@@ -25,7 +25,7 @@ def export_to_excel():
     char = p[s]
     with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
-    charXlFile=char_dict['FullName']+".xlsx"
+    #charXlFile=char_dict['FullName']+".xlsx"
     with open(cfgData.cfg_dir+"/sttchart.csv") as f:
         statchart =f.read().splitlines()
     sc=[]
@@ -115,6 +115,8 @@ def export_to_excel():
     ws.page_margins.top=0.5
     ws1.page_margins.top=0.25
     ws1.page_margins.bottom=0.25
+    ws1.page_margins.left=0.5
+    ws1.page_margins.right=0.5
 
     # Data can be assigned directly to cells
     ws.column_dimensions['A'].width = 14.0
@@ -1068,21 +1070,22 @@ def export_to_excel():
     ws1['B1'] = "Cost"
     ws1.merge_cells('A1:A2')
     ws1.merge_cells('B1:B2')
-    ws1.merge_cells('C1:F1')
-    ws1.merge_cells('G1:K1')
+    ws1.merge_cells('C1:G1')
+    ws1.merge_cells('H1:L1')
     ws1['C1'] = "-- SKILL RANKS --"
-    ws1['G1'] = "-- BONUSES --"
+    ws1['H1'] = "-- BONUSES --"
     ws1['C2'] = "Hobby"
     ws1['D2'] = "Adol"
     ws1['E2'] = "App"
     ws1['F2'] = "Ranks"
-    ws1['G2'] = "Skill"
-    ws1['H2'] = "Stat"
-    ws1['I2'] = "Lvl"
-    ws1['J2'] = "Misc"
-    ws1['K2'] = "Total"
+    ws1['G2'] = "Total"
+    ws1['H2'] = "Skill"
+    ws1['I2'] = "Stat"
+    ws1['J2'] = "Lvl"
+    ws1['K2'] = "Misc"
+    ws1['L2'] = "Total"
     ws1['C1'].alignment = Alignment(horizontal='center')
-    ws1['G1'].alignment = Alignment(horizontal='center')
+    ws1['H1'].alignment = Alignment(horizontal='center')
     ws1['C2'].alignment = Alignment(horizontal='center')
     ws1['D2'].alignment = Alignment(horizontal='center')
     ws1['E2'].alignment = Alignment(horizontal='center')
@@ -1092,6 +1095,7 @@ def export_to_excel():
     ws1['I2'].alignment = Alignment(horizontal='center')
     ws1['J2'].alignment = Alignment(horizontal='center')
     ws1['K2'].alignment = Alignment(horizontal='center')
+    ws1['L2'].alignment = Alignment(horizontal='center')
     ws1['A1'].border = fullBorder
     ws1['A2'].border = fullBorder
     ws1['B1'].border = fullBorder
@@ -1105,6 +1109,7 @@ def export_to_excel():
     ws1['I1'].border = tbBorder
     ws1['J1'].border = tbBorder
     ws1['K1'].border = fullBorder
+    ws1['L1'].border = fullBorder
     ws1['C2'].border = fullBorder
     ws1['D2'].border = fullBorder
     ws1['E2'].border = fullBorder
@@ -1114,6 +1119,7 @@ def export_to_excel():
     ws1['I2'].border = fullBorder
     ws1['J2'].border = fullBorder
     ws1['K2'].border = fullBorder
+    ws1['L2'].border = fullBorder
     ws1['A1'].font = textCalBoldFont
     ws1['B1'].font = textCalBoldFont
     ws1['C1'].font = textCalBoldFont
@@ -1121,12 +1127,13 @@ def export_to_excel():
     ws1['D2'].font = textCalBoldFont
     ws1['E2'].font = textCalBoldFont
     ws1['F2'].font = textCalBoldFont
-    ws1['G1'].font = textCalBoldFont
+    ws1['H1'].font = textCalBoldFont
     ws1['G2'].font = textCalBoldFont
     ws1['H2'].font = textCalBoldFont
     ws1['I2'].font = textCalBoldFont
     ws1['J2'].font = textCalBoldFont
     ws1['K2'].font = textCalBoldFont
+    ws1['L2'].font = textCalBoldFont
 
     skill=[]
     ###### Test ######
@@ -1139,13 +1146,16 @@ def export_to_excel():
     ws1.column_dimensions['G'].width = 5.0
     ws1.column_dimensions['H'].width = 5.0
     ws1.column_dimensions['I'].width = 5.0
-    ws1.column_dimensions['J'].width = 6.0
-    ws1.column_dimensions['K'].width = 8.0
+    ws1.column_dimensions['J'].width = 5.0
+    ws1.column_dimensions['K'].width = 6.0
+    ws1.column_dimensions['L'].width = 8.0
 
+    skill_rank_total = 0
     for words in char_dict:
         if words.isdigit():
             if char_dict[words][5] > 0 or char_dict[words][6]>0 or char_dict[words][7]>0 or char_dict[words][8]>0:
-                skill.append([char_dict[words][0],char_dict[words][3],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][10],char_dict[words][11],char_dict[words][13],char_dict[words][12],char_dict[words][14]])
+                skill_rank_total = char_dict[words][5] + char_dict[words][6] + char_dict[words][7]+ char_dict[words][8]
+                skill.append([char_dict[words][0],char_dict[words][3],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],skill_rank_total,char_dict[words][10],char_dict[words][11],char_dict[words][13],char_dict[words][12],char_dict[words][14]])
                 skill.sort()
 
     for row in skill:
