@@ -1084,6 +1084,7 @@ def export_to_excel():
     ws1['J2'] = "Lvl"
     ws1['K2'] = "Misc"
     ws1['L2'] = "Total"
+    ws1['B2'].alignment = Alignment(horizontal='center')
     ws1['C1'].alignment = Alignment(horizontal='center')
     ws1['H1'].alignment = Alignment(horizontal='center')
     ws1['C2'].alignment = Alignment(horizontal='center')
