@@ -2,6 +2,7 @@ import cfgData
 import charMenu
 import json
 import os
+import skill_math
 
 
 # function to check if any new skills have been added
@@ -173,6 +174,8 @@ def show_char():
     metb=(int(meb)+int(raceb[9])+int(char_dict['memb']))
     retb=(int(reb)+int(raceb[10])+int(char_dict['remb']))
     tdp=char_dict['dp']
+
+    skill_math.skill_totals(char,"hi")
 
     # Power Point Math
     stpp,qupp,copp,agpp,sdpp,mepp,repp="-","-","-","-","-","-","-"

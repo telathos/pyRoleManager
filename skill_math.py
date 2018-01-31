@@ -2,6 +2,7 @@ import json
 import cfgData
 import charMenu
 
+'''
 p=charMenu.char_menu()
 menu_len=len(p)
 while True:
@@ -13,7 +14,7 @@ while True:
 skill_list=[]
 s-=1
 char=p[s]
-
+'''
 def skill_totals(char,var1):
     with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
         char_dict=json.load(f)
@@ -198,4 +199,4 @@ def skill_totals(char,var1):
         with open(cfgData.char_dir+"/"+char+"/"+char+".json", "w") as f:
             f.write(json.dumps(char_dict))
 
-skill_totals(char,"hi")
+#skill_totals(char,"hi")
