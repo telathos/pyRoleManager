@@ -186,30 +186,5 @@ def skill_totals(char,var1):
         # Write Character data to file
         with open(cfgData.char_dir+"/"+char+"/"+char+".json", "w") as f:
             f.write(json.dumps(char_dict))
-    #print sklist
-
-def stat_lookup(vstat,vlength):
-    if vstat == "ST":
-        x = char_dict['st_stat']
-    elif vstat == "QU":
-        x = char_dict['qu_stat']
-    elif vstat == "EM":
-        x = char_dict['em_stat']
-    elif vstat == "PR":
-        x = char_dict['pr_stat']
-    elif vstat == "IN":
-        x = char_dict['in_stat']
-    elif vstat == "CO":
-        x = char_dict['co_stat']
-    elif vstat == "AG":
-        x = char_dict['ag_stat']
-    elif vstat == "SD":
-        x = char_dict['sd_stat']
-    elif vstat == "ME":
-        x = char_dict['me_stat']
-    elif vstat == "RE":
-        x = char_dict['re_stat']
-
-    return x
-
+    
 skill_totals(char,"hi")

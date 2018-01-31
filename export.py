@@ -115,8 +115,8 @@ def export_to_excel():
     ws.page_margins.top=0.5
     ws1.page_margins.top=0.25
     ws1.page_margins.bottom=0.25
-    ws1.page_margins.left=0.5
-    ws1.page_margins.right=0.5
+    ws1.page_margins.left=0.25
+    ws1.page_margins.right=0.25
 
     # Data can be assigned directly to cells
     ws.column_dimensions['A'].width = 14.0
@@ -1068,25 +1068,28 @@ def export_to_excel():
     ######## Skills sheet ########
     ws1['A1'] = "Skills"
     ws1['B1'] = "Cost"
+    ws1['C1'] = "Stats"
     ws1.merge_cells('A1:A2')
     ws1.merge_cells('B1:B2')
-    ws1.merge_cells('C1:G1')
-    ws1.merge_cells('H1:L1')
-    ws1['C1'] = "-- SKILL RANKS --"
-    ws1['H1'] = "-- BONUSES --"
-    ws1['C2'] = "Hobby"
-    ws1['D2'] = "Adol"
-    ws1['E2'] = "App"
-    ws1['F2'] = "Ranks"
-    ws1['G2'] = "Total"
-    ws1['H2'] = "Skill"
-    ws1['I2'] = "Stat"
-    ws1['J2'] = "Lvl"
-    ws1['K2'] = "Misc"
-    ws1['L2'] = "Total"
-    ws1['B2'].alignment = Alignment(horizontal='center')
+    ws1.merge_cells('C1:C2')
+    ws1.merge_cells('D1:H1')
+    ws1.merge_cells('I1:M1')
+    ws1['D1'] = "-- SKILL RANKS --"
+    ws1['I1'] = "-- BONUSES --"
+    ws1['D2'] = "Hobby"
+    ws1['E2'] = "Adol"
+    ws1['F2'] = "App"
+    ws1['G2'] = "Ranks"
+    ws1['H2'] = "Total"
+    ws1['I2'] = "Skill"
+    ws1['J2'] = "Stat"
+    ws1['K2'] = "Lvl"
+    ws1['L2'] = "Misc"
+    ws1['M2'] = "Total"
+    ws1['B1'].alignment = Alignment(horizontal='center')
     ws1['C1'].alignment = Alignment(horizontal='center')
-    ws1['H1'].alignment = Alignment(horizontal='center')
+    ws1['D1'].alignment = Alignment(horizontal='center')
+    ws1['I1'].alignment = Alignment(horizontal='center')
     ws1['C2'].alignment = Alignment(horizontal='center')
     ws1['D2'].alignment = Alignment(horizontal='center')
     ws1['E2'].alignment = Alignment(horizontal='center')
@@ -1097,20 +1100,24 @@ def export_to_excel():
     ws1['J2'].alignment = Alignment(horizontal='center')
     ws1['K2'].alignment = Alignment(horizontal='center')
     ws1['L2'].alignment = Alignment(horizontal='center')
+    ws1['M2'].alignment = Alignment(horizontal='center')
     ws1['A1'].border = fullBorder
     ws1['A2'].border = fullBorder
     ws1['B1'].border = fullBorder
     ws1['B2'].border = fullBorder
     ws1['C1'].border = fullBorder
-    ws1['D1'].border = tbBorder
+    ws1['C2'].border = fullBorder
+    ws1['D1'].border = fullBorder
     ws1['E1'].border = tbBorder
     ws1['F1'].border = tbBorder
-    ws1['G1'].border = fullBorder
-    ws1['H1'].border = tbBorder
-    ws1['I1'].border = tbBorder
+    ws1['G1'].border = tbBorder
+    ws1['H1'].border = fullBorder
+    ws1['I1'].border = fullBorder
     ws1['J1'].border = tbBorder
-    ws1['K1'].border = fullBorder
-    ws1['L1'].border = fullBorder
+    ws1['K1'].border = tbBorder
+    ws1['L1'].border = tbBorder
+    ws1['L1'].border = tbBorder
+    ws1['M1'].border = fullBorder
     ws1['C2'].border = fullBorder
     ws1['D2'].border = fullBorder
     ws1['E2'].border = fullBorder
@@ -1121,20 +1128,22 @@ def export_to_excel():
     ws1['J2'].border = fullBorder
     ws1['K2'].border = fullBorder
     ws1['L2'].border = fullBorder
+    ws1['M2'].border = fullBorder
     ws1['A1'].font = textCalBoldFont
     ws1['B1'].font = textCalBoldFont
     ws1['C1'].font = textCalBoldFont
-    ws1['C2'].font = textCalBoldFont
+    ws1['D1'].font = textCalBoldFont
     ws1['D2'].font = textCalBoldFont
     ws1['E2'].font = textCalBoldFont
     ws1['F2'].font = textCalBoldFont
-    ws1['H1'].font = textCalBoldFont
+    ws1['I1'].font = textCalBoldFont
     ws1['G2'].font = textCalBoldFont
     ws1['H2'].font = textCalBoldFont
     ws1['I2'].font = textCalBoldFont
     ws1['J2'].font = textCalBoldFont
     ws1['K2'].font = textCalBoldFont
     ws1['L2'].font = textCalBoldFont
+    ws1['M2'].font = textCalBoldFont
 
     skill=[]
     ###### Test ######
@@ -1148,7 +1157,8 @@ def export_to_excel():
     ws1.column_dimensions['H'].width = 5.0
     ws1.column_dimensions['I'].width = 5.0
     ws1.column_dimensions['J'].width = 5.0
-    ws1.column_dimensions['K'].width = 6.0
+    ws1.column_dimensions['K'].width = 5.0
+    ws1.column_dimensions['L'].width = 6.0
     ws1.column_dimensions['L'].width = 8.0
 
     skill_rank_total = 0
