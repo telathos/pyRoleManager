@@ -27,49 +27,34 @@ def skill_totals(char,var1):
             # Get stat total bonuses
             stat=char_dict[words][1]
             if len(stat)==2:
-                print stat
                 if stat.upper() == "NA":
-                    print "No Stat"
+                    stat_bonus = 0
                 else:
                     if stat == "ST":
                         stat_bonus = char_dict['sttb']
-                        print stat_bonus
                     elif stat == "QU":
                         stat_bonus = char_dict['qutb']
-                        print stat_bonus
                     elif stat == "PR":
                         stat_bonus = char_dict['prtb']
-                        print stat_bonus
                     elif stat == "IN":
                         stat_bonus = char_dict['intb']
-                        print stat_bonus
                     elif stat == "EM":
                         stat_bonus = char_dict['emtb']
-                        print stat_bonus
                     elif stat == "CO":
                         stat_bonus = char_dict['cotb']
-                        print stat_bonus
                     elif stat == "AG":
                         stat_bonus = char_dict['agtb']
-                        print stat_bonus
                     elif stat == "SD":
                         stat_bonus = char_dict['sdtb']
-                        print stat_bonus
                     elif stat == "ME":
                         stat_bonus = char_dict['metb']
-                        print stat_bonus
                     elif stat == "RE":
                         stat_bonus = char_dict['retb']
-                        print stat_bonus
                     char_dict[words][11] = stat_bonus
-                    print char_dict[words][11],":stat bonus (Single)"
+                    #print char_dict[words][11],":stat bonus (Single)"
             elif len(stat)==5:
                 stats=stat.split('/')
                 # Stat 1
-                print char_dict[words][0],stat
-                if char_dict[words][0]=="Diving":
-                    print "+++++++++++++"
-                    print "+++++++++++++"
                 if stats[0] == "ST":
                     stat_bonus1 = char_dict['sttb']
                 elif stats[0] == "QU":
@@ -111,11 +96,13 @@ def skill_totals(char,var1):
                     stat_bonus2 = char_dict['metb']
                 elif stats[1] == "RE":
                     stat_bonus2 = char_dict['retb']
+                '''
                 print stats[0],"0"
                 print stats[1],"1"
+                print stat_bonus,":stat bonus (Double)"
+                '''
                 stat_bonus = (stat_bonus1 + stat_bonus2)/2
                 char_dict[words][11] = stat_bonus
-                print stat_bonus,":stat bonus (Double)"
             elif len(stat)==8:
                 stats=stat.split('/')
                 # Stat 1
@@ -181,13 +168,32 @@ def skill_totals(char,var1):
                     stat_bonus3 = char_dict['metb']
                 elif stats[2] == "RE":
                     stat_bonus3 = char_dict['retb']
+                '''
                 print stats[0],"0"
                 print stats[1],"1"
                 print stats[2],"2"
-                stat_bonus = (stat_bonus1 + stat_bonus2 + stat_bonus3)/3
                 print stat_bonus,":stat bonus (Triple)"
+                '''
+                stat_bonus = (stat_bonus1 + stat_bonus2 + stat_bonus3)/3
                 char_dict[words][11] = stat_bonus
+            # Calcalute skill bonus
+            skill_rank_total = char_dict[words][5] + char_dict[words][6] + char_dict[words][7] + char_dict[words][8]
 
+            if skill_rank_total <= 10:
+                skill_bonus = skill_rank_total * 5
+            elif skill_rank_total >=11 and skill_rank_total <= 20:
+                skill_bonus = 50 + ((skill_rank_total-10) * 2)
+            elif skill_rank_total >= 21 and skill_rank_total <= 30:
+                skill_bonus = 70 + ((skill_rank_total-20) * 1)
+            else:
+                skill_bonus = 80 + ((skill_rank_total-30) * 0.5)
+            # Update dictionary
+            char_dict[words][10] = skill_bonus
+
+            # Calcalute Total Skill Bonus
+            total_skill_bonus = char_dict[words][10] + char_dict[words][11] + char_dict[words][12] + char_dict[words][13]
+            # Update dictionary
+            char_dict[words][14] = total_skill_bonus
         # Write Character data to file
         with open(cfgData.char_dir+"/"+char+"/"+char+".json", "w") as f:
             f.write(json.dumps(char_dict))

@@ -713,7 +713,8 @@ def mbbonus():
 
     # Open the file
     s-=1
-    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+    char=p[s]
+    with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
         setstmb=char_dict['stmb']
         setqumb=char_dict['qumb']
@@ -788,7 +789,7 @@ def mbbonus():
         char_dict['remb']=setremb
 
         # Open character file to write out data
-        with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
+        with open(cfgData.char_dir+"/"+char+"/"+char+".json", 'w') as f:
             f.write(json.dumps(char_dict))
     # End of Misc Bonus function
 

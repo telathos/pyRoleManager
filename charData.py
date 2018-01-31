@@ -107,7 +107,8 @@ def show_char():
     # Open the file
     char_dict={}
     s-=1
-    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+    char=p[s]
+    with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
     # Open chart of stat values
     with open(cfgData.cfg_dir+"/sttchart.csv") as f:
@@ -244,7 +245,7 @@ def show_char():
     for words in char_dict:
         if words.isdigit():
             if char_dict[words][5]>0 or char_dict[words][6]>0 or char_dict[words][7]>0 or char_dict[words][8]>0:
-                print "| {:32} | {:^5} |{:^5}|{:^5}|{:^5}|{:^6}|{:^6}|{:^5}|{:^6}|{:^7}|".format(char_dict[words][0],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][11],char_dict[words][10],char_dict[words][13],char_dict[words][12],char_dict[words][14])
+                print "| {:32} | {:^5} |{:^5}|{:^5}|{:^5}|{:^6}|{:^6}|{:^5}|{:^6}|{:^7}|".format(char_dict[words][0],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][10],char_dict[words][11],char_dict[words][13],char_dict[words][12],char_dict[words][14])
     print 96 * "-"
     print
     print
