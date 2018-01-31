@@ -1149,24 +1149,24 @@ def export_to_excel():
     ###### Test ######
     ws1.column_dimensions['A'].width = 26.0
     ws1.column_dimensions['B'].width = 5.5
-    ws1.column_dimensions['C'].width = 6.5
+    ws1.column_dimensions['C'].width = 8.5
     ws1.column_dimensions['D'].width = 6.5
     ws1.column_dimensions['E'].width = 6.5
     ws1.column_dimensions['F'].width = 6.5
-    ws1.column_dimensions['G'].width = 5.0
+    ws1.column_dimensions['G'].width = 5.5
     ws1.column_dimensions['H'].width = 5.0
     ws1.column_dimensions['I'].width = 5.0
     ws1.column_dimensions['J'].width = 5.0
     ws1.column_dimensions['K'].width = 5.0
-    ws1.column_dimensions['L'].width = 6.0
-    ws1.column_dimensions['L'].width = 8.0
+    ws1.column_dimensions['L'].width = 5.0
+    ws1.column_dimensions['L'].width = 7.0
 
     skill_rank_total = 0
     for words in char_dict:
         if words.isdigit():
             if char_dict[words][5] > 0 or char_dict[words][6]>0 or char_dict[words][7]>0 or char_dict[words][8]>0:
                 skill_rank_total = char_dict[words][5] + char_dict[words][6] + char_dict[words][7]+ char_dict[words][8]
-                skill.append([char_dict[words][0],char_dict[words][3],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],skill_rank_total,char_dict[words][10],char_dict[words][11],char_dict[words][13],char_dict[words][12],char_dict[words][14]])
+                skill.append([char_dict[words][0],char_dict[words][3],char_dict[words][1],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],skill_rank_total,char_dict[words][10],char_dict[words][11],char_dict[words][13],char_dict[words][12],char_dict[words][14]])
                 skill.sort()
 
     for row in skill:

@@ -66,6 +66,10 @@ def skill_totals(char,var1):
             elif len(stat)==5:
                 stats=stat.split('/')
                 # Stat 1
+                print char_dict[words][0],stat
+                if char_dict[words][0]=="Diving":
+                    print "+++++++++++++"
+                    print "+++++++++++++"
                 if stats[0] == "ST":
                     stat_bonus1 = char_dict['sttb']
                 elif stats[0] == "QU":
@@ -110,6 +114,7 @@ def skill_totals(char,var1):
                 print stats[0],"0"
                 print stats[1],"1"
                 stat_bonus = (stat_bonus1 + stat_bonus2)/2
+                char_dict[words][11] = stat_bonus
                 print stat_bonus,":stat bonus (Double)"
             elif len(stat)==8:
                 stats=stat.split('/')
@@ -186,5 +191,5 @@ def skill_totals(char,var1):
         # Write Character data to file
         with open(cfgData.char_dir+"/"+char+"/"+char+".json", "w") as f:
             f.write(json.dumps(char_dict))
-    
+
 skill_totals(char,"hi")
