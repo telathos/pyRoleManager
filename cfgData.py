@@ -17,6 +17,8 @@ sexlist = ['Male','Female','Asexual']
 
 from colorama import Fore, Back, Style
 import decimal
+from platform import system as system_name # Returns the system/OS name
+from os import system as system_call       # Execute a shell command
 
 dp=0
 dp_cur=0
@@ -28,6 +30,19 @@ def running_dp(num):
     print (Style.RESET_ALL)
 
     return dp_cur
+
+def clear_screen():
+    """
+    Clears the terminal screen.
+    """
+    # Clear command as function of OS
+    command = "cls" if system_name().lower()=="windows" else "clear"
+    # Action
+    system_call(command)
+
+def iround(x):
+    # Rounds floating point number to nearest interger
+    return int(round(x) - .5) + (x > 0)
 
 def adolescence_skills():
     print(Fore.BLUE + Back.WHITE + "Suggested Adolescence skills:")

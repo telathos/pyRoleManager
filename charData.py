@@ -2,8 +2,6 @@ import cfgData
 import charMenu
 import json
 import os
-import skill_math
-
 
 # function to check if any new skills have been added
 def new_skill_check():
@@ -175,7 +173,235 @@ def show_char():
     retb=(int(reb)+int(raceb[10])+int(char_dict['remb']))
     tdp=char_dict['dp']
 
-    skill_math.skill_totals(char,"hi")
+    cfgData.clear_screen()
+    print "Calculating totals..."
+    print
+
+    # Create list of the level bonus
+    lblist=[]
+    with open(cfgData.cfg_dir+"/pro.csv") as f:
+        llbonus=f.read()
+    for lb in llbonus.splitlines():
+        rt=lb.split(",")
+        if rt[0]==char_dict['pro_name']:
+            lblist=[rt[9],rt[10],rt[11],rt[12],rt[13],rt[14],rt[15],rt[16],rt[17],rt[18],rt[19],rt[20],rt[21],rt[22],rt[23],rt[24]]
+
+    sklist=[]
+    for words in char_dict:
+        if words.isdigit():
+            index=words
+            sklist.append([char_dict[words][0],char_dict[words][1],char_dict[words][2],char_dict[words][3],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][10],char_dict[words][11],char_dict[words][12],char_dict[words][13],char_dict[words][14],index])
+
+            # Lookup category and Calcalute lvl Bonus
+            if char_dict[words][4] == "academic":
+                lvl_bonus = int(lblist[0])
+            if char_dict[words][4] == "arms":
+                lvl_bonus = int(lblist[1])
+            if char_dict[words][4] == "athletic":
+                lvl_bonus = int(lblist[2])
+            if char_dict[words][4] == "base":
+                lvl_bonus = int(lblist[3])
+            if char_dict[words][4] == "body development":
+                lvl_bonus = int(lblist[4])
+            if char_dict[words][4] == "concentration":
+                lvl_bonus = int(lblist[5])
+            if char_dict[words][4] == "deadly":
+                lvl_bonus = int(lblist[6])
+            if char_dict[words][4] == "directed spells":
+                lvl_bonus = int(lblist[7])
+            if char_dict[words][4] == "general":
+                lvl_bonus = int(lblist[8])
+            if char_dict[words][4] == "linguistic":
+                lvl_bonus = int(lblist[9])
+            if char_dict[words][4] == "magical":
+                lvl_bonus = int(lblist[10])
+            if char_dict[words][4] == "medical":
+                lvl_bonus = int(lblist[11])
+            if char_dict[words][4] == "outdoor":
+                lvl_bonus = int(lblist[12])
+            if char_dict[words][4] == "perception":
+                lvl_bonus = int(lblist[13])
+            if char_dict[words][4] == "social":
+                lvl_bonus = int(lblist[14])
+            if char_dict[words][4] == "subterfuge":
+                lvl_bonus = int(lblist[15])
+
+            if char_dict['lvl']<= 1:
+                lvl_mult = 1
+            elif char_dict['lvl'] >= 1 and char_dict['lvl'] <= 20:
+                lvl_mult = int(char_dict['lvl'])
+            else:
+                lvl_mult = 20
+
+            if char_dict['pro_name'] == "Fighter" and char_dict[words][4] == "arms" and char_dict['lvl'] > 20:
+                lvl_bonus = 60 + (char_dict['lvl'] - 20 )
+            else:
+                lvl_bonus = lvl_bonus * lvl_mult
+            char_dict[words][13] = lvl_bonus
+
+            # Get stat total bonuses
+            stat=char_dict[words][1]
+            if len(stat)==2:
+                if stat.upper() == "NA":
+                    stat_bonus = 0
+                else:
+                    if stat == "ST":
+                        stat_bonus = sttb
+                    elif stat == "QU":
+                        stat_bonus = qutb
+                    elif stat == "PR":
+                        stat_bonus = prtb
+                    elif stat == "IN":
+                        stat_bonus = intb
+                    elif stat == "EM":
+                        stat_bonus = emtb
+                    elif stat == "CO":
+                        stat_bonus = cotb
+                    elif stat == "AG":
+                        stat_bonus = agtb
+                    elif stat == "SD":
+                        stat_bonus = sdtb
+                    elif stat == "ME":
+                        stat_bonus = metb
+                    elif stat == "RE":
+                        stat_bonus = retb
+                    char_dict[words][11] = stat_bonus
+            elif len(stat)==5:
+                stats=stat.split('/')
+                # Stat 1
+                if stats[0] == "ST":
+                    stat_bonus1 = sttb
+                elif stats[0] == "QU":
+                    stat_bonus1 = qutb
+                elif stats[0] == "PR":
+                    stat_bonus1 = prtb
+                elif stats[0] == "IN":
+                    stat_bonus1 = intb
+                elif stats[0] == "EM":
+                    stat_bonus1 = emtb
+                elif stats[0] == "CO":
+                    stat_bonus1 = cotb
+                elif stats[0] == "AG":
+                    stat_bonus1 = agtb
+                elif stats[0] == "SD":
+                    stat_bonus1 = sdtb
+                elif stats[0] == "ME":
+                    stat_bonus1 = metb
+                elif stats[0] == "RE":
+                    stat_bonus1 = retb
+                # Stat 2
+                if stats[1] == "ST":
+                    stat_bonus2 = sttb
+                elif stats[1] == "QU":
+                    stat_bonus2 = qutb
+                elif stats[1] == "PR":
+                    stat_bonus2 = prtb
+                elif stats[1] == "IN":
+                    stat_bonus2 = intb
+                elif stats[1] == "EM":
+                    stat_bonus2 = emtb
+                elif stats[1] == "CO":
+                    stat_bonus2 = cotb
+                elif stats[1] == "AG":
+                    stat_bonus2 = agtb
+                elif stats[1] == "SD":
+                    stat_bonus2 = sdtb
+                elif stats[1] == "ME":
+                    stat_bonus2 = metb
+                elif stats[1] == "RE":
+                    stat_bonus2 = retb
+                stat_bonus = (stat_bonus1 + stat_bonus2)/2
+                char_dict[words][11] = cfgData.iround(stat_bonus)
+            elif len(stat)==8:
+                stats=stat.split('/')
+                # Stat 1
+                if stats[0] == "ST":
+                    stat_bonus1 = sttb
+                elif stats[0] == "QU":
+                    stat_bonus1 = qutb
+                elif stats[0] == "PR":
+                    stat_bonus1 = prtb
+                elif stats[0] == "IN":
+                    stat_bonus1 = intb
+                elif stats[0] == "EM":
+                    stat_bonus1 = emtb
+                elif stats[0] == "CO":
+                    stat_bonus1 = cotb
+                elif stats[0] == "AG":
+                    stat_bonus1 = agtb
+                elif stats[0] == "SD":
+                    stat_bonus1 = sdtb
+                elif stats[0] == "ME":
+                    stat_bonus1 = metb
+                elif stats[0] == "RE":
+                    stat_bonus1 = retb
+                # Stat 2
+                if stats[1] == "ST":
+                    stat_bonus2 = sttb
+                elif stats[1] == "QU":
+                    stat_bonus2 = qutb
+                elif stats[1] == "PR":
+                    stat_bonus2 = prtb
+                elif stats[1] == "IN":
+                    stat_bonus2 = intb
+                elif stats[1] == "EM":
+                    stat_bonus2 = emtb
+                elif stats[1] == "CO":
+                    stat_bonus2 = cotb
+                elif stats[1] == "AG":
+                    stat_bonus2 = agtb
+                elif stats[1] == "SD":
+                    stat_bonus2 = sdtb
+                elif stats[1] == "ME":
+                    stat_bonus2 = metb
+                elif stats[1] == "RE":
+                    stat_bonus2 = retb
+                # Stat 3
+                if stats[2] == "ST":
+                    stat_bonus3 = sttb
+                elif stats[2] == "QU":
+                    stat_bonus3 = qutb
+                elif stats[2] == "PR":
+                    stat_bonus3 = prtb
+                elif stats[2] == "IN":
+                    stat_bonus3 = intb
+                elif stats[2] == "EM":
+                    stat_bonus3 = emtb
+                elif stats[2] == "CO":
+                    stat_bonus3 = cotb
+                elif stats[2] == "AG":
+                    stat_bonus3 = agtb
+                elif stats[2] == "SD":
+                    stat_bonus3 = sdtb
+                elif stats[2] == "ME":
+                    stat_bonus3 = metb
+                elif stats[2] == "RE":
+                    stat_bonus3 = retb
+                stat_bonus = (stat_bonus1 + stat_bonus2 + stat_bonus3)/3
+
+            # Update dictionary
+            char_dict[words][11] = cfgData.iround(stat_bonus)
+            # Calcalute skill bonus
+            skill_rank_total = char_dict[words][5] + char_dict[words][6] + char_dict[words][7] + char_dict[words][8]
+
+            if skill_rank_total <= 10:
+                skill_bonus = skill_rank_total * 5
+            elif skill_rank_total >=11 and skill_rank_total <= 20:
+                skill_bonus = 50 + ((skill_rank_total-10) * 2)
+            elif skill_rank_total >= 21 and skill_rank_total <= 30:
+                skill_bonus = 70 + ((skill_rank_total-20) * 1)
+            else:
+                skill_bonus = 80 + ((skill_rank_total-30) * 0.5)
+            # Update dictionary
+            char_dict[words][10] = cfgData.iround(skill_bonus)
+
+            # Calcalute Total Skill Bonus
+            total_skill_bonus = char_dict[words][10] + char_dict[words][11] + char_dict[words][12] + char_dict[words][13]
+            # Update dictionary
+            char_dict[words][14] = total_skill_bonus
+        # Write Character data to file
+        with open(cfgData.char_dir+"/"+char+"/"+char+".json", "w") as f:
+            f.write(json.dumps(char_dict))
 
     # Power Point Math
     stpp,qupp,copp,agpp,sdpp,mepp,repp="-","-","-","-","-","-","-"
@@ -212,6 +438,8 @@ def show_char():
         lvl="AP"
     else:
         lvl=char_dict['lvl']
+
+    cfgData.clear_screen()
     print ""
     print " ",86 * "-"," "
     print "/",86 * " ","\\"

@@ -75,10 +75,6 @@ def create_skill_menu(arg1):
     print
     return arg1,skill_menu_list
 
-def iround(x):
-    # Rounds floating point number to nearest interger
-    return int(round(x) - .5) + (x > 0)
-
 def skill_added_display(char,skill):
     with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
         char_dict=json.load(f)
@@ -104,14 +100,14 @@ def skill_added_display(char,skill):
 
     rank_total=char_dict[skill][5]+char_dict[skill][6]+char_dict[skill][7]+char_dict[skill][8]
     if rank_total>=30:
-        skill_bonus=iround(((rank_total-20)*0.5)+80)
+        skill_bonus=cfgData.cfgData.iround(((rank_total-20)*0.5)+80)
     elif rank_total>=20 and rank_total<30:
         skill_bonus=((rank_total-20)*1)+70
     elif rank_total>=10 and rank_total<20:
         skill_bonus=((rank_total-10)*2)+50
     else:
         skill_bonus=rank_total*5
-    ravg=iround(avg)
+    ravg=cfgData.cfgData.iround(avg)
 
     # Create list of the level bonus
     lblist=[]
@@ -251,14 +247,14 @@ def select_skills(char):
 
     # Set Base dp
     if char_dict['tempdp']< char_dict['dp']:
-        current_dp=iround(char_dict['tempdp'])
+        current_dp=cfgData.iround(char_dict['tempdp'])
     else:
-        current_dp=iround(char_dict['dp'])
+        current_dp=cfgData.iround(char_dict['dp'])
         char_dict['tempdp']=current_dp
 
     # Start loop
     skloop=True
-    if char_dict['lvl'] == 0 and char_dict['tempdp'] >= iround(char_dict['dp']):
+    if char_dict['lvl'] == 0 and char_dict['tempdp'] >= cfgData.iround(char_dict['dp']):
         print
         print "Are you ready to assign skill ranks for your Adolescence Level?"
         print
@@ -272,7 +268,7 @@ def select_skills(char):
             else:
                 print "Invalid Selection! Enter Y or N"
 
-    elif char_dict['lvl'] == 0.5 and char_dict['tempdp'] >= iround(char_dict['dp']):
+    elif char_dict['lvl'] == 0.5 and char_dict['tempdp'] >= cfgData.iround(char_dict['dp']):
         print
         print "Are you ready to assign skill ranks for your Appenticeship Level?"
         print
@@ -286,7 +282,7 @@ def select_skills(char):
             else:
                 print "Invalid Selection! Enter Y or N"
 
-    elif char_dict['lvl'] >= 1 and char_dict['tempdp'] >= iround(char_dict['dp']):
+    elif char_dict['lvl'] >= 1 and char_dict['tempdp'] >= cfgData.iround(char_dict['dp']):
         print
         print "Are you ready to assign skill ranks for level {}?".format(char_dict['lvl'])
         print
@@ -305,15 +301,15 @@ def select_skills(char):
             if char_dict['lvl']==0:
                 next_lvl="Appenticeship"
                 char_dict['lvl']=0.5
-                char_dict['tempdp'] = iround(char_dict['dp'])
+                char_dict['tempdp'] = cfgData.iround(char_dict['dp'])
             elif char_dict['lvl']==0.5:
                 next_lvl=1
                 char_dict['lvl']=1
-                char_dict['tempdp'] = iround(char_dict['dp'])
+                char_dict['tempdp'] = cfgData.iround(char_dict['dp'])
             else:
                 next_lvl=int(char_dict['lvl']+1)
                 char_dict['lvl']=next_lvl
-                char_dict['tempdp'] = iround(char_dict['dp'])
+                char_dict['tempdp'] = cfgData.iround(char_dict['dp'])
                 # Clear temp column
                 for words in char_dict:
                     if words.isdigit():

@@ -53,17 +53,9 @@ def print_menu():       ## Your menu design here
     print "X. Exit"
     print 67 * "-"
 
-def clear_screen():
-    """
-    Clears the terminal screen.
-    """
-    # Clear command as function of OS
-    command = "cls" if system_name().lower()=="windows" else "clear"
-    # Action
-    system_call(command)
 
 # Clear the clear_screen
-clear_screen()
+cfgData.clear_screen()
 
 # Create a menu of characters
 def create_char_menu():
@@ -677,7 +669,7 @@ def lang_set(char):
         # Open character file to write out data
         with open(cfgData.char_dir+"/"+char+"/"+char+".json", 'w') as f:
             f.write(json.dumps(char_dict))
-        clear_screen()
+        cfgData.clear_screen()
 #################
 # End of lang_set
 #################
@@ -1080,7 +1072,7 @@ def stat_gain_lookup(diff,roll):
     return change
 
 def stat_gain():
-    clear_screen()
+    cfgData.clear_screen()
     p=charMenu.char_menu()
     menu_len=len(p)
     while True:
@@ -1239,29 +1231,29 @@ while loop:          ## While loop which will keep going until loop = False
     choice = raw_input("Enter your choice [1-9]: ")
     print ""
     if choice=="1":
-        clear_screen()
+        cfgData.clear_screen()
         create_char()
     elif choice=="2":
-        clear_screen()
+        cfgData.clear_screen()
         charData.show_char()
     elif choice=="3":
-        clear_screen()
+        cfgData.clear_screen()
         mbbonus()
-        clear_screen()
+        cfgData.clear_screen()
     elif choice=="4":
-        clear_screen()
+        cfgData.clear_screen()
         rl.skill_mb_bonus()
     elif choice=="5":
-        clear_screen()
+        cfgData.clear_screen()
         stat_gain()
     elif choice=="6":
-        clear_screen()
+        cfgData.clear_screen()
         charData.assign_at()
     elif choice=="7":
-        clear_screen()
+        cfgData.clear_screen()
         exp.exp_check()
     elif choice=="8":
-        clear_screen()
+        cfgData.clear_screen()
         p=charMenu.char_menu()
         menu_len=len(p)
         while True:
@@ -1273,11 +1265,11 @@ while loop:          ## While loop which will keep going until loop = False
         skill_list=[]
         s-=1
         rl.select_skills(p[s])
-        clear_screen()
+        cfgData.clear_screen()
     elif choice=="9":
-        clear_screen()
+        cfgData.clear_screen()
         export.export_to_excel()
-        clear_screen()
+        cfgData.clear_screen()
     elif choice=="x":
         print "Exiting Program"
         loop=False
