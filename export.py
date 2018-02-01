@@ -25,7 +25,7 @@ def export_to_excel():
     char = p[s]
     with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
-    #charXlFile=char_dict['FullName']+".xlsx"
+    charXlFile=char_dict['FullName']+".xlsx"
     with open(cfgData.cfg_dir+"/sttchart.csv") as f:
         statchart =f.read().splitlines()
     sc=[]
@@ -35,7 +35,6 @@ def export_to_excel():
 
     # Loop through statistics to pull bonuses
     for x1 in sc:
-        #print x1[0],":",x1[1],":",x1[2],":",x1[3]
         if int(x1[0]) == int(char_dict['st_stat']):
             stb,stdp,stpp=x1[1],x1[2],x1[3]
         if int(x1[0]) == int(char_dict['qu_stat']):
@@ -1149,7 +1148,7 @@ def export_to_excel():
     ###### Test ######
     ws1.column_dimensions['A'].width = 26.0
     ws1.column_dimensions['B'].width = 5.5
-    ws1.column_dimensions['C'].width = 8.5
+    ws1.column_dimensions['C'].width = 10.0
     ws1.column_dimensions['D'].width = 6.5
     ws1.column_dimensions['E'].width = 6.5
     ws1.column_dimensions['F'].width = 6.5
@@ -1159,7 +1158,7 @@ def export_to_excel():
     ws1.column_dimensions['J'].width = 5.0
     ws1.column_dimensions['K'].width = 5.0
     ws1.column_dimensions['L'].width = 5.0
-    ws1.column_dimensions['L'].width = 7.0
+    ws1.column_dimensions['M'].width = 7.0
 
     skill_rank_total = 0
     for words in char_dict:

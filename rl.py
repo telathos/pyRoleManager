@@ -211,14 +211,14 @@ def skill_mb_bonus():
         skill_menu=[]
         for y in sklst:
             if re.search(regex,y[0]):
-                print "| {:>3}.) | {:32} | {:^5} |".format(y[13],y[0],y[11])
+                print "| {:>3}.) | {:32} | {:^5} |".format(y[13],y[0],y[10])
                 # Create list of skills in menu
                 skill_menu.append(int(y[13]))
         while skill_menu:
             m=int(raw_input("Select skill: "))
             if m in skill_menu:
                 msb=int(raw_input("Bonus: "))
-                char_dict[`m`][13]=int(msb)
+                char_dict[`m`][12]=int(msb)
 
                 # Open character file to write update
                 with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json",'w') as f:

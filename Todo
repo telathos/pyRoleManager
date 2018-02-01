@@ -10,7 +10,6 @@
 6.) Add back to character menu code - Low priority
 7.) Add Armor types and stats
 9.) Add Experience - more testing needed
-11.) Misc and race stat bonus needs added to total stat bonus
 
 Completed
 1.) Hit Points - Done
@@ -37,6 +36,7 @@ Completed
 12.) stat gain roll
 13.) Add Height, Weight
 14.) Fix lvl 1+ skill rank code - use temp column
+15.) Misc and race stat bonus needs added to total stat bonus
 
 Version 2.0 Work
 1.) Get Archiving Working - Low priority
