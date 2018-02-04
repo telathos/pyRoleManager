@@ -8,7 +8,7 @@ The goal is to be able to manage all of the your character setting and stats, in
 It can display all of your character skills and stats to screen and export the results to an excel file.
 
 # How to Run
-Open a command line (CWD) and type 'pyhon pyRoleManager.py'
+Open a command line (CMD) and type 'pyhon pyRoleManager.py'
 This will load a menu with the options.
 
 # Known Bugs/Issues
