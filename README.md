@@ -15,7 +15,7 @@ This will load a menu with the options.
 The export feature does not update all of the skill calculations. You will need to use the display character menu option to update the calculations first.
 
 ## Add-on features
-#Professions
+# Professions
 More professions can be added to pyRoleManager by adding them the pro.csv file in the cfg subdirectory.
 The format is as follows:
 Profession Name, Profession ID, Weapon Category #1,Weapon Category #2,Weapon Category #3,Weapon Category #4,
