@@ -67,7 +67,8 @@ def assign_at():
     # Open the character file
     char_dict={}
     s-=1
-    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+    char=p[s]
+    with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
 
     # Open Armor Type file
@@ -79,7 +80,7 @@ def assign_at():
     print "|    |                                     | Maneuver | Maneuver | Attack | Quickness|"
     print "| AT | Description                         |   Mod.   |   Mod.   | Penalty| Penalty  |"
     print 85 * "-"
-    for a in range(1,21,1):
+    for a in range(0,20,1):
         t = atlist[a].split(',')
         print "| {:<2} | {:35} | {:^8} | {:^8} | {:^6} | {:^8} |".format(t[0],t[2],t[3],t[4],t[5],t[6])
     print 85 * "-"
@@ -91,7 +92,24 @@ def assign_at():
         if not at>=1 or not at<=20:
             print "Wrong Armor Type Selection. Please try again.. "
         else:
+            for var in atlist:
+                at_check = var.split(',')
+                if int(at_check[0]) == int(at):
+                    char_dict['armorType'] = at
+                    char_dict['armorTypeDesc'] = at_check[2]
+                    char_dict['at_min_mod'] = at_check[3]
+                    char_dict['at_max_mod'] = at_check[4]
+                    char_dict['at_miss_pen'] = at_check[5]
+                    char_dict['at_qu_pen'] = at_check[6]
+                    char_dict['armGrea'] = at_check[7]
+                    char_dict['legGrea'] = at_check[8]
+
             atloop=False
+
+    # Write character data to file
+    with open(cfgData.char_dir+"/"+char+"/"+char+".json","w") as sw:
+        sw.write(json.dumps(char_dict))
+
 
 def show_char():
     p=charMenu.char_menu()

@@ -188,6 +188,7 @@ def export_to_excel():
     ws.merge_cells('B3:C3')
     ws['B3'] = char_dict['pro_name']
     ws['E3'] = "Exp:"
+    ws['F3'] = char_dict['exp']
     ws['G3'] = "Next Lvl:"
     ws['F3'].number_format = "#,###"
     ws['H3'].number_format = "#,###"
@@ -258,6 +259,7 @@ def export_to_excel():
     ws['I7'].border = tbrBorder
 
     ws['A8'] = "Armor Worn:"
+    ws['B8'] = char_dict['armorTypeDesc']
     ws['E8'] = "Quickness:"
     ws['F8'] = int(qub)
     ws['F8'].alignment = Alignment(horizontal='center')
@@ -277,6 +279,7 @@ def export_to_excel():
     ws['I8'].alignment = Alignment(horizontal='center')
 
     ws['A9'] = "Armor Type:"
+    ws['B9'] = char_dict['armorType']
     ws['E9'] = "Shield:"
     ws['H9'] = "vs Melee:"
     ws['A9'].font = textFont
@@ -288,6 +291,7 @@ def export_to_excel():
     ws['A9'].border = lBorder
     ws['E9'].border = lBorder
     ws['I9'].border = fullBorder
+    ws['B9'].alignment = Alignment(horizontal='center')
     ws['H9'].alignment = Alignment(horizontal='right')
 
     ws['A10'] = "Shield:"
@@ -319,6 +323,7 @@ def export_to_excel():
     ws['H11'].alignment = Alignment(horizontal='right')
 
     ws['A12'] = "Arm Greaves:"
+    ws['B12'] = char_dict['armGrea']
     ws['H12'] = "vs Magic:"
     ws['A12'].font = textFont
     ws['B12'].font = textFont
@@ -332,6 +337,7 @@ def export_to_excel():
     ws['H12'].alignment = Alignment(horizontal='right')
 
     ws['A13'] = "Leg Greaves:"
+    ws['B13'] = char_dict['legGrea']
     ws['E13'] = "Hits"
     ws['A13'].font = textFont
     ws['B13'].font = textFont
@@ -363,11 +369,15 @@ def export_to_excel():
     ws['H14'].alignment = Alignment(horizontal='center')
 
     ws['A15'] = "Minimum:"
+    ws['B15'] = char_dict['at_min_mod']
+    ws['B15'].alignment = Alignment(horizontal='center')
+    ws['C15'] = "Current"
     ws['E15'] = "Base Hits:"
     ws['F15'] = char_dict['hp_base']
     ws['F15'].alignment = Alignment(horizontal='center')
     ws['A15'].font = textFont
     ws['B15'].font = textFont
+    ws['C15'].font = textFont
     ws['E15'].font = textFont
     ws['F15'].font = textFont
     ws['A15'].border = lBorder
@@ -376,6 +386,10 @@ def export_to_excel():
     ws['I15'].border = rBorder
 
     ws['A16'] = "Maximum:"
+    ws['B16'] = char_dict['at_max_mod']
+    ws['B16'].alignment = Alignment(horizontal='center')
+    ws['C16'] = "test"
+    ws['C16'].font = textFont
     ws['A16'].font = textFont
     ws['B16'].font = textFont
     ws['A16'].border = lBorder
