@@ -1,15 +1,15 @@
 1.) Hobby Skills
   a.) List created
-2.) Export function to csv/pdf/word
 3.) List of all skills - Low priority
-4.) Armor Class/DB/Maneuver penalties
-5.) Show Character
+4.) Show Character
   a.) Add assigned skills to show character - Done
   b.) Add back to Show Character - Low priority
   c.) Add to show character, current Skills only
-6.) Add back to character menu code - Low priority
-7.) Add Armor types and stats
-9.) Add Experience - more testing needed
+5.) Add back to character menu code - Low priority
+6.) Add Armor types and stats
+  a.) Update Defensive bonus penalties
+  b.) Update Maneuver penalties - Done
+7.) Add Experience - more testing needed
 
 Completed
 1.) Hit Points - Done
@@ -37,6 +37,7 @@ Completed
 13.) Add Height, Weight
 14.) Fix lvl 1+ skill rank code - use temp column
 15.) Misc and race stat bonus needs added to total stat bonus
+16.) Export function to csv/pdf/word
 
 Version 2.0 Work
 1.) Get Archiving Working - Low priority

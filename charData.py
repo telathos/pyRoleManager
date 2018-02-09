@@ -399,10 +399,19 @@ def show_char():
 
             # Update dictionary
             char_dict[words][11] = cfgData.iround(stat_bonus)
+
             # Calcalute skill bonus
             skill_rank_total = char_dict[words][5] + char_dict[words][6] + char_dict[words][7] + char_dict[words][8]
 
-            if skill_rank_total <= 10:
+            if char_dict[words][0] == 'Maneuvering in Soft Leather':
+                skill_bonus = skill_rank_total * 5
+            elif char_dict[words][0] == 'Maneuvering in Rigid Leather':
+                skill_bonus = skill_rank_total * 5
+            elif char_dict[words][0] == 'Maneuvering in Chain':
+                skill_bonus = skill_rank_total * 5
+            elif char_dict[words][0] == 'Maneuvering in Plate':
+                skill_bonus = skill_rank_total * 5
+            elif skill_rank_total <= 10:
                 skill_bonus = skill_rank_total * 5
             elif skill_rank_total >=11 and skill_rank_total <= 20:
                 skill_bonus = 50 + ((skill_rank_total-10) * 2)
@@ -457,7 +466,7 @@ def show_char():
     else:
         lvl=char_dict['lvl']
 
-    cfgData.clear_screen()
+    #cfgData.clear_screen()
     print ""
     print " ",86 * "-"," "
     print "/",86 * " ","\\"

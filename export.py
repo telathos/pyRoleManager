@@ -103,6 +103,28 @@ def export_to_excel():
         tpp=(float(inpp)+float(prpp)+float(empp))/3
         realm="Arcane"
 
+    # Calculate Maneuver penalties
+    if char_dict['armorType'] <= 4:
+        current_mod = 0
+    if char_dict['armorType'] >= 5 and char_dict['armorType'] <= 8:
+        current_mod = int(char_dict['at_max_mod']) + int(char_dict['97'][14])
+        if current_mod > int(char_dict['at_min_mod']):
+            current_mod = char_dict['at_min_mod']
+    if char_dict['armorType'] >= 9 and char_dict['armorType'] <= 12:
+        current_mod = int(char_dict['at_max_mod']) + int(char_dict['98'][14])
+        if current_mod > int(char_dict['at_min_mod']):
+            current_mod = char_dict['at_min_mod']
+    if char_dict['armorType'] >= 13 and char_dict['armorType'] <= 16:
+        current_mod = int(char_dict['at_max_mod']) + int(char_dict['99'][14])
+        if current_mod > int(char_dict['at_min_mod']):
+            current_mod = char_dict['at_min_mod']
+    if char_dict['armorType'] >= 17:
+        current_mod = int(char_dict['at_max_mod']) + int(char_dict['100'][14])
+        if current_mod > int(char_dict['at_min_mod']):
+            current_mod = char_dict['at_min_mod']
+    #print current_mod,":current_mod"
+
+    ###### Create Excel file ######
     wb = Workbook()
     wb.create_sheet(index=1, title='Skills')
     # grab the active worksheet
@@ -388,8 +410,9 @@ def export_to_excel():
     ws['A16'] = "Maximum:"
     ws['B16'] = char_dict['at_max_mod']
     ws['B16'].alignment = Alignment(horizontal='center')
-    ws['C16'] = "test"
-    ws['C16'].font = textFont
+    ws['C16'] = current_mod
+    ws['C16'].alignment = Alignment(horizontal='center')
+    ws['C16'].font = textBoldFont
     ws['A16'].font = textFont
     ws['B16'].font = textFont
     ws['A16'].border = lBorder
