@@ -466,7 +466,7 @@ def show_char():
     else:
         lvl=char_dict['lvl']
 
-    #cfgData.clear_screen()
+    cfgData.clear_screen()
     print ""
     print " ",86 * "-"," "
     print "/",86 * " ","\\"
