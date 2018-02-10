@@ -288,7 +288,7 @@ def export_to_excel():
     ws['H8'] = "Total DB:"
     ws['A8'].font = textFont
     ws.merge_cells('B8:C8')
-    ws['I8'] = '=SUM(F8:F11)'
+    ws['I8'] = '=IF(SUM(F8:F11)-F12<0,0,SUM(F8:F11)-F12)'
     ws['B8'].font = textFont
     ws['E8'].font = textFont
     ws['F8'].font = textFont
@@ -304,6 +304,7 @@ def export_to_excel():
     ws['B9'] = char_dict['armorType']
     ws['E9'] = "Shield:"
     ws['H9'] = "vs Melee:"
+    ws['I9'] = "=I8"
     ws['A9'].font = textFont
     ws['B9'].font = textFont
     ws['E9'].font = textFont
@@ -315,10 +316,12 @@ def export_to_excel():
     ws['I9'].border = fullBorder
     ws['B9'].alignment = Alignment(horizontal='center')
     ws['H9'].alignment = Alignment(horizontal='right')
+    ws['I9'].alignment = Alignment(horizontal='center')
 
     ws['A10'] = "Shield:"
     ws['E10'] = "ADF:"
     ws['H10'] = "vs Missile:"
+    ws['I10'] = '=I8'
     ws['A10'].font = textFont
     ws['B10'].font = textFont
     ws['E10'].font = textFont
@@ -329,10 +332,12 @@ def export_to_excel():
     ws['E10'].border = lBorder
     ws['I10'].border = fullBorder
     ws['H10'].alignment = Alignment(horizontal='right')
+    ws['I10'].alignment = Alignment(horizontal='center')
 
     ws['A11'] = "Helm:"
     ws['E11'] = "Magical:"
     ws['H11'] = "vs Surprise:"
+    ws['I11'] = '=I8-20'
     ws['A11'].font = textFont
     ws['B11'].font = textFont
     ws['E11'].font = textFont
@@ -343,9 +348,12 @@ def export_to_excel():
     ws['E11'].border = lBorder
     ws['I11'].border = fullBorder
     ws['H11'].alignment = Alignment(horizontal='right')
+    ws['I11'].alignment = Alignment(horizontal='center')
 
     ws['A12'] = "Arm Greaves:"
     ws['B12'] = char_dict['armGrea']
+    ws['E12'] = "Armor Pen:"
+    ws['F12'] = int(char_dict['at_qu_pen'])
     ws['H12'] = "vs Magic:"
     ws['A12'].font = textFont
     ws['B12'].font = textFont
@@ -357,6 +365,7 @@ def export_to_excel():
     ws['E12'].border = lBorder
     ws['I12'].border = fullBorder
     ws['H12'].alignment = Alignment(horizontal='right')
+    ws['F12'].alignment = Alignment(horizontal='center')
 
     ws['A13'] = "Leg Greaves:"
     ws['B13'] = char_dict['legGrea']
