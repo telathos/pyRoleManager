@@ -303,8 +303,9 @@ def export_to_excel():
     ws['A9'] = "Armor Type:"
     ws['B9'] = char_dict['armorType']
     ws['E9'] = "Shield:"
+    ws['F9'] = char_dict['sheildType']
     ws['H9'] = "vs Melee:"
-    ws['I9'] = "=I8"
+    ws['I9'] = "=I8+{}".format(char_dict['shieldMeDB'])
     ws['A9'].font = textFont
     ws['B9'].font = textFont
     ws['E9'].font = textFont
@@ -319,9 +320,10 @@ def export_to_excel():
     ws['I9'].alignment = Alignment(horizontal='center')
 
     ws['A10'] = "Shield:"
+    ws['B10'] = char_dict['sheildType']
     ws['E10'] = "ADF:"
     ws['H10'] = "vs Missile:"
-    ws['I10'] = '=I8'
+    ws['I10'] = '=I8+{}'.format(char_dict['shieldMiDB'])
     ws['A10'].font = textFont
     ws['B10'].font = textFont
     ws['E10'].font = textFont
@@ -335,6 +337,7 @@ def export_to_excel():
     ws['I10'].alignment = Alignment(horizontal='center')
 
     ws['A11'] = "Helm:"
+    ws['B11'] = char_dict['helm']
     ws['E11'] = "Magical:"
     ws['H11'] = "vs Surprise:"
     ws['I11'] = '=I8-20'
@@ -355,6 +358,7 @@ def export_to_excel():
     ws['E12'] = "Armor Pen:"
     ws['F12'] = int(char_dict['at_qu_pen'])
     ws['H12'] = "vs Magic:"
+    ws['I12'] = "=I8+{}+{}".format(char_dict['shieldMaDB'],char_dict['helmMaDB'])
     ws['A12'].font = textFont
     ws['B12'].font = textFont
     ws['E12'].font = textFont
@@ -365,6 +369,7 @@ def export_to_excel():
     ws['E12'].border = lBorder
     ws['I12'].border = fullBorder
     ws['H12'].alignment = Alignment(horizontal='right')
+    ws['I12'].alignment = Alignment(horizontal='center')
     ws['F12'].alignment = Alignment(horizontal='center')
 
     ws['A13'] = "Leg Greaves:"

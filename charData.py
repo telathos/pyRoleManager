@@ -106,6 +106,63 @@ def assign_at():
 
             atloop=False
 
+    # Helmet selection
+    helmloop = True
+    hl=[]
+    with open(cfgData.cfg_dir+"/helm.csv") as hf:
+        p = hf.read().splitlines()
+
+    while helmloop:
+        hc=1
+        print 43 * "="
+        print "|     |                         |    DB    |"
+        print "|     | Helm                    | vs Magic |"
+        print 43 * "-"
+        for h in p:
+            hl.append(h.split(','))
+        for h in hl:
+            print "| {:1}.) | {:23} | {:^8} |".format(hc,h[0],h[1])
+            hc+=1
+        print 43 * "="
+        print
+        helm = int(raw_input("Select Helm: "))
+        if not helm >= 1 or not len(h):
+            print "Wrong Helm selected. Please try again.."
+        else:
+            char_dict['helm'] = h[0]
+            char_dict['helmMaDB'] = h[1]
+            helmloop = False
+
+    # Shield
+    shloop = True
+    tl=[]
+    with open(cfgData.cfg_dir+"/shield.csv") as sh:
+        t = sh.read().splitlines()
+
+    while shloop:
+        lt=1
+        print 55 * "="
+        print "|     | Shield               | Melee | Missile | Magic |"
+        print 55 * "-"
+        for var in t:
+            tl.append(var.split(','))
+
+        for var in tl:
+            #print var
+            print "| {:1}.) | {:20} | {:^5} | {:^7} | {:^5} |".format(lt,var[0],var[1],var[2],var[3])
+            lt+=1
+        print 55 * "="
+        print
+        sh = int(raw_input("Select Shield: "))
+        if not sh >=1 or not sh <= 5:
+            print "Wrong Helm selected. Please try again.."
+        else:
+            char_dict['sheildType'] = var[0]
+            char_dict['shieldMeDB'] = var[1]
+            char_dict['shieldMiDB'] = var[2]
+            char_dict['shieldMaDB'] = var[3]
+            shloop=False
+
     # Write character data to file
     with open(cfgData.char_dir+"/"+char+"/"+char+".json","w") as sw:
         sw.write(json.dumps(char_dict))
