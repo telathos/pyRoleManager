@@ -6,9 +6,6 @@
   b.) Add back to Show Character - Low priority
   c.) Add to show character, current Skills only
 5.) Add back to character menu code - Low priority
-6.) Add Armor types and stats
-  a.) Update Defensive bonus penalties
-  b.) Update Maneuver penalties - Done
 7.) Add Experience - more testing needed
 
 Completed
@@ -38,6 +35,9 @@ Completed
 14.) Fix lvl 1+ skill rank code - use temp column
 15.) Misc and race stat bonus needs added to total stat bonus
 16.) Export function to csv/pdf/word
+17.) Add Armor types and stats
+  a.) Update Defensive bonus penalties
+  b.) Update Maneuver penalties - Done
 
 Version 2.0 Work
 1.) Get Archiving Working - Low priority
