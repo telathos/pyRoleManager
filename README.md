@@ -8,11 +8,11 @@ The goal is to be able to manage all of the your character setting and stats, in
 It can display all of your character skills and stats to screen and export the results to an excel file.
 
 # How to Run
-Open a command line (CMD) and type 'pyhon pyRoleManager.py'
+Open a command line (CMD) and type 'python pyRoleManager.py'. To run without adding the 'python' before pyRoleManager.py, open a command line as Administrator and run 'ftype Python.File="C:\python27\python.exe" "%1" %"'.
 This will load a menu with the options.
 
 # Known Bugs/Issues
-The export feature does not update all of the skill calculations. You will need to use the display character menu option to update the calculations first.
+None known of currently
 
 ## Add-on features
 # Professions
