@@ -128,8 +128,8 @@ def create_char():
     print "30.) {:19} 31.) {:19}".format(plist[30][0],plist[31][0])
     print "32.) {:19} 33.) {:19}".format(plist[32][0],plist[33][0])
     print "34.) {:19} 35.) {:19}".format(plist[34][0],plist[35][0])
-    print "36.) {:19} 38.) {:19}".format(plist[36][0],plist[37][0])
-    print "39.) {:19}".format(plist[39][0])
+    print "36.) {:19} 37.) {:19}".format(plist[36][0],plist[37][0])
+    print "38.) {:19} 39.) {:19}".format(plist[38][0],plist[39][0])
     print ""
     print 15 * "-", "Hybrid", 15 * "-"
     print "40.) {:19} 41.) {:19}".format(plist[40][0],plist[41][0])

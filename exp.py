@@ -36,10 +36,12 @@ def exp_check():
     exp=int(raw_input("Add experience: "))
     # Add experience to character's current experience
     char_dict['exp'] += int(exp)
-    print char_dict['exp']
+    char_dict['next_lvl'] = next_lvl
+    print "Experience:",char_dict['exp']
     if char_dict['exp']>next_lvl:
+        print "Next Level:",next_lvl
         print "Leveled up!"
-        rl.select_skills(p[s])
+        rl.select_skills(char)
 
     # Open character file to write out data
     with open(cfgData.char_dir+"/"+char+"/"+char+".json", 'w') as f:

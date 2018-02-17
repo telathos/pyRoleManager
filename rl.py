@@ -43,8 +43,6 @@ def skill_rank_qty_check(srnk,cost,lvl,old):
             if srnk <=3 and ecost[1] == "*": #1/*
                 if old >= 1:
                     #print "*1*if"
-                    #print ecost[0],":ecost[0]"
-                    #print old,":old 1"
                     dp_used=int(ecost[0]) * int(srnk)
                 else:
                     #print "*1*else"
@@ -315,13 +313,9 @@ def select_skills(char):
                     if words.isdigit():
                         char_dict[words][9] = 0
         # Reload Character file
-        with open(cfgData.char_dir+"/"+char+"/"+char+".json","w") as f:
-            f.write(json.dumps(char_dict))
         char_dict.clear()
         with open(cfgData.char_dir+"/"+char+"/"+char+".json") as f:
             char_dict=json.load(f)
-        #print char_dict['lvl']
-        #print char_dict['tempdp']
         print
         if char_dict['lvl']==0:
             # Call suggested adolescence skills module
