@@ -16,7 +16,8 @@ def exp_check():
     # Open the file
     char_dict={}
     s-=1
-    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json","r") as cf:
+    char=p[s]
+    with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
 
     next_lvl=0
@@ -41,5 +42,5 @@ def exp_check():
         rl.select_skills(p[s])
 
     # Open character file to write out data
-    with open(cfgData.char_dir+"/"+p[s]+"/"+p[s]+".json", 'w') as f:
+    with open(cfgData.char_dir+"/"+char+"/"+char+".json", 'w') as f:
         f.write(json.dumps(char_dict))
