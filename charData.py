@@ -561,3 +561,34 @@ def show_char():
     print "*", 93 * "-","*"
     print
     print
+
+def all_skill_list():
+    p=charMenu.char_menu()
+    menu_len=len(p)
+    while True:
+        s=int(raw_input("Select Character: "))
+        if s >=1 and s<=menu_len:
+            break
+        else:
+            print "Invalid Selection! Select a character from the list"
+
+    # Open the file
+    char_dict={}
+    s-=1
+    char=p[s]
+    with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
+        char_dict = json.load(cf)
+    print
+    print "*", 93 * "-","*"
+    print "| {:32} | Hobby | AD  | AP  |     | Skill| Stat |Level| Misc | Total |".format(" ")
+    print "| {:32} | Ranks |Ranks|Ranks|Ranks| Bonus| Bonus|Bonus| Bonus| Bonus |".format("Skill Name")
+    print "*", 93 * "-","*"
+    sklist=[]
+    for words in char_dict:
+        if words.isdigit():
+            index=words
+            sklist.append([char_dict[words][0],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][10],char_dict[words][11],char_dict[words][13],char_dict[words][12],char_dict[words][14],index])
+            sklst=sorted(sklist, key=lambda skill: skill[0])
+    for y in sklst:
+        print "| {:32} | {:^5} |{:^5}|{:^5}|{:^5}|{:^6}|{:^6}|{:^5}|{:^6}|{:^7}|".format(y[0],y[1],y[2],y[3],y[4],y[5],y[6],y[7],y[8],y[9])
+    print "*", 93 * "-","*"

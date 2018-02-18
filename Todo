@@ -1,7 +1,5 @@
 1.) Hobby Skills
   a.) List created
-3.) List of all skills - Low priority
-4.) Create a list of all skills with bonuses and costs
 5.) Add back to character menu code - Low priority
 7.) Add Experience - more testing needed
 9.) Export function, update to handle second page of Skills
@@ -45,6 +43,7 @@ Completed
 19.) Cleanup Format for show_char
 20.) Add Next Level to show_char
 21.) Fix skill chart, add space to cost column
+22.) List of all skills - Low priority
 
 Version 2.0 Work
 1.) Get Archiving Working - Low priority
@@ -54,3 +53,6 @@ Version 2.0 Work
 4.) Import characters
 5.) Add/increase languages and ranks
 6.) Add a back to the Show Characters
+7.) Error Handling
+8.) Upgrade code to python 3.x
+9.) graphical or web based version
