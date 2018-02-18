@@ -334,18 +334,18 @@ def select_skills(char):
             skloop=False
         else:
             # Create header
-            print "*",78 * "=","*"
-            print "| {:5} | {:32} | {:^3} | {:5} | {:^5} | {:^5} | {:^5} |".format("","","","Hobby","AD","AP","Std")
-            print "| {:>5} | {:32} | {:^3}| {:5} | {:5} | {:5} | {:5} |".format("","Skill Name","Cost","Bonus","Bonus","Bonus","Bonus")
-            print "*",78 * "-","*"
+            print "*",79 * "=","*"
+            print "| {:5} | {:32} | {:^4} | {:5} | {:^5} | {:^5} | {:^5} |".format("","","","Hobby","AD","AP","Std")
+            print "| {:>5} | {:32} | {:^4} | {:5} | {:5} | {:5} | {:5} |".format("","Skill Name","Cost","Bonus","Bonus","Bonus","Bonus")
+            print "*",79 * "-","*"
             # Loop through skills
             skill_menu=[]
             for y in sklst:
                 if re.search(regex,y[0]):
-                    print "| {:>3}.) | {:32} | {:^3} | {:^5} | {:^5} | {:^5} | {:^5} |".format(y[13],y[0],y[3],y[4],y[5],y[6],y[7])
+                    print "| {:>3}.) | {:32} | {:^4} | {:^5} | {:^5} | {:^5} | {:^5} |".format(y[13],y[0],y[3],y[4],y[5],y[6],y[7])
                     # Create list of skills in menu
                     skill_menu.append(int(y[13]))
-            print "*",78 * "-","*"
+            print "*",79 * "-","*"
 
             while skill_menu:
                 cfgData.running_dp(current_dp)

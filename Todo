@@ -3,7 +3,6 @@
 3.) List of all skills - Low priority
 4.) Create a list of all skills with bonuses and costs
 5.) Add back to character menu code - Low priority
-6.) Fix skill chart, add space to cost column
 7.) Add Experience - more testing needed
 9.) Export function, update to handle second page of Skills
 
@@ -45,6 +44,7 @@ Completed
     a.) Merge into ds_xx.csv
 19.) Cleanup Format for show_char
 20.) Add Next Level to show_char
+21.) Fix skill chart, add space to cost column
 
 Version 2.0 Work
 1.) Get Archiving Working - Low priority
