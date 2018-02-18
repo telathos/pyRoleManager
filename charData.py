@@ -524,43 +524,42 @@ def show_char():
         lvl=char_dict['lvl']
 
     cfgData.clear_screen()
-    print ""
-    print " ",86 * "-"," "
-    print "/",86 * " ","\\"
-    print "| Name: {:<23} Level: {:2}{:13}Race: {:12}{:17}|".format(char_dict['FullName'].title(),lvl,"",char_dict['race'],"")
-    print "| Profession: {:<18}Exp: {:<8}{:5}Next Level: {:26} |".format(char_dict['pro_name'].title(),char_dict['exp'],"","")
-    print "| Sex: {:<7}{:10}Age: {:<4}{:53}|".format(char_dict['race'].title(),"",char_dict['age'],"")
-    print "| Height: {:<7}{:4}Weight: {:<4}{:56}|".format(char_dict['height']," ",char_dict['weight'],"")
-    print "| Hair: {:<8}{:7}Eyes: {:<8}{:52}|".format(char_dict['hair'],"",char_dict['eye'],"")
-    print "*", 86 * "-","*"
-    print "|                                   Stats                                                |"
-    print "*", 86 * "-","*"
-    print "|                      |         |           |  Stat |  Race | Dev | PP  | Misc  | Total |"
-    print "|                      | Current |   Pot'l   | Bonus | Bonus | Pts | Pts | Bonus | Bonus |"
-    print "*", 86 * "-","*"
-    print "| Strength (ST)        |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['st_stat'],char_dict['st_pot'],stb,raceb[1],stdp,stpp,char_dict['stmb'],sttb)
-    print "| Quickness (QU)       |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['qu_stat'],char_dict['qu_pot'],qub,raceb[2],qudp,qupp,char_dict['qumb'],qutb)
-    print "| Presence (PR)        |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['pr_stat'],char_dict['pr_pot'],prb,raceb[3],prdp,prpp,char_dict['prmb'],prtb)
-    print "| Intuition (IN)       |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['in_stat'],char_dict['in_pot'],inb,raceb[4],indp,inpp,char_dict['inmb'],intb)
-    print "| Empathy (EM)         |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['em_stat'],char_dict['em_pot'],emb,raceb[5],emdp,empp,char_dict['emmb'],emtb)
-    print "| Constitution (CO)    |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['co_stat'],char_dict['co_pot'],cob,raceb[6],codp,copp,char_dict['comb'],cotb)
-    print "| Agility (AG)         |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['ag_stat'],char_dict['ag_pot'],agb,raceb[7],agdp,agpp,char_dict['agmb'],agtb)
-    print "| Self Discipline (SD) |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['sd_stat'],char_dict['sd_pot'],sdb,raceb[8],sddp,sdpp,char_dict['sdmb'],sdtb)
-    print "| Memory (ME)          |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['me_stat'],char_dict['me_pot'],meb,raceb[9],medp,mepp,char_dict['memb'],metb)
-    print "| Reasoning (RE)       |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['re_stat'],char_dict['re_pot'],reb,raceb[10],redp,repp,char_dict['remb'],retb)
-    print "*", 86 * "-","*"
-    print "| Development/Power Points:                                  | {:^4}| {:^4}|               |".format(tdp,tpp)
-    print "*", 86 * "-","*"
     print
-    print 96 * "-"
+    print "*", 93 * "-","*"
+    print "| Name: {:<23} Level: {:2}{:13}Race: {:20}{:16}|".format(char_dict['FullName'].title(),lvl,"",char_dict['race'],"")
+    print "| Profession: {:<18}Exp: {:<8}{:5}Next Level: {:<33} |".format(char_dict['pro_name'].title(),char_dict['exp'],"",char_dict['next_lvl'])
+    print "| Sex: {:<7}{:10}Age: {:<4}{:63}|".format(char_dict['gender'].title(),"",char_dict['age'],"")
+    print "| Height: {:<7}{:4}Weight: {:<4}{:63}|".format(char_dict['height']," ",char_dict['weight'],"")
+    print "| Hair: {:<8}{:7}Eyes: {:<8}{:59}|".format(char_dict['hair'],"",char_dict['eye'],"")
+    print "*", 93 * "-","*"
+    print "|                                          Stats                                                |"
+    print "*", 93 * "-","*"
+    print "|                             |         |           |  Stat |  Race | Dev | PP  | Misc  | Total |"
+    print "|                             | Current |   Pot'l   | Bonus | Bonus | Pts | Pts | Bonus | Bonus |"
+    print "*", 93 * "-","*"
+    print "| Strength (ST)               |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['st_stat'],char_dict['st_pot'],stb,raceb[1],stdp,stpp,char_dict['stmb'],sttb)
+    print "| Quickness (QU)              |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['qu_stat'],char_dict['qu_pot'],qub,raceb[2],qudp,qupp,char_dict['qumb'],qutb)
+    print "| Presence (PR)               |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['pr_stat'],char_dict['pr_pot'],prb,raceb[3],prdp,prpp,char_dict['prmb'],prtb)
+    print "| Intuition (IN)              |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['in_stat'],char_dict['in_pot'],inb,raceb[4],indp,inpp,char_dict['inmb'],intb)
+    print "| Empathy (EM)                |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['em_stat'],char_dict['em_pot'],emb,raceb[5],emdp,empp,char_dict['emmb'],emtb)
+    print "| Constitution (CO)           |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['co_stat'],char_dict['co_pot'],cob,raceb[6],codp,copp,char_dict['comb'],cotb)
+    print "| Agility (AG)                |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['ag_stat'],char_dict['ag_pot'],agb,raceb[7],agdp,agpp,char_dict['agmb'],agtb)
+    print "| Self Discipline (SD)        |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['sd_stat'],char_dict['sd_pot'],sdb,raceb[8],sddp,sdpp,char_dict['sdmb'],sdtb)
+    print "| Memory (ME)                 |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['me_stat'],char_dict['me_pot'],meb,raceb[9],medp,mepp,char_dict['memb'],metb)
+    print "| Reasoning (RE)              |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['re_stat'],char_dict['re_pot'],reb,raceb[10],redp,repp,char_dict['remb'],retb)
+    print "*", 93 * "-","*"
+    print "| Development/Power Points:{:41}| {:^4}| {:^4}|               |".format(" ",tdp,tpp)
+    #print "*", 86 * "-","*"
+    #print "|", 93 * " ","|"
+    print "*", 93 * "-","*"
     print "| {:32} | Hobby | AD  | AP  |     | Skill| Stat |Level| Misc | Total |".format(" ")
     print "| {:32} | Ranks |Ranks|Ranks|Ranks| Bonus| Bonus|Bonus| Bonus| Bonus |".format("Skill Name")
-    print 96 * "-"
+    print "*", 93 * "-","*"
     sklist=[]
     for words in char_dict:
         if words.isdigit():
             if char_dict[words][5]>0 or char_dict[words][6]>0 or char_dict[words][7]>0 or char_dict[words][8]>0:
                 print "| {:32} | {:^5} |{:^5}|{:^5}|{:^5}|{:^6}|{:^6}|{:^5}|{:^6}|{:^7}|".format(char_dict[words][0],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],char_dict[words][10],char_dict[words][11],char_dict[words][13],char_dict[words][12],char_dict[words][14])
-    print 96 * "-"
+    print "*", 93 * "-","*"
     print
     print

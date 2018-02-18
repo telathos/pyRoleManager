@@ -5,10 +5,8 @@
 5.) Add back to character menu code - Low priority
 6.) Fix skill chart, add space to cost column
 7.) Add Experience - more testing needed
-8.) Add Next Level to show_char
 9.) Export function, update to handle second page of Skills
-10.) Update skill costs for Warrior, Sleuth, Magus,	Noble Warrior, Montebanc
-  a.) Merge into ds_xx.csv
+
 
 Completed
 1.) Hit Points - Done
@@ -43,6 +41,10 @@ Completed
   4.) Show Character
     a.) Add assigned skills to show character - Done
     b.) Add to show character, current Skills only - Done
+18.) Update skill costs for Warrior, Sleuth, Magus,	Noble Warrior, Montebanc
+    a.) Merge into ds_xx.csv
+19.) Cleanup Format for show_char
+20.) Add Next Level to show_char
 
 Version 2.0 Work
 1.) Get Archiving Working - Low priority
