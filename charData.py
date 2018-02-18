@@ -549,8 +549,6 @@ def show_char():
     print "| Reasoning (RE)              |{:^9}|{:^11}|{:^7}|{:^7}|{:^5}|{:^5}|{:^7}|{:^7}|".format(char_dict['re_stat'],char_dict['re_pot'],reb,raceb[10],redp,repp,char_dict['remb'],retb)
     print "*", 93 * "-","*"
     print "| Development/Power Points:{:41}| {:^4}| {:^4}|               |".format(" ",tdp,tpp)
-    #print "*", 86 * "-","*"
-    #print "|", 93 * " ","|"
     print "*", 93 * "-","*"
     print "| {:32} | Hobby | AD  | AP  |     | Skill| Stat |Level| Misc | Total |".format(" ")
     print "| {:32} | Ranks |Ranks|Ranks|Ranks| Bonus| Bonus|Bonus| Bonus| Bonus |".format("Skill Name")

@@ -577,7 +577,7 @@ def create_char():
     if char['realm'] == "NULL":
         skill_file="ds_na.csv"
 
-
+    char_dict['lvl'] = 10000
     # Open skill list file and write to character skill file. Set number of ranks for Hobby, AD, AP,
     # normal to 0
     with open(cfgData.cfg_dir+"/"+skill_file) as f:
