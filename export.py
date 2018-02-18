@@ -6,7 +6,7 @@ import charMenu
 import cfgData
 import json
 
-charXlPath="c:/users/tym.drlmini/Dropbox/Rolemaster/Characters"
+charXlPath=cfgData.char_dir
 charXlFile="ptest.xlsx"
 
 def export_to_excel():

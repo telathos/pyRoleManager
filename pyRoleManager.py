@@ -46,8 +46,10 @@ def print_menu():       ## Your menu design here
     print "4. Add Misc Skill Bonus"
     print "5. Stat Gain Roll"
     print "6. Assign Armor Type to Character"
+    print
     print "7. Add experience to character"
     print "8. Raise Character Level"
+    print
     print "9. Export Character to Excel"
     print "10. Print list of all skills"
     print ""
