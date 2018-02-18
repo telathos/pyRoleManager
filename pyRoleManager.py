@@ -12,6 +12,7 @@ import rl
 import charData
 import exp
 import export
+import level
 
 # Update character records if a new skill is added
 charData.new_skill_check()
@@ -1276,6 +1277,9 @@ while loop:          ## While loop which will keep going until loop = False
     elif choice=="10":
         cfgData.clear_screen()
         charData.all_skill_list()
+    elif choice=="11":
+        cfgData.clear_screen()
+        level.exp_check()
     elif choice=="x":
         print "Exiting Program"
         loop=False
