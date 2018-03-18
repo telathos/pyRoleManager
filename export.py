@@ -75,33 +75,41 @@ def export_to_excel():
         prpp,inpp,empp=0.0,0.0,0.0
         tpp=0.0
         realm="Non"
+        realm_stat="N/A"
     if char_dict['realm'] == "PR":
         inpp,empp=0.0,0.0
         tpp=prpp
         realm="Mentalism"
+        realm_stat="PR"
     if char_dict['realm'] == "IN":
         empp,prpp=0.0,0.0
         tpp=inpp
         realm="Channeling"
+        realm_stat="IN"
     if char_dict['realm'] == "EM":
         inpp,prpp=0.0,0.0
         tpp=empp
         realm="Essence"
+        realm_stat="EM"
     if char_dict['realm'] == "IP":
         empp=0.0
         tpp=(float(inpp)+float(prpp))/2
         realm="Channeling/Mentalism"
+        realm_stat="IN/PR"
     if char_dict['realm'] == "PE":
         inpp=0.0
         tpp=(float(empp)+float(prpp))/2
         realm="Mentalism/Essence"
+        realm_stat="PR/EM"
     if char_dict['realm'] == "IE":
         prpp=0.0
         tpp=(float(inpp)+float(empp))/2
         realm="Channeling/Essence"
+        realm_stat="IN/EM"
     if char_dict['realm'] == "AR":
         tpp=(float(inpp)+float(prpp)+float(empp))/3
         realm="Arcane"
+        realm_stat="IN/EM/PR"
 
     # Calculate Maneuver penalties
     if char_dict['armorType'] <= 4:
@@ -147,6 +155,7 @@ def export_to_excel():
 
     # Define colors
     gray = PatternFill("solid",fgColor="969696")
+    lblue = PatternFill("solid",fgColor="CCFFFF")
 
     # Define number formatting
 
@@ -191,7 +200,7 @@ def export_to_excel():
 
     ws['A2'] = "Name:"
     ws.merge_cells('B2:C2')
-    ws['B2'] = char_dict['name'].title()
+    ws['B2'] = char_dict['FullName'].title()
     ws['E2'] = "Level:"
     ws['G2'] = "Race:"
     ws['F2'] = char_dict['lvl']
@@ -212,8 +221,11 @@ def export_to_excel():
     ws['E3'] = "Exp:"
     ws['F3'] = char_dict['exp']
     ws['G3'] = "Next Lvl:"
+    ws['H3'] = char_dict['next_lvl']
     ws['F3'].number_format = "#,###"
     ws['H3'].number_format = "#,###"
+    ws['E3'].alignment = Alignment(horizontal='right')
+    ws['G3'].alignment = Alignment(horizontal='right')
     ws['A3'].border = lBorder
     ws['I3'].border = rBorder
     ws['A3'].font = textFont
@@ -228,6 +240,7 @@ def export_to_excel():
     ws['C4'] = "Age:"
     ws['D4'] = char_dict['age']
     ws['F4'] = "Base Rate:"
+    ws['C4'].alignment = Alignment(horizontal='right')
     ws['D4'].alignment = Alignment(horizontal='center')
     ws['F4'].alignment = Alignment(horizontal='right')
     ws['A4'].border = lBorder
@@ -242,6 +255,10 @@ def export_to_excel():
     ws['A5'] = "Height:"
     ws['C5'] = "Weight:"
     ws['F5'] = "Max Rate:"
+    ws['B5'] = char_dict['height']
+    ws['D5'] = char_dict['weight']
+    ws['C5'].alignment = Alignment(horizontal='right')
+    ws['D5'].alignment = Alignment(horizontal='center')
     ws['A5'].border = lBorder
     ws['I5'].border = rBorder
     ws['A5'].font = textFont
@@ -255,6 +272,8 @@ def export_to_excel():
     ws['B6'] = char_dict['hair']
     ws['C6'] = "Eyes:"
     ws['D6'] = char_dict['eye']
+    ws['C6'].alignment = Alignment(horizontal='right')
+    ws['D6'].alignment = Alignment(horizontal='center')
     ws['A6'].border = lBorder
     ws['I6'].border = rBorder
     ws['A6'].font = textFont
@@ -485,6 +504,7 @@ def export_to_excel():
     ws['A19'] = lang1
     ws['C19'] = lang1s
     ws['D19'] = lang1w
+    ws['F19'] = realm_stat
     ws['C19'].alignment = Alignment(horizontal='center')
     ws['D19'].alignment = Alignment(horizontal='center')
     ws['E19'] = "Stat Bonus:"
@@ -1232,11 +1252,15 @@ def export_to_excel():
             cell.alignment = Alignment(horizontal='center')
         rows+=1
         nrows+=1
-    # Loop thru columns and alignment column 'A'
+    # Loop thru columns and alignment column 'A' (Skill Names)
     for col in ws.iter_cols(min_row=1, max_col=11):
         for cell in ws1['A']:
             cell.alignment = Alignment(horizontal='left')
 
+    # Loop thru columns and set color fill on column 'M' (Skill Totals)
+    for col in ws.iter_cols(min_row=1, max_col=11):
+        for cell in ws1['M']:
+            cell.fill = lblue
     # Save the file
     wb.save(charXlPath+"/"+char+"/"+charXlFile)
 #export_to_excel()
