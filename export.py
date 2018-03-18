@@ -303,7 +303,7 @@ def export_to_excel():
     ws['A9'] = "Armor Type:"
     ws['B9'] = char_dict['armorType']
     ws['E9'] = "Shield:"
-    ws['F9'] = char_dict['sheildType']
+    ws['F9'] = char_dict['shieldType']
     ws['H9'] = "vs Melee:"
     ws['I9'] = "=I8+{}".format(char_dict['shieldMeDB'])
     ws['A9'].font = textFont
@@ -320,7 +320,7 @@ def export_to_excel():
     ws['I9'].alignment = Alignment(horizontal='center')
 
     ws['A10'] = "Shield:"
-    ws['B10'] = char_dict['sheildType']
+    ws['B10'] = char_dict['shieldType']
     ws['E10'] = "ADF:"
     ws['H10'] = "vs Missile:"
     ws['I10'] = '=I8+{}'.format(char_dict['shieldMiDB'])
