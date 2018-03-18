@@ -1231,6 +1231,10 @@ def export_to_excel():
     ws1.column_dimensions['L'].width = 5.0
     ws1.column_dimensions['M'].width = 7.0
 
+    # Page Titles
+    ws1.print_title_rows = '1:2'
+    ws1.print_title_cols = 'A:M'
+
     skill_rank_total = 0
     for words in char_dict:
         if words.isdigit():
