@@ -1,11 +1,10 @@
 1.) Hobby Skills
   a.) List created
 2.) Adding new skill, Not all columns are added and adding to ds.csv file
-3.) Export function
-  a.) Power points display wrong 
 5.) Add back to character menu code - Low priority
 7.) Add Experience - more testing needed
 9.) Export function, update to handle second page of Skills
+  a.) Page_title 
 
 
 Completed
@@ -47,6 +46,9 @@ Completed
 20.) Add Next Level to show_char
 21.) Fix skill chart, add space to cost column
 22.) List of all skills - Low priority
+23.) Export function
+  a.) Power points display wrong
+24.) Fix Helm and Shield code
 
 Version 2.0 Work
 1.) Get Archiving Working - Low priority

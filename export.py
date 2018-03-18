@@ -7,7 +7,7 @@ import cfgData
 import json
 
 charXlPath=cfgData.char_dir
-charXlFile="ptest.xlsx"
+#charXlFile="ptest.xlsx"
 
 def export_to_excel():
     p=charMenu.char_menu()
@@ -1110,7 +1110,7 @@ def export_to_excel():
     ws['H46'].border = fullBorder
     ws['H46'] = tdp
     ws['H46'].alignment = Alignment(horizontal='center')
-    ws['I46'] = tpp * char_dict['lvl']
+    ws['I46'] = "=({}*{})".format(tpp,char_dict['lvl'])
     ws['I46'].alignment = Alignment(horizontal='center')
     ws['I46'].font = textFont
     ws['I46'].border = fullBorder

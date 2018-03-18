@@ -1,5 +1,5 @@
-None,0,0,0
-Target Shield,20,10,5
-Normal Shield,20,20,15
-Full Shield,25,25,20
-Wall Shield,30,40,30
+1,None,0,0,0
+2,Target Shield,20,10,5
+3,Normal Shield,20,20,15
+4,Full Shield,25,25,20
+5,Wall Shield,30,40,30
