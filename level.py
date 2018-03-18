@@ -318,4 +318,4 @@ def lvl_check(lvl):
     print "Experience for lvl",lvl+1,":",next_lvl
     return next_lvl
 
-exp_check()
+#exp_check()

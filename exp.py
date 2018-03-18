@@ -58,7 +58,7 @@ def exp_check():
     '''
     if in_lvl > 0:
         rl.select_skills
-    '''    
+    '''
 next_lvl=0
 def lvl_check(lvl):
     global next_lvl
@@ -75,4 +75,4 @@ def lvl_check(lvl):
     print "Experience for lvl",lvl+1,":",next_lvl
     return next_lvl
 
-exp_check()
+#exp_check()
