@@ -45,7 +45,7 @@ def new_skill_check():
                     col=int(p.split(',')[1])
             while ld>0:
                 index=cl+1
-                char_dict[`index`]=(skills[cl].split(',')[1],skills[cl].split(',')[5],skills[cl].split(',')[7],skills[cl].split(',')[col],skills[cl].split(',')[6],0,0,0,0)
+                char_dict[`index`]=(skills[cl].split(',')[1],skills[cl].split(',')[5],skills[cl].split(',')[7],skills[cl].split(',')[col],skills[cl].split(',')[6],0,0,0,0,0,0,0,0,0,0)
                 cl+=1
                 ld-=1
 
@@ -269,6 +269,24 @@ def show_char():
         if rt[0]==char_dict['pro_name']:
             lblist=[rt[9],rt[10],rt[11],rt[12],rt[13],rt[14],rt[15],rt[16],rt[17],rt[18],rt[19],rt[20],rt[21],rt[22],rt[23],rt[24]]
 
+    # Pull previously assigned weapon cost for normal weapon costs
+    for v in char_dict:
+        if v.isdigit():
+            index=v
+            if char_dict[v][0] == 'Dagger':
+                hs1=char_dict[v][3]
+            if char_dict[v][0] == 'Mace':
+                hc1=char_dict[v][3]
+            if char_dict[v][0] == 'Bola':
+                thr=char_dict[v][3]
+            if char_dict[v][0] == 'Quarterstaff':
+                h2=char_dict[v][3]
+            if char_dict[v][0] == 'Short Bow':
+                msl=char_dict[v][3]
+            if char_dict[v][0] == 'Polearm':
+                pa=char_dict[v][3]
+
+    # Check if is a skill
     sklist=[]
     for words in char_dict:
         if words.isdigit():
@@ -321,6 +339,46 @@ def show_char():
             else:
                 lvl_bonus = lvl_bonus * lvl_mult
             char_dict[words][13] = lvl_bonus
+
+            # Update weapon costs
+            if not char_dict[words][2] == 'Polearm' or not char_dict[words][2] == 'Missile':
+                if char_dict[words][0].startswith('TWC'):
+                    if char_dict[words][2] == '1-HS':
+                        weatype=hs1
+                    elif char_dict[words][2] == 'Thrown':
+                        weatype=thr
+                    elif char_dict[words][2] == '1-HC':
+                        weatype=hc1
+                    elif char_dict[words][2] == '2-H':
+                        weatype=h2
+                    if len(weatype) == 1:
+                        twc_wea=int(weatype)*2
+                    elif len(weatype) == 2:
+                        twc_wea=int(weatype)*2
+                    elif len(weatype) == 3:
+                        temp=weatype.split('/')
+                        twc_wea=`int(temp[0])*2` + "/" + `int(temp[1])*2`
+                    char_dict[words][3]=twc_wea
+                #print char_dict[words][0],":",char_dict[words][3]
+
+                # Set weapon cost if NULL
+            if char_dict[words][3] == 'NULL':
+                if char_dict[words][2] == '1-HS':
+                    char_dict[words][3] = hs1
+                elif char_dict[words][2] == 'Thrown':
+                    char_dict[words][3] = thr
+                elif char_dict[words][2] == '1-HC':
+                    char_dict[words][3] = hc1
+                elif char_dict[words][2] == '2-H':
+                    char_dict[words][3] = h2
+                elif char_dict[words][2] == 'Polearm':
+                    char_dict[words][3] = pa
+                elif char_dict[words][2] == 'Missile':
+                    char_dict[words][3] = msl
+
+                # Write Character data to file
+                with open(cfgData.char_dir+"/"+char+"/"+char+".json", "w") as f:
+                    f.write(json.dumps(char_dict))
 
             # Get stat total bonuses
             stat=char_dict[words][1]

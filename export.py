@@ -7,7 +7,6 @@ import cfgData
 import json
 
 charXlPath=cfgData.char_dir
-#charXlFile="ptest.xlsx"
 
 def export_to_excel():
     p=charMenu.char_menu()
@@ -1268,3 +1267,192 @@ def export_to_excel():
     # Save the file
     wb.save(charXlPath+"/"+char+"/"+charXlFile)
 #export_to_excel()
+
+def export_allskills_to_excel():
+    p=charMenu.char_menu()
+    menu_len=len(p)
+    while True:
+        s=int(raw_input("Select Character: "))
+        if s >=1 and s<=menu_len:
+            break
+        else:
+            print "Invalid Selection! Select a character from the list"
+
+    # Open the file
+    char_dict={}
+    s-=1
+    char = p[s]
+    with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
+        char_dict = json.load(cf)
+    charXlFile2=char_dict['FullName']+"_AllSkills.xlsx"
+
+    # Setup Excel file
+    wb = Workbook()
+    # grab the active worksheet
+    ws = wb.active
+    ws.title="Skills"
+    ws1 = wb['Skills']
+    ws.page_margins.bottom=0.5
+    ws.page_margins.top=0.5
+    ws1.page_margins.top=0.25
+    ws1.page_margins.bottom=0.25
+    ws1.page_margins.left=0.25
+    ws1.page_margins.right=0.25
+
+    # Define colors
+    gray = PatternFill("solid",fgColor="969696")
+    lblue = PatternFill("solid",fgColor="CCFFFF")
+
+    # Define fonts
+    textFont = Font(name='Arial',size=10)
+    textBoldFont = Font(name='Arial',size=11, bold=True)
+    textCalBoldFont = Font(name='Calibri',size=11, bold=True)
+    headerFont = Font(name='Old English Text MT',size=14,bold=True)
+    statFont = Font(name='Old English Text MT',size=18,bold=True)
+
+    # Define Borders
+    fullBorder = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
+    tbBorder = Border(top=Side(style='thin'), bottom=Side(style='thin'))
+    tblBorder = Border(top=Side(style='thin'), bottom=Side(style='thin'), left=Side(style='thin'))
+    tbrBorder = Border(top=Side(style='thin'), bottom=Side(style='thin'), right=Side(style='thin'))
+    rBorder = Border(right=Side(style='thin'))
+    lBorder = Border(left=Side(style='thin'))
+    tBorder = Border(top=Side(style='thin'))
+    bBorder = Border(bottom=Side(style='thin'))
+    tlrBorder = Border(top=Side(style='thin'), left=Side(style='thin'), right=Side(style='thin'))
+    blrBorder = Border(left=Side(style='thin'), bottom=Side(style='thin'), right=Side(style='thin'))
+    rlBorder = Border(left=Side(style='thin'), right=Side(style='thin'))
+    rbBorder = Border(bottom=Side(style='thin'), right=Side(style='thin'))
+    lbBorder = Border(bottom=Side(style='thin'), left=Side(style='thin'))
+    tlBorder = Border(top=Side(style='thin'), left=Side(style='thin'))
+
+    ws1['A1'] = "Skills"
+    ws1['B1'] = "Cost"
+    ws1['C1'] = "Stats"
+    ws1.merge_cells('A1:A2')
+    ws1.merge_cells('B1:B2')
+    ws1.merge_cells('C1:C2')
+    ws1.merge_cells('D1:H1')
+    ws1.merge_cells('I1:M1')
+    ws1['D1'] = "-- SKILL RANKS --"
+    ws1['I1'] = "-- BONUSES --"
+    ws1['D2'] = "Hobby"
+    ws1['E2'] = "Adol"
+    ws1['F2'] = "App"
+    ws1['G2'] = "Ranks"
+    ws1['H2'] = "Total"
+    ws1['I2'] = "Skill"
+    ws1['J2'] = "Stat"
+    ws1['K2'] = "Lvl"
+    ws1['L2'] = "Misc"
+    ws1['M2'] = "Total"
+    ws1['B1'].alignment = Alignment(horizontal='center')
+    ws1['C1'].alignment = Alignment(horizontal='center')
+    ws1['D1'].alignment = Alignment(horizontal='center')
+    ws1['I1'].alignment = Alignment(horizontal='center')
+    ws1['C2'].alignment = Alignment(horizontal='center')
+    ws1['D2'].alignment = Alignment(horizontal='center')
+    ws1['E2'].alignment = Alignment(horizontal='center')
+    ws1['F2'].alignment = Alignment(horizontal='center')
+    ws1['G2'].alignment = Alignment(horizontal='center')
+    ws1['H2'].alignment = Alignment(horizontal='center')
+    ws1['I2'].alignment = Alignment(horizontal='center')
+    ws1['J2'].alignment = Alignment(horizontal='center')
+    ws1['K2'].alignment = Alignment(horizontal='center')
+    ws1['L2'].alignment = Alignment(horizontal='center')
+    ws1['M2'].alignment = Alignment(horizontal='center')
+    ws1['A1'].border = fullBorder
+    ws1['A2'].border = fullBorder
+    ws1['B1'].border = fullBorder
+    ws1['B2'].border = fullBorder
+    ws1['C1'].border = fullBorder
+    ws1['C2'].border = fullBorder
+    ws1['D1'].border = fullBorder
+    ws1['E1'].border = tbBorder
+    ws1['F1'].border = tbBorder
+    ws1['G1'].border = tbBorder
+    ws1['H1'].border = fullBorder
+    ws1['I1'].border = fullBorder
+    ws1['J1'].border = tbBorder
+    ws1['K1'].border = tbBorder
+    ws1['L1'].border = tbBorder
+    ws1['L1'].border = tbBorder
+    ws1['M1'].border = fullBorder
+    ws1['C2'].border = fullBorder
+    ws1['D2'].border = fullBorder
+    ws1['E2'].border = fullBorder
+    ws1['F2'].border = fullBorder
+    ws1['G2'].border = fullBorder
+    ws1['H2'].border = fullBorder
+    ws1['I2'].border = fullBorder
+    ws1['J2'].border = fullBorder
+    ws1['K2'].border = fullBorder
+    ws1['L2'].border = fullBorder
+    ws1['M2'].border = fullBorder
+    ws1['A1'].font = textCalBoldFont
+    ws1['B1'].font = textCalBoldFont
+    ws1['C1'].font = textCalBoldFont
+    ws1['D1'].font = textCalBoldFont
+    ws1['D2'].font = textCalBoldFont
+    ws1['E2'].font = textCalBoldFont
+    ws1['F2'].font = textCalBoldFont
+    ws1['I1'].font = textCalBoldFont
+    ws1['G2'].font = textCalBoldFont
+    ws1['H2'].font = textCalBoldFont
+    ws1['I2'].font = textCalBoldFont
+    ws1['J2'].font = textCalBoldFont
+    ws1['K2'].font = textCalBoldFont
+    ws1['L2'].font = textCalBoldFont
+    ws1['M2'].font = textCalBoldFont
+
+    skill=[]
+    ###### Test ######
+    ws1.column_dimensions['A'].width = 26.0
+    ws1.column_dimensions['B'].width = 5.5
+    ws1.column_dimensions['C'].width = 10.0
+    ws1.column_dimensions['D'].width = 6.5
+    ws1.column_dimensions['E'].width = 6.5
+    ws1.column_dimensions['F'].width = 6.5
+    ws1.column_dimensions['G'].width = 5.5
+    ws1.column_dimensions['H'].width = 5.0
+    ws1.column_dimensions['I'].width = 5.0
+    ws1.column_dimensions['J'].width = 5.0
+    ws1.column_dimensions['K'].width = 5.0
+    ws1.column_dimensions['L'].width = 5.0
+    ws1.column_dimensions['M'].width = 7.0
+
+    # Page Titles
+    ws1.print_title_rows = '1:2'
+    ws1.print_title_cols = 'A:M'
+
+    skill_rank_total = 0
+    for words in char_dict:
+        if words.isdigit():
+            skill_rank_total = char_dict[words][5] + char_dict[words][6] + char_dict[words][7]+ char_dict[words][8]
+            skill.append([char_dict[words][0],char_dict[words][3],char_dict[words][1],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],skill_rank_total,char_dict[words][10],char_dict[words][11],char_dict[words][13],char_dict[words][12],char_dict[words][14]])
+            skill.sort()
+
+    for row in skill:
+        ws1.append(row)
+    for row in ws1.iter_rows(min_row=4,min_col=1):
+        pass
+
+    # loop thru rows, then cells in the row to apply alignment and border
+    rows,nrows=1,3
+    while rows <= len(skill):
+        for cell in ws1[nrows:nrows]:
+            cell.border = fullBorder
+            cell.alignment = Alignment(horizontal='center')
+        rows+=1
+        nrows+=1
+    # Loop thru columns and alignment column 'A' (Skill Names)
+    for col in ws.iter_cols(min_row=1, max_col=11):
+        for cell in ws1['A']:
+            cell.alignment = Alignment(horizontal='left')
+
+    # Loop thru columns and set color fill on column 'M' (Skill Totals)
+    for col in ws.iter_cols(min_row=1, max_col=11):
+        for cell in ws1['M']:
+            cell.fill = lblue
+    # Save the file
+    wb.save(charXlPath+"/"+char+"/"+charXlFile2)

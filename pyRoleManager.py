@@ -52,7 +52,8 @@ def print_menu():       ## Your menu design here
     print "8. Raise Character Level"
     print
     print "9. Export Character to Excel"
-    print "10. Print list of all skills"
+    print "10. Export All of Character Skills to Excel"
+    print "11. Print list of all skills to screen"
     print ""
     print "X. Exit"
     print 67 * "-"
@@ -1276,8 +1277,12 @@ while loop:          ## While loop which will keep going until loop = False
         cfgData.clear_screen()
     elif choice=="10":
         cfgData.clear_screen()
-        charData.all_skill_list()
+        export.export_allskills_to_excel()
+        cfgData.clear_screen()
     elif choice=="11":
+        cfgData.clear_screen()
+        charData.all_skill_list()
+    elif choice=="12":
         cfgData.clear_screen()
         level.exp_check()
     elif choice=="x":
