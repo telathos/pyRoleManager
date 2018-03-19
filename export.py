@@ -1216,7 +1216,7 @@ def export_to_excel():
 
     skill=[]
     ###### Test ######
-    ws1.column_dimensions['A'].width = 26.0
+    ws1.column_dimensions['A'].width = 28.0
     ws1.column_dimensions['B'].width = 5.5
     ws1.column_dimensions['C'].width = 10.0
     ws1.column_dimensions['D'].width = 6.5
@@ -1407,7 +1407,7 @@ def export_allskills_to_excel():
 
     skill=[]
     ###### Test ######
-    ws1.column_dimensions['A'].width = 26.0
+    ws1.column_dimensions['A'].width = 28.0
     ws1.column_dimensions['B'].width = 5.5
     ws1.column_dimensions['C'].width = 10.0
     ws1.column_dimensions['D'].width = 6.5
