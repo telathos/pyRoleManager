@@ -18,7 +18,7 @@ import level
 charData.new_skill_check()
 
 # Setup character data list
-char={}
+char_dict={}
 
 # Read Professions into List
 plist = {}
