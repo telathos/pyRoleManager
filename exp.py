@@ -26,6 +26,7 @@ def exp_check():
     print "Next level:",char_dict['next_lvl']
     print
     exp=int(raw_input("Enter experience to add: "))
+
     # Add experience to character's current experience
     char_dict['exp'] += int(exp)
     print "New experience:",char_dict['exp']
@@ -33,7 +34,7 @@ def exp_check():
     # Check if character raised level
     if char_dict['exp'] > char_dict['next_lvl']:
         lvlcheck = lvl_check(char_dict['lvl'])
-        #print lvlcheck
+
         # Check if more than one level is gained
         y=1
         while char_dict['exp'] > lvlcheck:

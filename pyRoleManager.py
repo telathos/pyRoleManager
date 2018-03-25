@@ -95,7 +95,7 @@ def create_char():
     last_name = str(raw_input('Pleae enter last name: '))
     char_path=cfgData.char_dir+"/"+user_name
     fullName = user_name +" "+ last_name
-    char['FullName'] = fullName
+    char_dict['FullName'] = fullName
     if not os.path.exists(char_path):
         os.makedirs(char_path)
     if os.path.exists(char_path+"/"+user_name+".json") == True:
@@ -103,10 +103,11 @@ def create_char():
         sys.exit()
     else:
         # Write character name to list
-        char['name']=user_name
+        char_dict['name']=user_name
 
     # Set base Experience
-    char['exp'] = 10000
+    char_dict['exp'] = 10000
+    char_dict['next_lvl'] = 20000
 
     print 25 * "-" , "Professions", 25 * "-"
     print ""
@@ -242,7 +243,7 @@ def create_char():
         pro_name=plist[pro_ch][0]
 
     # write Profession to list
-    char['pro_name']=pro_name
+    char_dict['pro_name']=pro_name
     print 10 * "-"
 
     # Select Race
@@ -265,43 +266,43 @@ def create_char():
 
     race_input=int(raw_input('Select a Race: '))
     if race_input==1:
-        char['race']="Common Man"
+        char_dict['race']="Common Man"
     elif race_input==2:
-        char['race']="Wood Elf"
+        char_dict['race']="Wood Elf"
     elif race_input==3:
-        char['race']="High Elf"
+        char_dict['race']="High Elf"
     elif race_input==4:
-        char['race']="Half-elf"
+        char_dict['race']="Half-elf"
     elif race_input==5:
-        char['race']="Grey Elf"
+        char_dict['race']="Grey Elf"
     elif race_input==6:
-        char['race']="Aquatic Elf"
+        char_dict['race']="Aquatic Elf"
     elif race_input==7:
-        char['race']="Dark Elf"
+        char_dict['race']="Dark Elf"
     elif race_input==8:
-        char['race']="Tallfellow Halfling"
+        char_dict['race']="Tallfellow Halfling"
     elif race_input==9:
-        char['race']="Stout Halfling"
+        char_dict['race']="Stout Halfling"
     elif race_input==10:
-        char['race']="Dwarf"
+        char_dict['race']="Dwarf"
     elif race_input==11:
-        char['race']="Half-Dwarf"
+        char_dict['race']="Half-Dwarf"
     elif race_input==12:
-        char['race']="Half-Orc"
+        char_dict['race']="Half-Orc"
     elif race_input==13:
-        char['race']="Half-Ogre"
+        char_dict['race']="Half-Ogre"
     elif race_input==14:
-        char['race']="Half-Troll"
+        char_dict['race']="Half-Troll"
     elif race_input==15:
-        char['race']="Gnomes"
+        char_dict['race']="Gnomes"
     elif race_input==16:
-        char['race']="Hira'razhir"
+        char_dict['race']="Hira'razhir"
     elif race_input==17:
-        char['race']="Idiyva"
+        char_dict['race']="Idiyva"
     elif race_input==18:
-        char['race']="Vulfen"
+        char_dict['race']="Vulfen"
     elif race_input==19:
-        char['race']="Sstoi'isslythi"
+        char_dict['race']="Sstoi'isslythi"
 
     ### Enter current statistic values
 
@@ -394,39 +395,39 @@ def create_char():
     print 20 * "="
     sexch = int(raw_input("Select Sex: "))
     sex = cfgData.sexlist[sexch-1]
-    char['gender'] = sex
+    char_dict['gender'] = sex
     hairch = int(raw_input("Select Hair color: "))
     hair = cfgData.hairlist[hairch-1]
-    char['hair'] = hair
+    char_dict['hair'] = hair
     eyech = int(raw_input("Select Eye color: "))
     eye = cfgData.eyelist[eyech-1]
-    char['eye'] = eye
+    char_dict['eye'] = eye
     age = int(raw_input("Character's Age: "))
-    char['age'] = age
+    char_dict['age'] = age
     print
 
     ht = str(raw_input("Enter Height: "))
     wt = str(raw_input("Enter Weight: "))
-    char['height'],char['weight'] = ht,wt
+    char_dict['height'],char_dict['weight'] = ht,wt
 
     # Load data into dictionary for saving of the character
-    char['st_stat'],char['st_pot']=st_stat,st_pot
-    char['qu_stat'],char['qu_pot']=qu_stat,qu_pot
-    char['pr_stat'],char['pr_pot']=pr_stat,pr_pot
-    char['in_stat'],char['in_pot']=in_stat,in_pot
-    char['em_stat'],char['em_pot']=em_stat,em_pot
-    char['co_stat'],char['co_pot']=co_stat,co_pot
-    char['ag_stat'],char['ag_pot']=ag_stat,ag_pot
-    char['sd_stat'],char['sd_pot']=sd_stat,sd_pot
-    char['me_stat'],char['me_pot']=me_stat,me_pot
-    char['re_stat'],char['re_pot']=re_stat,re_pot
-    char['lvl']=0
-    char['realm']=plist[pro_ch][8]
-    char['stmb'],char['qumb'],char['emmb'],char['inmb'],char['prmb']=0,0,0,0,0
-    char['comb'],char['agmb'],char['sdmb'],char['remb'],char['memb']=0,0,0,0,0
-    hp_math=Decimal(char['co_stat'])/Decimal(10)
+    char_dict['st_stat'],char_dict['st_pot']=st_stat,st_pot
+    char_dict['qu_stat'],char_dict['qu_pot']=qu_stat,qu_pot
+    char_dict['pr_stat'],char_dict['pr_pot']=pr_stat,pr_pot
+    char_dict['in_stat'],char_dict['in_pot']=in_stat,in_pot
+    char_dict['em_stat'],char_dict['em_pot']=em_stat,em_pot
+    char_dict['co_stat'],char_dict['co_pot']=co_stat,co_pot
+    char_dict['ag_stat'],char_dict['ag_pot']=ag_stat,ag_pot
+    char_dict['sd_stat'],char_dict['sd_pot']=sd_stat,sd_pot
+    char_dict['me_stat'],char_dict['me_pot']=me_stat,me_pot
+    char_dict['re_stat'],char_dict['re_pot']=re_stat,re_pot
+    char_dict['lvl']=0
+    char_dict['realm']=plist[pro_ch][8]
+    char_dict['stmb'],char_dict['qumb'],char_dict['emmb'],char_dict['inmb'],char_dict['prmb']=0,0,0,0,0
+    char_dict['comb'],char_dict['agmb'],char_dict['sdmb'],char_dict['remb'],char_dict['memb']=0,0,0,0,0
+    hp_math=Decimal(char_dict['co_stat'])/Decimal(10)
     hp=Decimal(hp_math).quantize(Decimal('1e-3'))
-    char['hp_base']=int(round(hp,0))
+    char_dict['hp_base']=int(round(hp,0))
 
     # Open chart of stat values
     with open(cfgData.cfg_dir+"/sttchart.csv") as f:
@@ -439,25 +440,25 @@ def create_char():
 
     # Loop through statistics to pull bonuses
     for x1 in sc:
-        if int(x1[0]) == int(char['st_stat']):
+        if int(x1[0]) == int(char_dict['st_stat']):
             stb,stdp,stpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char['qu_stat']):
+        if int(x1[0]) == int(char_dict['qu_stat']):
             qub,qudp,qupp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char['pr_stat']):
+        if int(x1[0]) == int(char_dict['pr_stat']):
             prb,prdp,prpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char['in_stat']):
+        if int(x1[0]) == int(char_dict['in_stat']):
             inb,indp,inpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char['em_stat']):
+        if int(x1[0]) == int(char_dict['em_stat']):
             emb,emdp,empp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char['co_stat']):
+        if int(x1[0]) == int(char_dict['co_stat']):
             cob,codp,copp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char['ag_stat']):
+        if int(x1[0]) == int(char_dict['ag_stat']):
             agb,agdp,agpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char['sd_stat']):
+        if int(x1[0]) == int(char_dict['sd_stat']):
             sdb,sddp,sdpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char['me_stat']):
+        if int(x1[0]) == int(char_dict['me_stat']):
             meb,medp,mepp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char['re_stat']):
+        if int(x1[0]) == int(char_dict['re_stat']):
             reb,redp,repp=x1[1],x1[2],x1[3]
 
     ###################
@@ -474,16 +475,7 @@ def create_char():
     while f < len(racechart):
         x3 = racechart[f].split(',')
         f+=1
-        if x3[0] == char['race']:
-            '''
-            print x3[0]
-            print x3[11],":Essence"
-            print x3[12],":Channeling"
-            print x3[13],":Mentalism"
-            print x3[14],":Poison"
-            print x3[15],":Disease"
-            print x3[17]
-            '''
+        if x3[0] == char_dict['race']:
             essModBase = x3[11]
             chanModBase = x3[12]
             mentModBase = x3[13]
@@ -492,114 +484,114 @@ def create_char():
             HitDie = x3[17]
     # Race Bonus
     for x2 in rc:
-        if x2[0] == char['race']:
+        if x2[0] == char_dict['race']:
             raceb=x2
 
     #######################
     # Calcalute Total Bonus
     #######################
 
-    sttb=(int(stb)+int(raceb[1])+int(char['stmb']))
-    qutb=(int(qub)+int(raceb[2])+int(char['qumb']))
-    prtb=(int(prb)+int(raceb[3])+int(char['prmb']))
-    intb=(int(inb)+int(raceb[4])+int(char['inmb']))
-    emtb=(int(emb)+int(raceb[5])+int(char['emmb']))
-    cotb=(int(cob)+int(raceb[6])+int(char['comb']))
-    agtb=(int(agb)+int(raceb[7])+int(char['agmb']))
-    sdtb=(int(sdb)+int(raceb[8])+int(char['sdmb']))
-    metb=(int(meb)+int(raceb[9])+int(char['memb']))
-    retb=(int(reb)+int(raceb[10])+int(char['remb']))
+    sttb=(int(stb)+int(raceb[1])+int(char_dict['stmb']))
+    qutb=(int(qub)+int(raceb[2])+int(char_dict['qumb']))
+    prtb=(int(prb)+int(raceb[3])+int(char_dict['prmb']))
+    intb=(int(inb)+int(raceb[4])+int(char_dict['inmb']))
+    emtb=(int(emb)+int(raceb[5])+int(char_dict['emmb']))
+    cotb=(int(cob)+int(raceb[6])+int(char_dict['comb']))
+    agtb=(int(agb)+int(raceb[7])+int(char_dict['agmb']))
+    sdtb=(int(sdb)+int(raceb[8])+int(char_dict['sdmb']))
+    metb=(int(meb)+int(raceb[9])+int(char_dict['memb']))
+    retb=(int(reb)+int(raceb[10])+int(char_dict['remb']))
     tdp=(float(codp)+float(agdp)+float(sddp)+float(medp)+float(redp))*float(cfgData.dp_multipler)
-    char['dp']=round(tdp,1)
-    dp_math=Decimal(char['dp'])
+    char_dict['dp']=round(tdp,1)
+    dp_math=Decimal(char_dict['dp'])
     dp=Decimal(dp_math).quantize(Decimal('1e-3'))
-    char['tempdp'] = int(round(dp,0))
+    char_dict['tempdp'] = int(round(dp,0))
 
     # Add Total Bonus of skills to character data
-    char['sttb']=sttb
-    char['qutb']=qutb
-    char['prtb']=prtb
-    char['intb']=intb
-    char['emtb']=emtb
-    char['cotb']=cotb
-    char['agtb']=agtb
-    char['sdtb']=sdtb
-    char['metb']=metb
-    char['retb']=retb
+    char_dict['sttb']=sttb
+    char_dict['qutb']=qutb
+    char_dict['prtb']=prtb
+    char_dict['intb']=intb
+    char_dict['emtb']=emtb
+    char_dict['cotb']=cotb
+    char_dict['agtb']=agtb
+    char_dict['sdtb']=sdtb
+    char_dict['metb']=metb
+    char_dict['retb']=retb
 
     # Set Resistance Roll Modifiers
-    char['essmod'] = int(essModBase)+int(emtb)
-    char['chanmod'] = int(chanModBase)+int(intb)
-    char['mentmod'] = int(mentModBase)+int(prtb)
-    char['poimod'] = int(poiModBase)+int(cotb)
-    char['dismod'] = int(disModBase)+int(cotb)
-    char['hitdie'] = HitDie
+    char_dict['essmod'] = int(essModBase)+int(emtb)
+    char_dict['chanmod'] = int(chanModBase)+int(intb)
+    char_dict['mentmod'] = int(mentModBase)+int(prtb)
+    char_dict['poimod'] = int(poiModBase)+int(cotb)
+    char_dict['dismod'] = int(disModBase)+int(cotb)
+    char_dict['hitdie'] = HitDie
 
     # Power Point Math
     stpp,qupp,copp,agpp,sdpp,mepp,repp="-","-","-","-","-","-","-"
-    if char['realm'] == "NULL":
+    if char_dict['realm'] == "NULL":
         prpp,inpp,empp=0.0,0.0,0.0
         tpp=0.0
-    if char['realm'] == "PR":
+    if char_dict['realm'] == "PR":
         inpp,empp=0.0,0.0
         tpp=prpp
-    if char['realm'] == "IN":
+    if char_dict['realm'] == "IN":
         empp,prpp=0.0,0.0
         tpp=inpp
-    if char['realm'] == "EM":
+    if char_dict['realm'] == "EM":
         inpp,prpp=0.0,0.0
         tpp=empp
-    if char['realm'] == "IP":
+    if char_dict['realm'] == "IP":
         empp=0.0
         tpp=(float(inpp)+float(prpp))/2
-    if char['realm'] == "PE":
+    if char_dict['realm'] == "PE":
         inpp=0.0
         tpp=(float(empp)+float(prpp))/2
-    if char['realm'] == "IE":
+    if char_dict['realm'] == "IE":
         prpp=0.0
         tpp=(float(inpp)+float(empp))/2
-    if char['realm'] == "AR":
+    if char_dict['realm'] == "AR":
         tpp=(float(inpp)+float(prpp)+float(empp))/3
 
     # Development Point Math
     stdp,qudp,emdp,indp,prdp="-","-","-","-","-"
 
-    # Open skills csv based on magic realm of the character
-    if char['realm'] == "EM":
-        skill_file="ds_em.csv"
-    if char['realm'] == "PR":
-        skill_file="ds_pr.csv"
-    if char['realm'] == "IN":
-        skill_file="ds_in.csv"
-    if char['realm'] == "IP":
-        skill_file="ds_ip.csv"
-    if char['realm'] == "PE":
-        skill_file="ds_pe.csv"
-    if char['realm'] == "IE":
-        skill_file="ds_ie.csv"
-    if char['realm'] == "AR":
-        skill_file="ds_ar.csv"
-    if char['realm'] == "NULL":
-        skill_file="ds_na.csv"
-
-    char['next_lvl'] = 20000
     # Open skill list file and write to character skill file. Set number of ranks for Hobby, AD, AP,
     # normal to 0
-    with open(cfgData.cfg_dir+"/"+skill_file) as f:
+    with open(cfgData.cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
-    f.close()
+
     skill_list=[]
     for list in sl:
         skill_list.append(list.split(","))
         crt=1
         for outer_list in skill_list:
             index=int(plist[pro_ch][1])
-            char[crt]=(outer_list[1],outer_list[5],outer_list[7],outer_list[index],outer_list[6],0,0,0,0,0,0,0,0,0,0)
+
+            # Set Spell Lists and Spell Mastery based on realm
+            if outer_list[1].startswith("Spell"):
+                if char_dict['realm'] == "EM":
+                    outer_list[5]="EM"
+                elif char_dict['realm'] == "PR":
+                    outer_list[5]="PR"
+                elif char_dict['realm'] == "IN":
+                    outer_list[5]=="IN"
+                elif char_dict['realm'] == "IP":
+                    outer_list[5]=="IN/PR"
+                elif char_dict['realm'] == "PE":
+                    outer_list[5]=="PR/EM"
+                elif char_dict['realm'] == "IE":
+                    outer_list[5]=="IN/EM"
+                elif char_dict['realm'] == "AR":
+                    outer_list[5]=="IN/PR/EM"
+                elif char_dict['realm'] == "NULL":
+                    outer_list[5]=="NA"
+            char_dict[crt]=(outer_list[1],outer_list[5],outer_list[7],outer_list[index],outer_list[6],0,0,0,0,0,0,0,0,0,0)
             crt+=1
 
     # Write Character data to file
     with open(char_path+'/'+user_name+'.json', 'w') as f:
-        f.write(json.dumps(char))
+        f.write(json.dumps(char_dict))
 
     # Set Languages
     lang_set(user_name)
@@ -889,6 +881,8 @@ def weapon_costs(user_name):
     skcnt=1
     # Loop through skills and update costs of weapons
     while skcnt <= len(sl):
+        #print skill_dict[`skcnt`][0]
+        #print skill_dict[`skcnt`][0],":",skill_dict[`skcnt`][2]
         if skill_dict[`skcnt`][2]=='Thrown':
             skill_dict[`skcnt`][3]=wea_assign['Thrown']
         if skill_dict[`skcnt`][2]=='1-HS':
@@ -1285,6 +1279,7 @@ while loop:          ## While loop which will keep going until loop = False
     elif choice=="12":
         cfgData.clear_screen()
         level.exp_check()
+        cfgData.clear_screen()
     elif choice=="x":
         print "Exiting Program"
         loop=False
