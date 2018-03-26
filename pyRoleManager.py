@@ -144,7 +144,12 @@ def create_char():
     print "46.) {:19} 47.) {:19}".format(plist[46][0],plist[47][0])
     print "48.) {:19}".format(plist[48][0])
     print 63 * "-"
-    pro_ch=int(raw_input('Select Profession: '))
+    pro_ch =""
+    while pro_ch<1 or pro_ch>48:
+        try:
+            pro_ch=int(raw_input('Select Profession: '))
+        except:
+            print "You must enter a number between 1 and 48"
     if pro_ch==1:
         pro_name=plist[pro_ch][0]
     elif pro_ch==2:
@@ -264,7 +269,13 @@ def create_char():
     print "19. Sstoi'isslythi (Reptilies)"
     print 25 * "-"
 
-    race_input=int(raw_input('Select a Race: '))
+    race_input =""
+    while race_input<1 or race_input>19:
+        try:
+            race_input=int(raw_input('Select a Race: '))
+        except:
+            print "You must enter a number between 1 and 19!"
+
     if race_input==1:
         char_dict['race']="Common Man"
     elif race_input==2:
@@ -305,11 +316,20 @@ def create_char():
         char_dict['race']="Sstoi'isslythi"
 
     ### Enter current statistic values
-
-    st_stat_input=int(raw_input('Strength: '))
+    st_stat_input=""
+    while st_stat_input<1 or st_stat_input>100:
+        try:
+            st_stat_input=int(raw_input('Strength: '))
+        except:
+            print "You must enter a number between 1 and 100.."
     st_stat=cfgData.prime_req(pro_ch,"st",st_stat_input)
 
-    qu_stat_input=int(raw_input('Quickness: '))
+    qu_stat_input=""
+    while qu_stat_input<1 or qu_stat_input>100:
+        try:
+            qu_stat_input=int(raw_input('Quickness: '))
+        except:
+            print "You must enter a number between 1 and 100.."
     qu_stat=cfgData.prime_req(pro_ch,"qu",qu_stat_input)
 
     pr_stat_input=int(raw_input('Presence: '))
