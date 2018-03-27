@@ -22,7 +22,7 @@ Open a command line (CMD) and type 'python pyRoleManager.py'. To run without add
 This will load a menu with the options.
 
 # Known Bugs/Issues
-The level raise code is still bugging. It doesn't aways reset your development points correctly. The code needs to be reworked.
+The level raise code is still bugging. It doesn't always reset your development points correctly. The code needs to be reworked.
 
 ## Add-on features
 # Professions
