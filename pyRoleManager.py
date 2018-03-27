@@ -316,47 +316,98 @@ def create_char():
         char_dict['race']="Sstoi'isslythi"
 
     ### Enter current statistic values
+    # Strength
+    stat_error=You must enter a number between 1 and 100.."
     st_stat_input=""
     while st_stat_input<1 or st_stat_input>100:
         try:
             st_stat_input=int(raw_input('Strength: '))
         except:
-            print "You must enter a number between 1 and 100.."
+            print stat_error
     st_stat=cfgData.prime_req(pro_ch,"st",st_stat_input)
 
+    # Quickness
     qu_stat_input=""
     while qu_stat_input<1 or qu_stat_input>100:
         try:
             qu_stat_input=int(raw_input('Quickness: '))
         except:
-            print "You must enter a number between 1 and 100.."
+            print stat_error
     qu_stat=cfgData.prime_req(pro_ch,"qu",qu_stat_input)
 
-    pr_stat_input=int(raw_input('Presence: '))
+    #Presence
+    pr_stat_input=""
+    while pr_stat_input<1 or pr_stat_input>100:
+        try:
+            pr_stat_input=int(raw_input('Presence: '))
+        except:
+            print stat_error
     pr_stat=cfgData.prime_req(pro_ch,"pr",pr_stat_input)
 
-    in_stat_input=int(raw_input('Intuition: '))
+    # Intuition
+    in_stat_input=""
+    while in_stat_input<1 or in_stat_input>100:
+        try:
+            in_stat_input=int(raw_input('Intuition: '))
+        except:
+            print stat_error
     in_stat=cfgData.prime_req(pro_ch,"in",in_stat_input)
 
-    em_stat_input=int(raw_input('Empathy: '))
+    # Essence
+    em_stat_input=""
+    try:
+        em_stat_input=int(raw_input('Empathy: '))
+    except:
+        print stat_error
     em_stat=cfgData.prime_req(pro_ch,"em",em_stat_input)
 
-    co_stat_input=int(raw_input('Constitution: '))
+    # Constitution
+    co_stat_input=""
+    while co_stat_input<1 or co_stat_input>100:
+        try:
+            co_stat_input=int(raw_input('Constitution: '))
+        except:
+            print stat_error
     co_stat=cfgData.prime_req(pro_ch,"co",co_stat_input)
 
-    ag_stat_input=int(raw_input('Agility: '))
+    # Agility
+    ag_stat_input=""
+    while ag_stat_input<1 or ag_stat_input>100:
+        try:
+            ag_stat_input=int(raw_input('Agility: '))
+        except:
+            print stat_error
     ag_stat=cfgData.prime_req(pro_ch,"ag",ag_stat_input)
 
-    sd_stat_input=int(raw_input('Self-Discipline: '))
+    # Self-Discipline
+    sd_stat_input=""
+    while sd_stat_input<1 or sd_stat_input>100:
+        try:
+            sd_stat_input=int(raw_input('Self-Discipline: '))
+        except:
+            print stat_error
     sd_stat=cfgData.prime_req(pro_ch,"sd",sd_stat_input)
 
-    me_stat_input=int(raw_input('Memory: '))
+    # Memory
+    me_stat_input=""
+    while me_stat_input<1 or me_stat_input>100:
+        try:
+            me_stat_input=int(raw_input('Memory: '))
+        except:
+            print stat_error
     me_stat=cfgData.prime_req(pro_ch,"me",me_stat_input)
 
-    re_stat_input=int(raw_input('Reasoning: '))
+    # Reasoning
+    re_stat_input=""
+    while re_stat_input<1 or re_stat_input<100:
+        try:
+            re_stat_input=int(raw_input('Reasoning: '))
+        except:
+            print stat_error
     re_stat=cfgData.prime_req(pro_ch,"re",re_stat_input)
 
     ### Calculate Potential Value using pot_calc function
+    # Strength
     st_pot_in=int(raw_input('Potential Roll (ST): '))
     st_pot=cfgData.pot_calc(st_stat,st_pot_in)
 

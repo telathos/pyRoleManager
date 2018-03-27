@@ -9,6 +9,7 @@ It can display all of your character skills and stats to screen and export the r
 
 # Application setup
 Update the location of the character and configuration file by editing cfgData.py. Change char_dir and cfg_dir to the location of the application.
+
 char_dir='c:\pyRoleManager\char'
 cfg_dir='c:\pyRoleManager\cfg'
 
