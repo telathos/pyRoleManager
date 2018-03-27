@@ -317,7 +317,7 @@ def create_char():
 
     ### Enter current statistic values
     # Strength
-    stat_error=You must enter a number between 1 and 100.."
+    stat_error="You must enter a number between 1 and 100.."
     st_stat_input=""
     while st_stat_input<1 or st_stat_input>100:
         try:
@@ -524,31 +524,56 @@ def create_char():
         x+=1
         s+=1
     print 20 * "="
+
+    # Enter characters gender
     sexch=""
     while sexch<1 or sexch>len(cfgData.sexlist):
         try:
             sexch = int(raw_input("Select Sex: "))
         except:
-            print "Enter a number between 1 and {2}..".format(len(cfgData.sexlist))
+            print "Enter a number between 1 and {:2}..".format(len(cfgData.sexlist))
     sex = cfgData.sexlist[sexch-1]
     char_dict['gender'] = sex
+
+    # Enter hair color
     hairch=""
     while hairch<1 or hairch>len(cfgData.hairlist):
         try:
             hairch = int(raw_input("Select Hair color: "))
         except:
-            print "Enter a number between 1 and {2}".format(len(cfgData.hairlist))
+            print "Enter a number between 1 and {:2}..".format(len(cfgData.hairlist))
     hair = cfgData.hairlist[hairch-1]
     char_dict['hair'] = hair
-    eyech = int(raw_input("Select Eye color: "))
+
+    # Enter eye color
+    eyech=""
+    while eyech<1 or eyech>len(cfgData.eyelist):
+        try:
+            eyech = int(raw_input("Select Eye color: "))
+        except:
+            print "Enter a number between 1 and {:2}..".format(len(cfgData.eyelist))
     eye = cfgData.eyelist[eyech-1]
     char_dict['eye'] = eye
-    age = int(raw_input("Character's Age: "))
+
+    # Enter characters age
+    age=""
+    while age=="":
+        try:
+            age = int(raw_input("Character's Age: "))
+        except:
+            print "You must enter a number.."
     char_dict['age'] = age
     print
 
     ht = str(raw_input("Enter Height: "))
-    wt = str(raw_input("Enter Weight: "))
+
+    # Enter weight
+    wt=""
+    while wt<1 or wt>1000:
+        try:
+            wt = str(raw_input("Enter Weight: "))
+        except:
+            print "Enter a number between 1 and 1000.."
     char_dict['height'],char_dict['weight'] = ht,wt
 
     # Load data into dictionary for saving of the character
@@ -793,9 +818,25 @@ def lang_set(char):
             for y in lan:
                 print "{:<2}.) {:20}".format(num,y)
                 num+=1
-            lanch = int(raw_input("Select Language: "))
-            lanspoke = int(raw_input("Enter Spoken rank: "))
-            lanwritten = int(raw_input("Enter Written rank: "))
+            lanch=""
+            while lanch<1 or len(lanlist)>10:
+                try:
+                    lanch = int(raw_input("Select Language: "))
+                except:
+                    print "Enter a number between 1 and {:2}..".format(len(lanlist))
+
+            lanspoke=""
+            while lanspoke<1 or lanspoke>10:
+                try:
+                    lanspoke = int(raw_input("Enter Spoken rank: "))
+                except:
+                    print "Enter a number between 1 and 10.."
+            lanwritten=""
+            while lanwritten<1 or lanwritten>10:
+                try:
+                    lanwritten = int(raw_input("Enter Written rank: "))
+                except:
+                    print "Enter a number between 1 and 10.."
 
             lanlist.append(lan[lanch-1])
             lan.pop(lanch-1)
@@ -868,7 +909,12 @@ def mbbonus():
         print "| X.) Exit                                               |"
         print 58 * "-"
         print
-        mbch=raw_input('Select Stat to add a bonus: ')
+        mbch=""
+        while mbch<1 or mbch>10:
+            try:
+                mbch=raw_input('Select Stat to add a bonus: ')
+            except:
+                print "Enter a number between 1 and 10.."
         if mbch == "1":
             mbset()
             setstmb=mb
@@ -950,6 +996,7 @@ def weapon_costs(user_name):
         wmenu+=1
     print
     print "Select a cost to assign to a weapon category"
+
     # Weapon Cost selection
     weapsel = int(raw_input('Select Weapon cost to assign: '))
     while weapsel<1 or weapsel>6: # Check that input is in the range

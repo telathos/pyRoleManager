@@ -7,7 +7,7 @@ The goal is to be able to manage all of the your character setting and stats, in
 
 It can display all of your character skills and stats to screen and export the results to an excel file.
 
-# Application setup
+# Application configuration
 Update the location of the character and configuration file by editing cfgData.py. Change char_dir and cfg_dir to the location of the application.
 
 char_dir='c:\pyRoleManager\char'
@@ -16,6 +16,7 @@ cfg_dir='c:\pyRoleManager\cfg'
 The default is set to multiple the development point by 125%. To change the multipler you will update the dp_multipler variable in the cfgData.py file. Setting it to 1.00 will set to the normal 100%. See the note in cfgData.py for more information.
 dp_multipler = 1.25
 
+Adding more genders, eye colors or hair colors edit cfgData.py and update the lists.
 # How to Run
 Open a command line (CMD) and type 'python pyRoleManager.py'. To run without adding the 'python' before pyRoleManager.py, open a command line as Administrator and run 'ftype Python.File="C:\python27\python.exe" "%1" %"'.
 This will load a menu with the options.
