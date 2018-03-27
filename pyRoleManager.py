@@ -496,7 +496,7 @@ def create_char():
         except:
             print stat_error
     re_pot=cfgData.pot_calc(re_stat,re_pot_in)
-    
+
     print 10 * "-"
     print
     print 20 * "="
@@ -524,10 +524,20 @@ def create_char():
         x+=1
         s+=1
     print 20 * "="
-    sexch = int(raw_input("Select Sex: "))
+    sexch=""
+    while sexch<1 or sexch>len(cfgData.sexlist):
+        try:
+            sexch = int(raw_input("Select Sex: "))
+        except:
+            print "Enter a number between 1 and {2}..".format(len(cfgData.sexlist))
     sex = cfgData.sexlist[sexch-1]
     char_dict['gender'] = sex
-    hairch = int(raw_input("Select Hair color: "))
+    hairch=""
+    while hairch<1 or hairch>len(cfgData.hairlist):
+        try:
+            hairch = int(raw_input("Select Hair color: "))
+        except:
+            print "Enter a number between 1 and {2}".format(len(cfgData.hairlist))
     hair = cfgData.hairlist[hairch-1]
     char_dict['hair'] = hair
     eyech = int(raw_input("Select Eye color: "))
