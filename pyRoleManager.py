@@ -399,7 +399,7 @@ def create_char():
 
     # Reasoning
     re_stat_input=""
-    while re_stat_input<1 or re_stat_input<100:
+    while re_stat_input<1 or re_stat_input>100:
         try:
             re_stat_input=int(raw_input('Reasoning: '))
         except:
@@ -571,7 +571,7 @@ def create_char():
     wt=""
     while wt<1 or wt>1000:
         try:
-            wt = str(raw_input("Enter Weight: "))
+            wt = int(raw_input("Enter Weight: "))
         except:
             print "Enter a number between 1 and 1000.."
     char_dict['height'],char_dict['weight'] = ht,wt
@@ -819,11 +819,11 @@ def lang_set(char):
                 print "{:<2}.) {:20}".format(num,y)
                 num+=1
             lanch=""
-            while lanch<1 or len(lanlist)>10:
+            while lanch<1 or lanch>len(lan):
                 try:
                     lanch = int(raw_input("Select Language: "))
                 except:
-                    print "Enter a number between 1 and {:2}..".format(len(lanlist))
+                    print "Enter a number between 1 and {:2}..".format(len(lan))
 
             lanspoke=""
             while lanspoke<1 or lanspoke>10:
@@ -837,7 +837,7 @@ def lang_set(char):
                     lanwritten = int(raw_input("Enter Written rank: "))
                 except:
                     print "Enter a number between 1 and 10.."
-
+            
             lanlist.append(lan[lanch-1])
             lan.pop(lanch-1)
             y="lang"+`lcnt`
@@ -998,15 +998,20 @@ def weapon_costs(user_name):
     print "Select a cost to assign to a weapon category"
 
     # Weapon Cost selection
-    weapsel = int(raw_input('Select Weapon cost to assign: '))
+    weapsel=""
     while weapsel<1 or weapsel>6: # Check that input is in the range
-        print "You must select a number between (1 and 6)"
-        weapsel=int(raw_input('Select weapon cost to assign: '))
+        try:
+            weapsel = int(raw_input('Select Weapon cost to assign: '))
+        except:
+            print "You must select a number between (1 and 6)"
+
     # Weapon category selection
-    weapcat = int(raw_input('Select Weapon Category to assign cost: '))
+    weapcat=""
     while weapcat<1 or weapcat>6: # Check that input is in the range
-        print "You must select a number between (1 and 6)"
-        weapcat=int(raw_input('Select Weapon Category to assign cost: '))
+        try:
+            weapcat = int(raw_input('Select Weapon Category to assign cost: '))
+        except:
+            print "You must select a number between (1 and 6)"
 
     weapsel-=1 # Subtract to match menu
     weapcat-=1 # Subtract to match menu
@@ -1030,16 +1035,21 @@ def weapon_costs(user_name):
         print
         print "Select a cost to assign to a weapon category"
         # Weapon Cost selection
-        weapsel = int(raw_input('Select Weapon cost to assign: '))
-        while weapsel<1 or weapsel>6: # Check that input is in the range
-            print "You must select a number between (1 and 6)"
-            weapsel=int(raw_input('Select weapon cost to assign: '))
+        weapsel = ""
+        while weapsel<1 or weapsel>len(wlist): # Check that input is in the range
+            try:
+                weapsel=int(raw_input('Select weapon cost to assign: '))
+            except:
+                print "You must select a number between (1 and {:1})".format(len(wlist))
 
         # Weapon category selection
-        weapcat = int(raw_input('Select Weapon Category to assign cost: '))
-        while weapcat<1 or weapcat>6: # Check that input is in the range
-            print "You must select a number between (1 and 6)"
-            weapcat=int(raw_input('Select Weapon Category to assign cost: '))
+        weapcat = ""
+        while weapcat<1 or weapcat>len(wclist): # Check that input is in the range
+            try:
+                weapcat=int(raw_input('Select Weapon Category to assign cost: '))
+            except:
+                print "You must select a number between (1 and {:1})".format(len(wclist))
+
 
         # Weapon select
         weapsel-=1 # Subtract to match menu
