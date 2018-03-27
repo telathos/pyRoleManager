@@ -408,35 +408,95 @@ def create_char():
 
     ### Calculate Potential Value using pot_calc function
     # Strength
-    st_pot_in=int(raw_input('Potential Roll (ST): '))
+    st_pot_in=""
+    while st_pot_in<1 or st_pot_in>100:
+        try:
+            st_pot_in=int(raw_input('Potential Roll (ST): '))
+        except:
+            print stat_error
     st_pot=cfgData.pot_calc(st_stat,st_pot_in)
 
-    qu_pot_in=int(raw_input('Potential Roll (QU): '))
+    # Quickness
+    qu_pot_in=""
+    while qu_pot_in<1 or qu_pot_in>100:
+        try:
+            qu_pot_in=int(raw_input('Potential Roll (QU): '))
+        except:
+            print stat_error
     qu_pot=cfgData.pot_calc(qu_stat,qu_pot_in)
 
-    pr_pot_in=int(raw_input('Potential Roll (PR): '))
+    # Presence
+    pr_pot_in=""
+    while pr_pot_in<1 or pr_pot_in>100:
+        try:
+            pr_pot_in=int(raw_input('Potential Roll (PR): '))
+        except:
+            print stat_error
     pr_pot=cfgData.pot_calc(pr_stat,pr_pot_in)
 
-    in_pot_in=int(raw_input('Potential Roll (IN): '))
+    # Intuition
+    in_pot_in=""
+    while in_pot_in<1 or in_pot_in>100:
+        try:
+            in_pot_in=int(raw_input('Potential Roll (IN): '))
+        except:
+            print stat_error
     in_pot=cfgData.pot_calc(in_stat,in_pot_in)
 
-    em_pot_in=int(raw_input('Potential Roll (EM): '))
+    # Essence
+    em_pot_in=""
+    while em_pot_in<1 or em_pot_in>100:
+        try:
+            em_pot_in=int(raw_input('Potential Roll (EM): '))
+        except:
+            print stat_error
     em_pot=cfgData.pot_calc(em_stat,em_pot_in)
 
-    co_pot_in=int(raw_input('Potential Roll (CO): '))
+    # Constitution
+    co_pot_in=""
+    while co_pot_in<1 or co_pot_in>100:
+        try:
+            co_pot_in=int(raw_input('Potential Roll (CO): '))
+        except:
+            print stat_error
     co_pot=cfgData.pot_calc(co_stat,co_pot_in)
 
-    ag_pot_in=int(raw_input('Potential Roll (AG): '))
+    # Agility
+    ag_pot_in=""
+    while ag_pot_in<1 or ag_pot_in>100:
+        try:
+            ag_pot_in=int(raw_input('Potential Roll (AG): '))
+        except:
+            print stat_error
     ag_pot=cfgData.pot_calc(ag_stat,ag_pot_in)
 
-    sd_pot_in=int(raw_input('Potential Roll (SD): '))
+    # Self-Discipline
+    sd_pot_in=""
+    while sd_pot_in<1 or sd_pot_in>100:
+        try:
+            sd_pot_in=int(raw_input('Potential Roll (SD): '))
+        except:
+            print stat_error
     sd_pot=cfgData.pot_calc(sd_stat,sd_pot_in)
 
-    me_pot_in=int(raw_input('Potential Roll (ME): '))
+    # Memory
+    me_pot_in=""
+    while me_pot_in<1 or me_pot_in>100:
+        try:
+            me_pot_in=int(raw_input('Potential Roll (ME): '))
+        except:
+            print stat_error
     me_pot=cfgData.pot_calc(me_stat,me_pot_in)
 
-    re_pot_in=int(raw_input('Potential Roll (RE): '))
+    # Reasoning
+    re_pot_in=""
+    while re_pot_in<1 or re_pot_in>100:
+        try:
+            re_pot_in=int(raw_input('Potential Roll (RE): '))
+        except:
+            print stat_error
     re_pot=cfgData.pot_calc(re_stat,re_pot_in)
+    
     print 10 * "-"
     print
     print 20 * "="
