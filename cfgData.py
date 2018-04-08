@@ -11,8 +11,8 @@ change the total Development Points a character recieves
 dp_multipler = 1.25
 
 # Define hair/eye color choices
-hairlist = ['Brown','Black','Blonde', 'Red','Purple','Green']
-eyelist = ['Brown','Blue','Grey','Red','Black','Amber','Green']
+hairlist = ['Brown','Black','Blonde', 'Red','Purple','Green','Calico']
+eyelist = ['Brown','Blue','Grey','Red','Black','Amber','Green','Yellow']
 sexlist = ['Male','Female','Asexual']
 
 from colorama import Fore, Back, Style
