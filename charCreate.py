@@ -5,11 +5,16 @@ char_dict={}
 
 # Read Professions into List
 plist = {}
-pi=1
+rlist = {}
+pi,ri=1,1
 with open(cfgData.cfg_dir+"/profession.csv") as pf:
     for pline in pf:
         plist[pi]=pline.rstrip('\n').split(",")
         pi+=1
+with open(cfgData.cfg_dir+"/race.csv") as rf:
+    for rline in rf:
+        rlist[ri]=rline.rstrip('\n').split(",")
+        ri+=1
 
 st_pot_in,qu_pot_in,pr_pot_in,in_pot_in,em_pot_in=0,0,0,0,0
 co_pot_in,ag_pot_in,sd_pot_in,me_pot_in,re_pot_in=0,0,0,0,0
@@ -57,92 +62,51 @@ def create_char():
             print ""
             print 25 * "-" , "Hybrid", 25 * "-"
             menu=5
-        lnx=ln+1
-        if plist[lnx][8] == plist[ln][8]:
-            print "{:2}.) {:20} {:2}.) {:20}".format(plist[ln][0],plist[ln][1],plist[lnx][0],plist[lnx][1])
+        if plist[ln+1][8] == plist[ln][8]:
+            print "{:2}.) {:20} {:2}.) {:20}".format(plist[ln][0],plist[ln][1],plist[ln+1][0],plist[ln+1][1])
             ln+=1
         else:
             print "{:2}.) {:20}".format(plist[ln][0],plist[ln][1])
         ln+=1
-        print""
+    print ""
     print 63 * "-"
     pro_ch =""
-     while pro_ch<1 or pro_ch>len(plist):
+    while pro_ch<1 or pro_ch>len(plist):
         try:
             pro_ch=int(raw_input('Select Profession: '))
+            if pro_ch<1 or pro_ch>len(plist):
+                print "You must enter a number between 1 and {:2}".format(len(plist))
         except:
             print "You must enter a number between 1 and {:2}".format(len(plist))
     # Set Profession name
-    pro_name=plist[pro_ch][1]
+    char_dict['proname'] = plist[pro_ch][1]
+    print char_dict['proname']
+    print ""
 
-    # write Profession to list
-    char_dict['pro_name']=pro_name
-    print 10 * "-"
-
-    # Select Race
+    # Race Selection
+    ln=1
+    print 30 * "-", "Races", 30 * "-"
     print ""
-    print 10 * "-", "Race", 10 * "-"
+    while ln <= len(rlist):
+        if (len(rlist) - ln) == 0:
+            print "{:2}.) {:20}".format(rlist[ln][0],rlist[ln][1])
+            ln+=1
+        else:
+            print "{:2}.) {:20} {:2}.) {:20}".format(rlist[ln][0],rlist[ln][1],rlist[ln+1][0],rlist[ln+1][1])
+            ln+=2
     print ""
-    print "1. Common Man"
-    print "2. Wood Elf      3. High Elf      4. Half-elf"
-    print "5. Grey Elf      6. Aquatic Elf   7. Dark Elf"
-    print ""
-    print "8. Tallfellow Halfling      9. Stout Halfling"
-    print ""
-    print "10. Dwarf        11. Half-Dwarf"
-    print "12. Half-Orc   13. Half-Ogre    14. Half-Troll"
-    print ""
-    print "15. Gnomes     16. Hira'razhir (Avians)"
-    print "17. Idiyva (Felines)   18. Vulfen (Wolfmen)"
-    print "19. Sstoi'isslythi (Reptilies)"
-    print 25 * "-"
-
+    print 63 * "-"
     race_input =""
-    while race_input<1 or race_input>19:
+    while race_input<1 or race_input>len(rlist):
         try:
             race_input=int(raw_input('Select a Race: '))
+            if race_input<1 or race_input>len(rlist):
+                print "You must enter a number between 1 and {:2}".format(len(rlist))
         except:
-            print "You must enter a number between 1 and 19!"
-
-    if race_input==1:
-        char_dict['race']="Common Man"
-    elif race_input==2:
-        char_dict['race']="Wood Elf"
-    elif race_input==3:
-        char_dict['race']="High Elf"
-    elif race_input==4:
-        char_dict['race']="Half-elf"
-    elif race_input==5:
-        char_dict['race']="Grey Elf"
-    elif race_input==6:
-        char_dict['race']="Aquatic Elf"
-    elif race_input==7:
-        char_dict['race']="Dark Elf"
-    elif race_input==8:
-        char_dict['race']="Tallfellow Halfling"
-    elif race_input==9:
-        char_dict['race']="Stout Halfling"
-    elif race_input==10:
-        char_dict['race']="Dwarf"
-    elif race_input==11:
-        char_dict['race']="Half-Dwarf"
-    elif race_input==12:
-        char_dict['race']="Half-Orc"
-    elif race_input==13:
-        char_dict['race']="Half-Ogre"
-    elif race_input==14:
-        char_dict['race']="Half-Troll"
-    elif race_input==15:
-        char_dict['race']="Gnomes"
-    elif race_input==16:
-        char_dict['race']="Hira'razhir"
-    elif race_input==17:
-        char_dict['race']="Idiyva"
-    elif race_input==18:
-        char_dict['race']="Vulfen"
-    elif race_input==19:
-        char_dict['race']="Sstoi'isslythi"
-
+            print "You must enter a number between 1 and {:2}".format(len(rlist))
+    char_dict['race'] = rlist[race_input][1]
+    print char_dict['race']
+    
     ### Enter current statistic values
     # Strength
     stat_error="You must enter a number between 1 and 100.."
