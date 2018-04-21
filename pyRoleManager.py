@@ -13,9 +13,10 @@ import charData
 import exp
 import export
 import level
+import charCreate
 
 # Update character records if a new skill is added
-charData.new_skill_check()
+#charData.new_skill_check()
 
 # Setup character data list
 char_dict={}
@@ -837,7 +838,7 @@ def lang_set(char):
                     lanwritten = int(raw_input("Enter Written rank: "))
                 except:
                     print "Enter a number between 1 and 10.."
-            
+
             lanlist.append(lan[lanch-1])
             lan.pop(lanch-1)
             y="lang"+`lcnt`
@@ -1429,7 +1430,7 @@ while loop:          ## While loop which will keep going until loop = False
     print ""
     if choice=="1":
         cfgData.clear_screen()
-        create_char()
+        charCreate.create_char()
     elif choice=="2":
         cfgData.clear_screen()
         charData.show_char()

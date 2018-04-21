@@ -1,0 +1,50 @@
+1,Assassin,QU,AG,NULL,NA,QU/AG,NA,NON,2/5,3/7,3/9,4,6,9,0,2,1,0,1,0,3,0,0,0,0,0,0,0,0,3
+2,Barbarian,CO,ST,,NA,CO/ST,NA,NON,1/5,2/5,3/8,4,4,6,0,3,2,0,2,0,0,0,0,0,0,0,3,0,0,0
+3,Bashkar,ST,CO,NULL,NA,ST/CO,NA,NON,1/5,1/5,2/5,2/5,2/7,3/8,0,3,2,0,3,2,0,0,0,0,0,0,0,0,0,0
+4,Bounty Hunter,AG,CO,NULL,NA,AG/CO,NA,NON,2/5,2/7,3/8,4,6,8,0,1,1,0,1,0,0,0,0,0,0,0,3,3,0,1
+5,Burglar,AG,IN,,NA,AG/IN,NA,NON,3/8,3/8,4,6,6,9,0,2,3,0,0,0,0,0,0,0,0,0,1,1,0,3
+6,Cavalier,ST,CO,NULL,NA,ST/CO,NA,NON,1/5,2/5,2/7,2/8,4,6,0,3,3,0,3,0,0,0,0,0,0,0,0,0,1,0
+7,Dancer,AG,QU,,NA,AG/QU,NA,NON,3/9,5,6,8,9,10,0,1,3,0,2,0,0,0,0,0,0,0,0,0,2,2
+8,Duelist,ST,QU,NULL,NA,ST/QU,NA,NON,1/3,6,8,8,20,20,0,3,2,0,3,2,0,0,0,0,0,0,0,0,0,0
+9,Fighter,ST,CO,,NA,ST/CO,NA,NON,1/5,2/5,2/7,2/7,2/7,5,0,3,2,0,3,0,1,0,0,0,0,0,1,0,0,0
+10,Gypsy,AG,IN,NULL,NA,AG/IN,NA,NON,2/7,3/8,3/9,4,5,6,0,0,0,0,0,0,0,0,2,2,1,1,1,1,1,1
+11,High Warrior Monk,AG,SD,,NA,AG/SD,NA,NON,3/7,3/8,4,8,8,8,0,3,2,0,2,1,2,0,0,0,0,0,0,0,0,0
+12,Leader,PR,CO,NULL,NA,PR/CO,NA,NON,2/4,3/7,3/8,3/9,4,6,1,2,2,0,1,0,0,0,0,0,0,0,0,1,1,0
+13,Rogue,ST,AG,,NA,ST/AG,NA,NON,2/5,3/8,3/9,3/9,3/9,6,0,3,2,0,1,0,0,0,1,0,0,0,1,0,0,2
+14,Scholar,IN,RE,,NA,IN/RE,NA,NON,4/8,6,9,15,20,20,3,0,0,0,0,2,0,0,1,3,0,1,0,0,0,0
+15,Thief,QU,AG,,NA,QU/AG,NA,NON,2/7,3/8,4,4,4,6,0,2,2,0,0,0,1,0,0,0,0,0,1,1,0,3
+16,Trader,AG,PR,,NA,AG/PR,NA,NON,2/7,3/8,3/9,4,5,6,1,1,0,0,0,0,0,0,2,2,0,0,1,1,1,1
+17,Warrior,ST,CO,NULL,NA,ST/CO,NA,NON,1/4,1/5,2/5,2/7,2/7,5,0,3,3,0,3,0,1,0,0,0,0,0,0,0,0,0
+18,Warrior Monk,QU,SD,,NA,QU/SD,NA,NON,4,6,8,8,8,15,0,2,2,0,2,0,1,0,0,0,0,0,2,1,0,0
+19,Arms Master,ST,PR,NULL,Mentalism,ST/PR,PR,SEMI,2/5,3/8,4,4,4,6,0,3,2,0,2,0,0,0,1,0,0,0,1,0,1,0
+20,Bard,PR,ME,,Mentalism,PR/ME,PR,SEMI,3/9,6,7,7,7,15,2,0,0,1,0,1,0,0,3,3,0,0,0,0,0,0
+21,Beastmaster,ST,PR,,Mentalism,ST/PR,PR,SEMI,3/7,4,6,6,6,9,0,1,1,0,1,0,1,0,2,0,0,0,2,1,0,1
+22,Elementlist,EM,CO,NULL,Essence,EM/CO,EM,SEMI,2/7,3/8,3/9,5,9,12,2,2,1,0,2,0,0,0,1,0,1,0,0,1,0,0
+23,Houri,PR,ME,NULL,Mentalism,PR/ME,PR,SEMI,3/9,6,7,7,7,15,0,0,0,1,0,0,1,0,0,2,1,0,0,1,3,1
+24,Monk,EM,SD,,Essence,EM/SD,EM,SEMI,5,8,8,8,15,15,1,1,2,1,1,0,0,0,0,0,0,1,1,1,0,1
+25,Montebanc,AG,PR,NULL,Mentalism,AG/PR,PR,SEMI,3/9,4,6,6,6,9,0,1,0,1,1,0,0,0,0,1,0,0,0,1,2,3
+26,Nightblade,PR,AG,,Mentalism,PR/AG,PR,SEMI,3/9,6,7,7,7,15,0,2,2,1,1,1,3,0,0,0,0,0,0,0,0,0
+27,Noble Warrior,ST,PR,NULL,Mentalism,ST/PR,PR,SEMI,2/5,3/8,4,4,4,6,0,3,2,0,2,0,0,0,1,0,0,0,1,0,1,0
+28,Paladin,ST,IN,,Channeling,ST/IN,IN,SEMI,2/5,3/8,4,4,4,6,0,3,1,1,3,0,0,0,0,0,0,0,0,1,1,0
+29,Ranger,IN,CO,,Channeling,IN/CO,IN,SEMI,3/7,4,6,6,6,9,0,1,1,0,0,0,1,0,2,0,0,0,3,1,0,1
+30,Sleuth,IN,RE,NULL,Channeling,IN/RE,IN,SEMI,3/7,5,7,7,7,10,0,1,0,1,0,0,0,0,0,0,0,0,0,1,3,2
+31,Warrior Mage,EM,ST,NULL,Essence,EM/ST,EM,SEMI,2/7,3/8,3/9,5,9,12,0,2,1,1,2,0,1,0,0,0,2,0,0,1,0,0
+32,Animist,IN,ME,,Channeling,IN/ME,IN,PURE,6,7,9,9,9,20,0,0,0,1,0,0,0,0,1,1,1,1,3,2,0,0
+33,Cleric,IN,ME,,Channeling,IN/ME,IN,PURE,6,7,9,9,9,20,1,1,0,1,0,0,0,0,2,0,2,1,0,2,0,0
+34,Conjuror,EM,RE,NULL,Essence,EM/RE,EM,PURE,9,20,20,20,20,20,3,0,0,1,0,0,0,0,0,2,3,0,0,1,0,0
+35,Druid,IN,ME,,Channeling,IN/ME,IN,PURE,5,8,8,8,9,15,0,0,0,1,0,0,0,0,0,0,1,2,3,1,0,2
+36,Forcemage,EM,RE,NULL,Essence,EM/RE,EM,PURE,9,20,20,20,20,20,3,0,0,1,0,0,0,1,0,0,3,0,0,2,0,0
+37,Healer,IN,ME,,Channeling,IN/ME,IN,PURE,9,20,20,20,20,20,1,0,0,1,2,2,0,0,0,0,1,2,0,1,0,0
+38,Illusionist,EM,RE,,Essence,EM/RE,EM,PURE,9,20,20,20,20,20,2,0,0,1,0,0,0,1,0,0,3,0,0,2,0,0
+39,Lay Healer,PR,SD,,Mentalism,PR/SD,PR,PURE,8,8,15,20,20,20,2,0,0,1,0,1,0,0,1,0,1,3,0,1,0,0
+40,Magician,EM,RE,,Essence,EM/RE,EM,PURE,9,20,20,20,20,20,2,0,0,1,0,1,0,3,0,0,3,0,0,0,0,0
+41,Mentalist,PR,SD,,Mentalism,PR/SD,PR,PURE,6,8,15,20,20,20,1,0,0,1,0,3,0,1,0,1,2,0,0,1,0,0
+42,Wizard,EM,RE,NULL,Essence,EM/RE,EM,PURE,8,15,20,20,20,20,2,0,0,1,0,1,0,1,0,0,3,0,0,1,0,0
+43,Astrologer,PR,IN,,Mentalism/Channeling,PR/IN,IP,HYB,9,20,20,20,20,20,2,0,0,2,0,1,0,1,0,0,2,0,1,1,0,0
+44,Crystal Mage,EM,IN,NULL,Essence/Channeling,EM/IN,IE,HYB,9,12,15,20,20,20,2,0,0,2,0,1,0,0,0,0,2,0,1,2,0,0
+45,Magus,EM,IN,NULL,Essence/Channeling,EM/IN,IE,HYB,4/10,8,8,8,15,15,2,0,0,1,0,0,0,1,0,1,3,0,0,1,0,0
+46,Necromancer,EM,IN,NULL,Essence/Channeling,EM/IN,IE,HYB,9,20,20,20,20,20,2,0,0,2,0,0,0,1,0,1,2,3,0,0,0,0
+47,Socerer,EM,IN,,Essence/Channeling,EM/IN,IE,HYB,9,20,20,20,20,20,1,0,0,2,0,0,0,1,0,0,2,3,0,0,0,0
+48,Warlock,IN,PR,NULL,Channeling/Mentalism,IN/PR,IP,HYB,8,20,20,20,20,20,1,0,0,2,0,0,1,0,0,0,3,0,0,2,1,0
+49,Witch,IN,EM,NULL,Channeling/Essence,IN/EM,IE,HYB,9,20,20,20,20,20,1,0,0,2,0,0,0,0,1,1,1,1,1,1,0,1
+50,Archmage,PR,IN,EM,Arcane,PR/IN/EM,AR,HYB,9,20,20,20,20,20,3,0,0,3,0,2,0,0,0,0,2,0,0,0,0,0
