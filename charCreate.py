@@ -2,7 +2,7 @@ import cfgData
 
 # Setup character data list
 char_dict={}
-stat_dict={}
+
 # Read Professions into List
 plist = {}
 rlist = {}
@@ -109,8 +109,8 @@ def create_char():
 
     ### Enter current statistic values
     curlist=[]
-    statlist={}
-    #rl1,rl2,rl3,rl4,rl5,rl6,rl7,rl8,rl9,rl10,rl11,rl12="","","","","","","","","","","",""
+    statlist=[]
+    stat_temp_list=[]
     print "Roll for Current stats"
     print ""
 
@@ -136,13 +136,11 @@ def create_char():
                 print "You must enter a number between 1 and 100"
         except:
             print "You must enter a number between 1 and 100"
-        statlist[cnt]=(i,p)
+        pot=cfgData.pot_calc(i,p)
+        statlist.append([i,pot])
         cnt+=1
     # Clear screen
     cfgData.clear_screen()
-    # Call stat lookup and replace in dictionary
-    for j in statlist:
-        stat_dict[j]=(statlist[j][0],cfgData.pot_calc(statlist[j][0],statlist[j][1]))
 
     # Reset counter
     cnt=1
@@ -156,20 +154,60 @@ def create_char():
     cnt=1
     for x in statchart:
         sc.append(x.split(","))
-
-    for u in stat_dict:
+    u=0
+    while u< len(statlist):
         for x1 in sc:
-            #print x1
-            if int(x1[0]) == stat_dict[u][0]:
-                stat_dict[u]=(stat_dict[u][0],stat_dict[u][1],x1[1],x1[2],x1[3])
-                #print stat_dict[u][0],":",stat_dict[u][1],":",x1[1],":",x1[2],":",x1[3]
-                #print stat_dict[u][0],":",stat_dict[u][1],":",stat_dict[u][2],":",stat_dict[u][3],":",stat_dict[u][4]
+            if int(x1[0]) == statlist[u][0]:
+                #print "Matched"
+                stat_temp_list.append([statlist[u][0],statlist[u][1],x1[1],x1[2],x1[3]])
+        #print stat_temp_list
+        u+=1
+    cnt=1
+
     print "+", 48 * "=", "+"
     print "|{:5}| {:7} | {:9} | {:5} | {:4} | {:5} |".format("","","","Stat","Dev","Power")
     print "|{:5}| {:6} | {:9} | {:5} | {:4} | {:5} |".format("","Current","Potential","Bonus","Pts","Pts")
     print "+", 48 * "=", "+"
-    while cnt<13:
-        print "| {:>2}.) | {:^6} | {:^9} | {:^5} | {:4} | {:^5} |".format(cnt,stat_dict[cnt][0],stat_dict[cnt][1],stat_dict[cnt][2],stat_dict[cnt][3],stat_dict[cnt][4])
+
+    while cnt<=len(statlist):
+        print "| {:>2}.) | {:^6} | {:^9} | {:^5} | {:4} | {:^5} |".format(cnt,stat_temp_list[cnt-1][0],stat_temp_list[cnt-1][1],stat_temp_list[cnt-1][2],stat_temp_list[cnt-1][3],stat_temp_list[cnt-1][4])
+        cnt+=1
+    print "+", 48 * "=", "+"
+    print ""
+    print "Remove (2) stats"
+    cnt=1
+
+    while cnt<len(stat_temp_list)>10:
+        cnt=1
+        try:
+            r=int(raw_input("Enter Stat to remove:"))
+            if r<1 or r>12:
+                  print "Please enter a number between 1 and {:2}".format(len(stat_temp_list))
+        except:
+            print "Please enter a number between 1 and {:2}".format(len(stat_temp_list))
+        stat_temp_list.pop(r-1)
+
+        print "+", 48 * "=", "+"
+        print "|{:5}| {:7} | {:9} | {:5} | {:4} | {:5} |".format("","","","Stat","Dev","Power")
+        print "|{:5}| {:6} | {:9} | {:5} | {:4} | {:5} |".format("","Current","Potential","Bonus","Pts","Pts")
+        print "+", 48 * "=", "+"
+        while cnt<=len(stat_temp_list):
+            print "| {:>2}.) | {:^6} | {:^9} | {:^5} | {:4} | {:^5} |".format(cnt,stat_temp_list[cnt-1][0],stat_temp_list[cnt-1][1],stat_temp_list[cnt-1][2],stat_temp_list[cnt-1][3],stat_temp_list[cnt-1][4])
+            cnt+=1
+        print "+", 48 * "=", "+"
+        print ""
+        cnt=0
+
+    # Clear screen
+    cfgData.clear_screen()
+    # Redraw table
+    cnt=1
+    print "+", 48 * "=", "+"
+    print "|{:5}| {:7} | {:9} | {:5} | {:4} | {:5} |".format("","","","Stat","Dev","Power")
+    print "|{:5}| {:6} | {:9} | {:5} | {:4} | {:5} |".format("","Current","Potential","Bonus","Pts","Pts")
+    print "+", 48 * "=", "+"
+    while cnt<=len(stat_temp_list):
+        print "| {:>2}.) | {:^6} | {:^9} | {:^5} | {:4} | {:^5} |".format(cnt,stat_temp_list[cnt-1][0],stat_temp_list[cnt-1][1],stat_temp_list[cnt-1][2],stat_temp_list[cnt-1][3],stat_temp_list[cnt-1][4])
         cnt+=1
     print "+", 48 * "=", "+"
 
