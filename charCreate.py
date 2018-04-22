@@ -2,7 +2,7 @@ import cfgData
 
 # Setup character data list
 char_dict={}
-
+stat_dict={}
 # Read Professions into List
 plist = {}
 rlist = {}
@@ -106,8 +106,73 @@ def create_char():
             print "You must enter a number between 1 and {:2}".format(len(rlist))
     char_dict['race'] = rlist[race_input][1]
     print char_dict['race']
-    
+
     ### Enter current statistic values
+    curlist=[]
+    statlist={}
+    #rl1,rl2,rl3,rl4,rl5,rl6,rl7,rl8,rl9,rl10,rl11,rl12="","","","","","","","","","","",""
+    print "Roll for Current stats"
+    print ""
+
+    cnt=1
+    for i in range(12):
+        while i<20 or i>100:
+            try:
+                i=int(raw_input('Current Stat Roll {:<2} :'.format(cnt)))
+                if i<20 or i>100:
+                    print "You must enter a number between 20 and 100"
+            except:
+                print "You must enter a number between 20 and 100"
+        curlist.append(i)
+        cnt+=1
+
+    # Reset the counter
+    cnt=1
+    # Enter Potential stat rolls
+    for i in curlist:
+        try:
+            p=int(raw_input('Potential Roll {:<2} :'.format(cnt)))
+            if p<1 or p>100:
+                print "You must enter a number between 1 and 100"
+        except:
+            print "You must enter a number between 1 and 100"
+        statlist[cnt]=(i,p)
+        cnt+=1
+    # Clear screen
+    cfgData.clear_screen()
+    # Call stat lookup and replace in dictionary
+    for j in statlist:
+        stat_dict[j]=(statlist[j][0],cfgData.pot_calc(statlist[j][0],statlist[j][1]))
+
+    # Reset counter
+    cnt=1
+    print 65 * "-"
+    print ""
+    # Open chart of stat values
+    with open(cfgData.cfg_dir+"/sttchart.csv") as f:
+        statchart =f.read().splitlines()
+    f.close()
+    sc=[]
+    cnt=1
+    for x in statchart:
+        sc.append(x.split(","))
+
+    for u in stat_dict:
+        for x1 in sc:
+            #print x1
+            if int(x1[0]) == stat_dict[u][0]:
+                stat_dict[u]=(stat_dict[u][0],stat_dict[u][1],x1[1],x1[2],x1[3])
+                #print stat_dict[u][0],":",stat_dict[u][1],":",x1[1],":",x1[2],":",x1[3]
+                #print stat_dict[u][0],":",stat_dict[u][1],":",stat_dict[u][2],":",stat_dict[u][3],":",stat_dict[u][4]
+    print "+", 48 * "=", "+"
+    print "|{:5}| {:7} | {:9} | {:5} | {:4} | {:5} |".format("","","","Stat","Dev","Power")
+    print "|{:5}| {:6} | {:9} | {:5} | {:4} | {:5} |".format("","Current","Potential","Bonus","Pts","Pts")
+    print "+", 48 * "=", "+"
+    while cnt<13:
+        print "| {:>2}.) | {:^6} | {:^9} | {:^5} | {:4} | {:^5} |".format(cnt,stat_dict[cnt][0],stat_dict[cnt][1],stat_dict[cnt][2],stat_dict[cnt][3],stat_dict[cnt][4])
+        cnt+=1
+    print "+", 48 * "=", "+"
+
     # Strength
     stat_error="You must enter a number between 1 and 100.."
     st_stat_input=""
