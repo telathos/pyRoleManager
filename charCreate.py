@@ -198,18 +198,30 @@ def create_char():
         print ""
         cnt=0
 
+    stat=[
+    ['Strength','ST'],
+    ['Quickness','QU'],
+    ['Empathy','EM'],
+    ['Presence','PR'],
+    ['Intuition','IN'],
+    ['Constitution','CO'],
+    ['Agility','AG'],
+    ['Self Discipline','SD'],
+    ['Memory','ME'],
+    ['Reasoning','RE']
+     ]
     # Clear screen
     cfgData.clear_screen()
     # Redraw table
     cnt=1
-    print "+", 48 * "=", "+"
-    print "|{:5}| {:7} | {:9} | {:5} | {:4} | {:5} |".format("","","","Stat","Dev","Power")
-    print "|{:5}| {:6} | {:9} | {:5} | {:4} | {:5} |".format("","Current","Potential","Bonus","Pts","Pts")
-    print "+", 48 * "=", "+"
+    print "+", 81 * "=", "+"
+    print "|{:5}| {:7} | {:9} | {:5} | {:4} | {:5} || {:2}    | {:<16} | {:2} |".format("","","","Stat","Dev","Power","","","")
+    print "|{:5}| {:6} | {:9} | {:5} | {:4} | {:5} || {:2}    | {:<16} | {:2} |".format("","Current","Potential","Bonus","Pts","Pts","","Stat","")
+    print "+", 81 * "=", "+"
     while cnt<=len(stat_temp_list):
-        print "| {:>2}.) | {:^6} | {:^9} | {:^5} | {:4} | {:^5} |".format(cnt,stat_temp_list[cnt-1][0],stat_temp_list[cnt-1][1],stat_temp_list[cnt-1][2],stat_temp_list[cnt-1][3],stat_temp_list[cnt-1][4])
+        print "| {:>2}.) | {:^6} | {:^9} | {:^5} | {:4} | {:^5} || {:>2} .) | {:<16} | {:2} |".format(cnt,stat_temp_list[cnt-1][0],stat_temp_list[cnt-1][1],stat_temp_list[cnt-1][2],stat_temp_list[cnt-1][3],stat_temp_list[cnt-1][4],cnt,stat[cnt-1][0],stat[cnt-1][1])
         cnt+=1
-    print "+", 48 * "=", "+"
+    print "+", 81 * "=", "+"
 
     # Strength
     stat_error="You must enter a number between 1 and 100.."
