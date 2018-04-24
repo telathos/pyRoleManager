@@ -229,6 +229,16 @@ def create_char():
 
     while len(stat)>0:
         colx,coly=0,0
+        # Select last stat to roll
+        if len(stat)==1:
+            colx,coly=1,1
+            y01,y02,y03=stat[coly-1][2],stat[coly-1][3],stat[coly-1][4]
+            y04,y05=stat[coly-1][5],stat[coly-1][6]
+            char_dict[y01]=stat_temp_list[colx-1][0]
+            char_dict[y02]=stat_temp_list[colx-1][1]
+            char_dict[y03]=stat_temp_list[colx-1][2]
+            char_dict[y04]=stat_temp_list[colx-1][3]
+            char_dict[y05]=stat_temp_list[colx-1][4]
         while colx<1 or colx>len(stat):
             try:
                 colx=int(raw_input('Select a Current Roll:'))
@@ -259,7 +269,7 @@ def create_char():
         # Remove assigned stat and roll
         stat.pop(coly-1)
         stat_temp_list.pop(colx-1)
-        if len(stat)>0:
+        if len(stat)>1:
             cnt=1
             print "+", 81 * "=", "+"
             print "|{:5}| {:7} | {:9} | {:5} | {:4} | {:5} || {:2}    | {:<16} | {:2} |".format("","","","Stat","Dev","Power","","","")
@@ -271,7 +281,7 @@ def create_char():
             print "+", 81 * "=", "+"
 
 
-    
+
     print 10 * "-"
     print
     print 20 * "="
