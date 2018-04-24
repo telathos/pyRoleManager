@@ -178,13 +178,14 @@ def create_char():
     cnt=1
 
     while cnt<len(stat_temp_list)>10:
-        cnt=1
-        try:
-            r=int(raw_input("Enter Stat to remove:"))
-            if r<1 or r>12:
-                  print "Please enter a number between 1 and {:2}".format(len(stat_temp_list))
-        except:
-            print "Please enter a number between 1 and {:2}".format(len(stat_temp_list))
+        cnt,r=1,0
+        while r<1 or r>(len(stat_temp_list)):
+            try:
+                r=int(raw_input("Enter Stat to remove:"))
+                if r<1 or r>len(stat_temp_list):
+                      print "Please enter a number between 1 and {:2}".format(len(stat_temp_list))
+            except:
+                print "Please enter a number between 1 and {:2}".format(len(stat_temp_list))
         stat_temp_list.pop(r-1)
 
         print "+", 48 * "=", "+"
@@ -199,17 +200,17 @@ def create_char():
         cnt=0
 
     stat=[
-    ['Strength','ST'],
-    ['Quickness','QU'],
-    ['Empathy','EM'],
-    ['Presence','PR'],
-    ['Intuition','IN'],
-    ['Constitution','CO'],
-    ['Agility','AG'],
-    ['Self Discipline','SD'],
-    ['Memory','ME'],
-    ['Reasoning','RE']
-     ]
+    ['Strength','ST','st_stat','st_pot','stb','stdp','stpp'],
+    ['Quickness','QU','qu_stat','pr_pot','prb','qudp','qupp'],
+    ['Empathy','EM','em_stat','em_pot','emb','emdp','empp'],
+    ['Presence','PR','pr_stat','pr_pot','prb','prdp','prpp'],
+    ['Intuition','IN','in_stat','in_pot','inb','indp','inpp'],
+    ['Constitution','CO','co_stat','co_pot','cob','codp','copp'],
+    ['Agility','AG','ag_stat','ag_pot','agb','agdp','agpp'],
+    ['Self Discipline','SD','sd_stat','sd_pot','sdb','sddp','sdpp'],
+    ['Memory','ME','me_stat','me_pot','meb','medp','mepp'],
+    ['Reasoning','RE','re_stat','re_pot','reb','redp','repp']
+    ]
     # Clear screen
     cfgData.clear_screen()
     # Redraw table
@@ -222,188 +223,55 @@ def create_char():
         print "| {:>2}.) | {:^6} | {:^9} | {:^5} | {:4} | {:^5} || {:>2} .) | {:<16} | {:2} |".format(cnt,stat_temp_list[cnt-1][0],stat_temp_list[cnt-1][1],stat_temp_list[cnt-1][2],stat_temp_list[cnt-1][3],stat_temp_list[cnt-1][4],cnt,stat[cnt-1][0],stat[cnt-1][1])
         cnt+=1
     print "+", 81 * "=", "+"
+    print ""
+    print "Assign rolls to the stat"
+    print ""
 
-    # Strength
-    stat_error="You must enter a number between 1 and 100.."
-    st_stat_input=""
-    while st_stat_input<1 or st_stat_input>100:
-        try:
-            st_stat_input=int(raw_input('Strength: '))
-        except:
-            print stat_error
-    st_stat=cfgData.prime_req(pro_ch,"st",st_stat_input)
+    while len(stat)>0:
+        colx,coly=0,0
+        while colx<1 or colx>len(stat):
+            try:
+                colx=int(raw_input('Select a Current Roll:'))
+                if colx<1 or colx>len(stat):
+                    print "You must enter a number between 1 and {:<2}".format(len(stat))
+            except:
+                print "You must enter number between and {:<2}".format(len(stat))
+        while coly<1 or coly>len(stat):
+            try:
+                coly=int(raw_input('Select a Stat to assign:'))
+                if coly<1 or coly>len(stat):
+                    print "You must enter a number between 1 and {:<2}".format(len(stat))
+            except:
+                print "You must enter number between and {:<2}".format(len(stat))
+        #print stat[coly-1],":stat"
+        #print stat_temp_list[colx-1],":stat_temp"
 
-    # Quickness
-    qu_stat_input=""
-    while qu_stat_input<1 or qu_stat_input>100:
-        try:
-            qu_stat_input=int(raw_input('Quickness: '))
-        except:
-            print stat_error
-    qu_stat=cfgData.prime_req(pro_ch,"qu",qu_stat_input)
+        y01,y02,y03=stat[coly-1][2],stat[coly-1][3],stat[coly-1][4]
+        y04,y05=stat[coly-1][5],stat[coly-1][6]
+        #print y01,":",y02,":",y03,":",y04,":",y05
 
-    #Presence
-    pr_stat_input=""
-    while pr_stat_input<1 or pr_stat_input>100:
-        try:
-            pr_stat_input=int(raw_input('Presence: '))
-        except:
-            print stat_error
-    pr_stat=cfgData.prime_req(pro_ch,"pr",pr_stat_input)
+        char_dict[y01]=stat_temp_list[colx-1][0]
+        char_dict[y02]=stat_temp_list[colx-1][1]
+        char_dict[y03]=stat_temp_list[colx-1][2]
+        char_dict[y04]=stat_temp_list[colx-1][3]
+        char_dict[y05]=stat_temp_list[colx-1][4]
+        #print char_dict[y01],":",char_dict[y02],":",char_dict[y03],":",char_dict[y04],":",char_dict[y05]
+        # Remove assigned stat and roll
+        stat.pop(coly-1)
+        stat_temp_list.pop(colx-1)
+        if len(stat)>0:
+            cnt=1
+            print "+", 81 * "=", "+"
+            print "|{:5}| {:7} | {:9} | {:5} | {:4} | {:5} || {:2}    | {:<16} | {:2} |".format("","","","Stat","Dev","Power","","","")
+            print "|{:5}| {:6} | {:9} | {:5} | {:4} | {:5} || {:2}    | {:<16} | {:2} |".format("","Current","Potential","Bonus","Pts","Pts","","Stat","")
+            print "+", 81 * "=", "+"
+            while cnt<=len(stat_temp_list):
+                print "| {:>2}.) | {:^6} | {:^9} | {:^5} | {:4} | {:^5} || {:>2} .) | {:<16} | {:2} |".format(cnt,stat_temp_list[cnt-1][0],stat_temp_list[cnt-1][1],stat_temp_list[cnt-1][2],stat_temp_list[cnt-1][3],stat_temp_list[cnt-1][4],cnt,stat[cnt-1][0],stat[cnt-1][1])
+                cnt+=1
+            print "+", 81 * "=", "+"
 
-    # Intuition
-    in_stat_input=""
-    while in_stat_input<1 or in_stat_input>100:
-        try:
-            in_stat_input=int(raw_input('Intuition: '))
-        except:
-            print stat_error
-    in_stat=cfgData.prime_req(pro_ch,"in",in_stat_input)
 
-    # Essence
-    em_stat_input=""
-    try:
-        em_stat_input=int(raw_input('Empathy: '))
-    except:
-        print stat_error
-    em_stat=cfgData.prime_req(pro_ch,"em",em_stat_input)
-
-    # Constitution
-    co_stat_input=""
-    while co_stat_input<1 or co_stat_input>100:
-        try:
-            co_stat_input=int(raw_input('Constitution: '))
-        except:
-            print stat_error
-    co_stat=cfgData.prime_req(pro_ch,"co",co_stat_input)
-
-    # Agility
-    ag_stat_input=""
-    while ag_stat_input<1 or ag_stat_input>100:
-        try:
-            ag_stat_input=int(raw_input('Agility: '))
-        except:
-            print stat_error
-    ag_stat=cfgData.prime_req(pro_ch,"ag",ag_stat_input)
-
-    # Self-Discipline
-    sd_stat_input=""
-    while sd_stat_input<1 or sd_stat_input>100:
-        try:
-            sd_stat_input=int(raw_input('Self-Discipline: '))
-        except:
-            print stat_error
-    sd_stat=cfgData.prime_req(pro_ch,"sd",sd_stat_input)
-
-    # Memory
-    me_stat_input=""
-    while me_stat_input<1 or me_stat_input>100:
-        try:
-            me_stat_input=int(raw_input('Memory: '))
-        except:
-            print stat_error
-    me_stat=cfgData.prime_req(pro_ch,"me",me_stat_input)
-
-    # Reasoning
-    re_stat_input=""
-    while re_stat_input<1 or re_stat_input>100:
-        try:
-            re_stat_input=int(raw_input('Reasoning: '))
-        except:
-            print stat_error
-    re_stat=cfgData.prime_req(pro_ch,"re",re_stat_input)
-
-    ### Calculate Potential Value using pot_calc function
-    # Strength
-    st_pot_in=""
-    while st_pot_in<1 or st_pot_in>100:
-        try:
-            st_pot_in=int(raw_input('Potential Roll (ST): '))
-        except:
-            print stat_error
-    st_pot=cfgData.pot_calc(st_stat,st_pot_in)
-
-    # Quickness
-    qu_pot_in=""
-    while qu_pot_in<1 or qu_pot_in>100:
-        try:
-            qu_pot_in=int(raw_input('Potential Roll (QU): '))
-        except:
-            print stat_error
-    qu_pot=cfgData.pot_calc(qu_stat,qu_pot_in)
-
-    # Presence
-    pr_pot_in=""
-    while pr_pot_in<1 or pr_pot_in>100:
-        try:
-            pr_pot_in=int(raw_input('Potential Roll (PR): '))
-        except:
-            print stat_error
-    pr_pot=cfgData.pot_calc(pr_stat,pr_pot_in)
-
-    # Intuition
-    in_pot_in=""
-    while in_pot_in<1 or in_pot_in>100:
-        try:
-            in_pot_in=int(raw_input('Potential Roll (IN): '))
-        except:
-            print stat_error
-    in_pot=cfgData.pot_calc(in_stat,in_pot_in)
-
-    # Essence
-    em_pot_in=""
-    while em_pot_in<1 or em_pot_in>100:
-        try:
-            em_pot_in=int(raw_input('Potential Roll (EM): '))
-        except:
-            print stat_error
-    em_pot=cfgData.pot_calc(em_stat,em_pot_in)
-
-    # Constitution
-    co_pot_in=""
-    while co_pot_in<1 or co_pot_in>100:
-        try:
-            co_pot_in=int(raw_input('Potential Roll (CO): '))
-        except:
-            print stat_error
-    co_pot=cfgData.pot_calc(co_stat,co_pot_in)
-
-    # Agility
-    ag_pot_in=""
-    while ag_pot_in<1 or ag_pot_in>100:
-        try:
-            ag_pot_in=int(raw_input('Potential Roll (AG): '))
-        except:
-            print stat_error
-    ag_pot=cfgData.pot_calc(ag_stat,ag_pot_in)
-
-    # Self-Discipline
-    sd_pot_in=""
-    while sd_pot_in<1 or sd_pot_in>100:
-        try:
-            sd_pot_in=int(raw_input('Potential Roll (SD): '))
-        except:
-            print stat_error
-    sd_pot=cfgData.pot_calc(sd_stat,sd_pot_in)
-
-    # Memory
-    me_pot_in=""
-    while me_pot_in<1 or me_pot_in>100:
-        try:
-            me_pot_in=int(raw_input('Potential Roll (ME): '))
-        except:
-            print stat_error
-    me_pot=cfgData.pot_calc(me_stat,me_pot_in)
-
-    # Reasoning
-    re_pot_in=""
-    while re_pot_in<1 or re_pot_in>100:
-        try:
-            re_pot_in=int(raw_input('Potential Roll (RE): '))
-        except:
-            print stat_error
-    re_pot=cfgData.pot_calc(re_stat,re_pot_in)
-
+    
     print 10 * "-"
     print
     print 20 * "="
