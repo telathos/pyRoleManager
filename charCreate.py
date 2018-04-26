@@ -81,6 +81,9 @@ def create_char():
     # Set Profession name
     char_dict['proname'] = plist[pro_ch][1]
     print char_dict['proname']
+    char_dict['pro_pr1'] = plist[pro_ch][2]
+    char_dict['pro_pr2'] = plist[pro_ch][3]
+    char_dict['pro_pr3'] = plist[pro_ch][4]
     print ""
 
     # Race Selection
@@ -128,6 +131,32 @@ def create_char():
 
     # Reset the counter
     cnt=1
+    curlist.sort()
+
+    # Test the number of 90 or higher rolls
+    if curlist[-3]>89:
+        ninty=3
+    elif curlist[-2]>89:
+        ninty=2
+    elif curlist[-1]>89:
+        ninty=1
+    elif curlist[-1]<90:
+        ninty=0
+
+    # Test if enough 90+ rolls for profession and replace lowest value with 90
+    if char_dict['proname'] == 'Archmage':
+        if ninty==2:
+            curlist[0]=90
+        if ninty==1:
+            curlist[0],curlist[1]=90,90
+        if ninty==0:
+            curlist[0],curlist[1],curlist[2]=90,90,90
+    else:
+        if ninty==1:
+            curlist[0]=90
+        if ninty==0:
+            curlist[0],curlist[1]=90,90
+
     # Enter Potential stat rolls
     for i in curlist:
         try:
@@ -158,9 +187,7 @@ def create_char():
     while u< len(statlist):
         for x1 in sc:
             if int(x1[0]) == statlist[u][0]:
-                #print "Matched"
                 stat_temp_list.append([statlist[u][0],statlist[u][1],x1[1],x1[2],x1[3]])
-        #print stat_temp_list
         u+=1
     cnt=1
 
@@ -217,7 +244,7 @@ def create_char():
     cnt=1
     print "+", 81 * "=", "+"
     print "|{:5}| {:7} | {:9} | {:5} | {:4} | {:5} || {:2}    | {:<16} | {:2} |".format("","","","Stat","Dev","Power","","","")
-    print "|{:5}| {:6} | {:9} | {:5} | {:4} | {:5} || {:2}    | {:<16} | {:2} |".format("","Current","Potential","Bonus","Pts","Pts","","Stat","")
+    print "|{:5}| {:6} | {:9} | {:5} | {:4} | {:5} || {:^2}    | {:<16} | {:2} |".format("","Current","Potential","Bonus","Pts","Pts","","Stat","")
     print "+", 81 * "=", "+"
     while cnt<=len(stat_temp_list):
         print "| {:>2}.) | {:^6} | {:^9} | {:^5} | {:4} | {:^5} || {:>2} .) | {:<16} | {:2} |".format(cnt,stat_temp_list[cnt-1][0],stat_temp_list[cnt-1][1],stat_temp_list[cnt-1][2],stat_temp_list[cnt-1][3],stat_temp_list[cnt-1][4],cnt,stat[cnt-1][0],stat[cnt-1][1])
@@ -225,8 +252,14 @@ def create_char():
     print "+", 81 * "=", "+"
     print ""
     print "Assign rolls to the stat"
+    print "You must assign a 90 or higher to your professions prime requisites stats"
     print ""
-
+    print " Your Profession is a {:35}".format(char_dict['proname'])
+    if char_dict['pro_pr3']=="":
+        print " Your Prime Requisites are {:2}/{:2}".format(char_dict['pro_pr1'],char_dict['pro_pr2'])
+    else:
+        print " Your Prime Requisites are {:2}/{:2}/{:3}".format(char_dict['pro_pr1'],char_dict['pro_pr2'],char_dict['pro_pr3'])
+    print ""
     while len(stat)>0:
         colx,coly=0,0
         # Select last stat to roll
@@ -239,33 +272,53 @@ def create_char():
             char_dict[y03]=stat_temp_list[colx-1][2]
             char_dict[y04]=stat_temp_list[colx-1][3]
             char_dict[y05]=stat_temp_list[colx-1][4]
+        # Select current value to assign to a stat
         while colx<1 or colx>len(stat):
             try:
-                colx=int(raw_input('Select a Current Roll:'))
+                colx=int(raw_input('Select a Current Roll: '))
                 if colx<1 or colx>len(stat):
                     print "You must enter a number between 1 and {:<2}".format(len(stat))
             except:
                 print "You must enter number between and {:<2}".format(len(stat))
+        # Select stat that current value will be assigned to
         while coly<1 or coly>len(stat):
-            try:
-                coly=int(raw_input('Select a Stat to assign:'))
-                if coly<1 or coly>len(stat):
-                    print "You must enter a number between 1 and {:<2}".format(len(stat))
-            except:
-                print "You must enter number between and {:<2}".format(len(stat))
-        #print stat[coly-1],":stat"
-        #print stat_temp_list[colx-1],":stat_temp"
+            pr = 0
+            while pr == 0:
+                try:
+                    coly=int(raw_input('Select a Stat to assign: '))
+                    print pr,":pr"
+                    if stat_temp_list[colx-1][0] < 90:
+                        print stat_temp_list[colx-1][0]
+                        print stat[coly-1][1]
+                        print char_dict['pro_pr1']
+                        print char_dict['pro_pr2']
+                        print char_dict['pro_pr3']
+                        if stat[coly-1][1] == char_dict['pro_pr1'] or \
+                           stat[coly-1][1] == char_dict['pro_pr2'] or stat[coly-1][1] == char_dict['pro_pr3']:
+                            print "This is a prime requisite for your profession and must be assigned a value of 90 or higher!"
+                            print "Please enter a higher value.."
+                            print ""
+                        else:
+                            # Break loop
+                            print "else loop"
+                            pr = 1
+                    else:
+                        pr = 1
+                    if coly<1 or coly>len(stat):
+                        print "You must enter a number between 1 and {:<2}".format(len(stat))
+                        pr = 1
+                except:
+                    print "You must enter number between and {:<2}".format(len(stat))
 
         y01,y02,y03=stat[coly-1][2],stat[coly-1][3],stat[coly-1][4]
         y04,y05=stat[coly-1][5],stat[coly-1][6]
-        #print y01,":",y02,":",y03,":",y04,":",y05
 
         char_dict[y01]=stat_temp_list[colx-1][0]
         char_dict[y02]=stat_temp_list[colx-1][1]
         char_dict[y03]=stat_temp_list[colx-1][2]
         char_dict[y04]=stat_temp_list[colx-1][3]
         char_dict[y05]=stat_temp_list[colx-1][4]
-        #print char_dict[y01],":",char_dict[y02],":",char_dict[y03],":",char_dict[y04],":",char_dict[y05]
+
         # Remove assigned stat and roll
         stat.pop(coly-1)
         stat_temp_list.pop(colx-1)
@@ -281,7 +334,7 @@ def create_char():
             print "+", 81 * "=", "+"
 
 
-
+    print ""
     print 10 * "-"
     print
     print 20 * "="
@@ -350,8 +403,12 @@ def create_char():
     char_dict['age'] = age
     print
 
-    ht = str(raw_input("Enter Height: "))
-
+    ht=""
+    while ht == "":
+        try:
+            ht = str(raw_input("Enter Height: "))
+        except:
+            print "You must enter a height in ft' in\" format"
     # Enter weight
     wt=""
     while wt<1 or wt>1000:

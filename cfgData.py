@@ -569,6 +569,7 @@ def pr_text():
     print "This is a Prime requisite and must be 90 or higher"
 
 num=""
+
 def prime_req(pro,char_stat,num):
     '''
     Check if the profession's prime requisites are 90+
