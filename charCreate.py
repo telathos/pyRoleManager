@@ -286,13 +286,13 @@ def create_char():
             while pr == 0:
                 try:
                     coly=int(raw_input('Select a Stat to assign: '))
-                    print pr,":pr"
+                    #print pr,":pr"
                     if stat_temp_list[colx-1][0] < 90:
-                        print stat_temp_list[colx-1][0]
+                        '''print stat_temp_list[colx-1][0]
                         print stat[coly-1][1]
                         print char_dict['pro_pr1']
                         print char_dict['pro_pr2']
-                        print char_dict['pro_pr3']
+                        print char_dict['pro_pr3']'''
                         if stat[coly-1][1] == char_dict['pro_pr1'] or \
                            stat[coly-1][1] == char_dict['pro_pr2'] or stat[coly-1][1] == char_dict['pro_pr3']:
                             print "This is a prime requisite for your profession and must be assigned a value of 90 or higher!"
@@ -300,7 +300,6 @@ def create_char():
                             print ""
                         else:
                             # Break loop
-                            print "else loop"
                             pr = 1
                     else:
                         pr = 1
@@ -364,14 +363,18 @@ def create_char():
     print 20 * "="
 
     # Enter characters gender
-    sexch=""
-    while sexch<1 or sexch>len(cfgData.sexlist):
+    le=1
+    #    print "Not a letter"
+    while le==1:
         try:
-            sexch = int(raw_input("Select Sex: "))
+            sexch = raw_input("Enter a Gender: ")
+            if re.match("^[A-Za-z]*$",sexch):
+                le=0
+            else:
+                print "Enter a gender for your character"
         except:
-            print "Enter a number between 1 and {:2}..".format(len(cfgData.sexlist))
-    sex = cfgData.sexlist[sexch-1]
-    char_dict['gender'] = sex
+            print "Enter a gender for your character"
+    char_dict['gender'] = sexch
 
     # Enter hair color
     hairch=""
