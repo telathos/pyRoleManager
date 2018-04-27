@@ -1,4 +1,5 @@
 import cfgData
+import re
 
 # Setup character data list
 char_dict={}
@@ -334,37 +335,21 @@ def create_char():
 
 
     print ""
-    print 10 * "-"
-    print
-    print 20 * "="
-    print "| Gender"
-    print "|"
-    x,s=0,1
-    while x<len(cfgData.sexlist):
-        print "|{:<2}.) {:10}".format(s,cfgData.sexlist[x])
-        x+=1
-        s+=1
-    print 20 * "="
-    print "| Hair Color"
-    print "|"
-    x,s=0,1
-    while x<len(cfgData.hairlist):
-        print "|{:<2}.) {:10}".format(s,cfgData.hairlist[x])
-        x+=1
-        s+=1
-    print 20 * "="
-    print "| Eye Color"
-    print "|"
-    x,s=0,1
-    while x<len(cfgData.eyelist):
-        print "|{:<2}.) {:10}".format(s,cfgData.eyelist[x])
-        x+=1
-        s+=1
-    print 20 * "="
+    print "+", 38 * "=","+"
+    print "| {:^38} |".format('Suggested Chooses')
+    print "+", 38 * "=","+"
+    print "| {:^8} | {:^16} | {:^8} |".format('Gender','Hair','Eye')
+    print "+", 38 * "=","+"
+    print "| {:^8} | {:^8} {:^8}| {:^8} |".format('Male','Black','Grey','Brown')
+    print "| {:^8} | {:^8} {:^8}| {:^8} |".format('Female','Brown','Yellow','Blue')
+    print "| {:^8} | {:^8} {:^8}| {:^8} |".format('','Blonde','White','Grey')
+    print "| {:^8} | {:^8} {:^8}| {:^8} |".format('','Red','Calico','Red')
+    print "| {:^8} | {:^8} {:^8}| {:^8} |".format('','Purple','None','Black')
+    print "+", 38 * "=","+"
+    print ""
 
-    # Enter characters gender
+    # Enter character's gender
     le=1
-    #    print "Not a letter"
     while le==1:
         try:
             sexch = raw_input("Enter a Gender: ")
@@ -376,35 +361,40 @@ def create_char():
             print "Enter a gender for your character"
     char_dict['gender'] = sexch
 
-    # Enter hair color
-    hairch=""
-    while hairch<1 or hairch>len(cfgData.hairlist):
+    # Enter character's Hair Color
+    le=1
+    while le==1:
         try:
-            hairch = int(raw_input("Select Hair color: "))
+            hairch = raw_input("Enter a Hair color: ")
+            if re.match("^[A-Za-z]*$",hairch):
+                le=0
+            else:
+                print "Enter a hair color for your character"
         except:
-            print "Enter a number between 1 and {:2}..".format(len(cfgData.hairlist))
-    hair = cfgData.hairlist[hairch-1]
-    char_dict['hair'] = hair
+            print "Enter a hair color for your character"
+    char_dict['hair'] = hairch
 
-    # Enter eye color
-    eyech=""
-    while eyech<1 or eyech>len(cfgData.eyelist):
+    # Enter character's Eye Color
+    le=1
+    while le==1:
         try:
-            eyech = int(raw_input("Select Eye color: "))
+            eyech = raw_input("Enter a Eye color: ")
+            if re.match("^[A-Za-z]*$",eyech):
+                le=0
+            else:
+                print "Enter a eye color for your character"
         except:
-            print "Enter a number between 1 and {:2}..".format(len(cfgData.eyelist))
-    eye = cfgData.eyelist[eyech-1]
-    char_dict['eye'] = eye
+            print "Enter a eye color for your character"
+    char_dict['eye'] = eyech
 
     # Enter characters age
     age=""
-    while age=="":
+    while age<1 or age>1000:
         try:
             age = int(raw_input("Character's Age: "))
         except:
             print "You must enter a number.."
     char_dict['age'] = age
-    print
 
     ht=""
     while ht == "":
