@@ -1,5 +1,7 @@
 import cfgData
 import re
+from decimal import Decimal
+import sys
 
 # Setup character data list
 char_dict={}
@@ -85,9 +87,11 @@ def create_char():
     char_dict['pro_pr1'] = plist[pro_ch][2]
     char_dict['pro_pr2'] = plist[pro_ch][3]
     char_dict['pro_pr3'] = plist[pro_ch][4]
+    char_dict['mrealm'] = plist[pro_ch][7]
     print ""
 
     # Race Selection
+    print len(rlist),":len(rlist)"
     ln=1
     print 30 * "-", "Races", 30 * "-"
     print ""
@@ -229,7 +233,7 @@ def create_char():
 
     stat=[
     ['Strength','ST','st_stat','st_pot','stb','stdp','stpp'],
-    ['Quickness','QU','qu_stat','pr_pot','prb','qudp','qupp'],
+    ['Quickness','QU','qu_stat','qu_pot','qub','qudp','qupp'],
     ['Empathy','EM','em_stat','em_pot','emb','emdp','empp'],
     ['Presence','PR','pr_stat','pr_pot','prb','prdp','prpp'],
     ['Intuition','IN','in_stat','in_pot','inb','indp','inpp'],
@@ -412,16 +416,6 @@ def create_char():
     char_dict['height'],char_dict['weight'] = ht,wt
 
     # Load data into dictionary for saving of the character
-    char_dict['st_stat'],char_dict['st_pot']=st_stat,st_pot
-    char_dict['qu_stat'],char_dict['qu_pot']=qu_stat,qu_pot
-    char_dict['pr_stat'],char_dict['pr_pot']=pr_stat,pr_pot
-    char_dict['in_stat'],char_dict['in_pot']=in_stat,in_pot
-    char_dict['em_stat'],char_dict['em_pot']=em_stat,em_pot
-    char_dict['co_stat'],char_dict['co_pot']=co_stat,co_pot
-    char_dict['ag_stat'],char_dict['ag_pot']=ag_stat,ag_pot
-    char_dict['sd_stat'],char_dict['sd_pot']=sd_stat,sd_pot
-    char_dict['me_stat'],char_dict['me_pot']=me_stat,me_pot
-    char_dict['re_stat'],char_dict['re_pot']=re_stat,re_pot
     char_dict['lvl']=0
     char_dict['realm']=plist[pro_ch][8]
     char_dict['stmb'],char_dict['qumb'],char_dict['emmb'],char_dict['inmb'],char_dict['prmb']=0,0,0,0,0
@@ -430,132 +424,102 @@ def create_char():
     hp=Decimal(hp_math).quantize(Decimal('1e-3'))
     char_dict['hp_base']=int(round(hp,0))
 
-    # Open chart of stat values
-    with open(cfgData.cfg_dir+"/sttchart.csv") as f:
-        statchart =f.read().splitlines()
-    f.close()
-    sc=[]
-
-    for x in statchart:
-        sc.append(x.split(","))
-
-    # Loop through statistics to pull bonuses
-    for x1 in sc:
-        if int(x1[0]) == int(char_dict['st_stat']):
-            stb,stdp,stpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['qu_stat']):
-            qub,qudp,qupp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['pr_stat']):
-            prb,prdp,prpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['in_stat']):
-            inb,indp,inpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['em_stat']):
-            emb,emdp,empp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['co_stat']):
-            cob,codp,copp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['ag_stat']):
-            agb,agdp,agpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['sd_stat']):
-            sdb,sddp,sdpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['me_stat']):
-            meb,medp,mepp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['re_stat']):
-            reb,redp,repp=x1[1],x1[2],x1[3]
-
-    ###################
-    # Lookup Race Bonus
-    ###################
-    with open(cfgData.cfg_dir+"/race.csv") as r:
-        racechart =r.read().splitlines()
-    rc=[]
-
-    for x in racechart:
-        rc.append(x.split(","))
-
-    f=0
-    while f < len(racechart):
-        x3 = racechart[f].split(',')
-        f+=1
-        if x3[0] == char_dict['race']:
-            essModBase = x3[11]
-            chanModBase = x3[12]
-            mentModBase = x3[13]
-            poiModBase = x3[14]
-            disModBase = x3[15]
-            HitDie = x3[17]
-    # Race Bonus
-    for x2 in rc:
-        if x2[0] == char_dict['race']:
-            raceb=x2
-
     #######################
     # Calcalute Total Bonus
     #######################
+    raclist=[]
+    with open(cfgData.cfg_dir+"/race.csv") as rf:
+        rline = rf.readlines()
+    raclist = [x.strip() for x in rline]
+    for x in raclist:
+    #print x.split(",")
+        if x.split(",")[1] == char_dict['race']:
+            char_dict['strb'] = x.split(",")[2]
+            char_dict['qurb'] = x.split(",")[3]
+            char_dict['prrb'] = x.split(",")[4]
+            char_dict['inrb'] = x.split(",")[5]
+            char_dict['emrb'] = x.split(",")[6]
+            char_dict['corb'] = x.split(",")[7]
+            char_dict['agrb'] = x.split(",")[8]
+            char_dict['sdrb'] = x.split(",")[9]
+            char_dict['merb'] = x.split(",")[10]
+            char_dict['rerb'] = x.split(",")[11]
+            char_dict['Essmod'] = x.split(",")[12]
+            char_dict['Chanmod'] = x.split(",")[13]
+            char_dict['Mentmod'] = x.split(",")[14]
+            char_dict['Poimod'] = x.split(",")[15]
+            char_dict['Dismod'] = x.split(",")[16]
+            char_dict['HitDie'] = x.split(",")[19]
+    '''
+    sttb=(int(char_dict['stb'])+int(char_dict['strb'])+int(char_dict['stmb']))
+    qutb=(int(char_dict['qub'])+int(char_dict['qurb'])+int(char_dict['qumb']))
+    prtb=(int(char_dict['prb'])+int(char_dict['prrb'])+int(char_dict['prmb']))
+    intb=(int(char_dict['inb'])+int(char_dict['inrb'])+int(char_dict['inmb']))
+    emtb=(int(char_dict['emb'])+int(char_dict['emrb'])+int(char_dict['emmb']))
+    cotb=(int(char_dict['cob'])+int(char_dict['corb'])+int(char_dict['comb']))
+    agtb=(int(char_dict['agb'])+int(char_dict['agrb'])+int(char_dict['agmb']))
+    sdtb=(int(char_dict['sdb'])+int(char_dict['sdrb'])+int(char_dict['sdmb']))
+    metb=(int(char_dict['meb'])+int(char_dict['merb'])+int(char_dict['memb']))
+    retb=(int(char_dict['reb'])+int(char_dict['rerb'])+int(char_dict['remb']))
+    '''
 
-    sttb=(int(stb)+int(raceb[1])+int(char_dict['stmb']))
-    qutb=(int(qub)+int(raceb[2])+int(char_dict['qumb']))
-    prtb=(int(prb)+int(raceb[3])+int(char_dict['prmb']))
-    intb=(int(inb)+int(raceb[4])+int(char_dict['inmb']))
-    emtb=(int(emb)+int(raceb[5])+int(char_dict['emmb']))
-    cotb=(int(cob)+int(raceb[6])+int(char_dict['comb']))
-    agtb=(int(agb)+int(raceb[7])+int(char_dict['agmb']))
-    sdtb=(int(sdb)+int(raceb[8])+int(char_dict['sdmb']))
-    metb=(int(meb)+int(raceb[9])+int(char_dict['memb']))
-    retb=(int(reb)+int(raceb[10])+int(char_dict['remb']))
-    tdp=(float(codp)+float(agdp)+float(sddp)+float(medp)+float(redp))*float(cfgData.dp_multipler)
+    # Add Total Bonus of skills to character data
+    char_dict['sttb']=(int(char_dict['stb'])+int(char_dict['strb'])+int(char_dict['stmb']))
+    char_dict['qutb']=(int(char_dict['qub'])+int(char_dict['qurb'])+int(char_dict['qumb']))
+    char_dict['prtb']=(int(char_dict['prb'])+int(char_dict['prrb'])+int(char_dict['prmb']))
+    char_dict['intb']=(int(char_dict['inb'])+int(char_dict['inrb'])+int(char_dict['inmb']))
+    char_dict['emtb']=(int(char_dict['emb'])+int(char_dict['emrb'])+int(char_dict['emmb']))
+    char_dict['cotb']=(int(char_dict['cob'])+int(char_dict['corb'])+int(char_dict['comb']))
+    char_dict['agtb']=(int(char_dict['agb'])+int(char_dict['agrb'])+int(char_dict['agmb']))
+    char_dict['sdtb']=(int(char_dict['sdb'])+int(char_dict['sdrb'])+int(char_dict['sdmb'])))
+    char_dict['metb']=(int(char_dict['meb'])+int(char_dict['merb'])+int(char_dict['memb']))
+    char_dict['retb']=(int(char_dict['reb'])+int(char_dict['rerb'])+int(char_dict['remb']))
+
+    # Development Points
+    tdp=(float(char_dict['codp'])+float(char_dict['agdp'])+float(char_dict['sddp'])+float(char_dict['medp'])+float(char_dict['redp']))*float(cfgData.dp_multipler)
     char_dict['dp']=round(tdp,1)
     dp_math=Decimal(char_dict['dp'])
     dp=Decimal(dp_math).quantize(Decimal('1e-3'))
     char_dict['tempdp'] = int(round(dp,0))
 
-    # Add Total Bonus of skills to character data
-    char_dict['sttb']=sttb
-    char_dict['qutb']=qutb
-    char_dict['prtb']=prtb
-    char_dict['intb']=intb
-    char_dict['emtb']=emtb
-    char_dict['cotb']=cotb
-    char_dict['agtb']=agtb
-    char_dict['sdtb']=sdtb
-    char_dict['metb']=metb
-    char_dict['retb']=retb
-
     # Set Resistance Roll Modifiers
-    char_dict['essmod'] = int(essModBase)+int(emtb)
-    char_dict['chanmod'] = int(chanModBase)+int(intb)
-    char_dict['mentmod'] = int(mentModBase)+int(prtb)
-    char_dict['poimod'] = int(poiModBase)+int(cotb)
-    char_dict['dismod'] = int(disModBase)+int(cotb)
-    char_dict['hitdie'] = HitDie
-
+    char_dict['Essmod'] = int(char_dict['Essmod'])+int(emtb)
+    char_dict['Chanmod'] = int(char_dict['Chanmod'])+int(intb)
+    char_dict['Mentmod'] = int(char_dict['Mentmod'])+int(prtb)
+    char_dict['Poimod'] = int(char_dict['Poimod'])+int(cotb)
+    char_dict['Dismod'] = int(char_dict['Dismod'])+int(cotb)
+    
     # Power Point Math
-    stpp,qupp,copp,agpp,sdpp,mepp,repp="-","-","-","-","-","-","-"
-    if char_dict['realm'] == "NULL":
-        prpp,inpp,empp=0.0,0.0,0.0
-        tpp=0.0
-    if char_dict['realm'] == "PR":
-        inpp,empp=0.0,0.0
-        tpp=prpp
-    if char_dict['realm'] == "IN":
-        empp,prpp=0.0,0.0
-        tpp=inpp
-    if char_dict['realm'] == "EM":
-        inpp,prpp=0.0,0.0
-        tpp=empp
-    if char_dict['realm'] == "IP":
-        empp=0.0
-        tpp=(float(inpp)+float(prpp))/2
-    if char_dict['realm'] == "PE":
-        inpp=0.0
-        tpp=(float(empp)+float(prpp))/2
-    if char_dict['realm'] == "IE":
-        prpp=0.0
-        tpp=(float(inpp)+float(empp))/2
-    if char_dict['realm'] == "AR":
-        tpp=(float(inpp)+float(prpp)+float(empp))/3
+    char_dict['stpp'],char_dict['qupp'],char_dict['copp'],char_dict['agpp'],char_dict['sdpp'],char_dict['mepp'],char_dict['repp']="-","-","-","-","-","-","-"
+    if char_dict['mrealm'] == "NON":
+        char['prpp'],char_dict['inpp'],char_dict['empp']=0.0,0.0,0.0
+        char_dict['tpp']=0.0
+    if char_dict['mrealm'] == "PR":
+        char_dict['inpp'],char_dict['empp']=0.0,0.0
+        char_dict['tpp']=char_dict['prpp']
+    if char_dict['mrealm'] == "IN":
+        char_dict['empp'],char_dict['prpp']=0.0,0.0
+        char_dict['tpp']=char_dict['inpp']
+    if char_dict['mrealm'] == "EM":
+        char_dict['inpp'],char_dict['prpp']=0.0,0.0
+        char_dict['tpp']=char_dict['empp']
+    if char_dict['mrealm'] == "IP":
+        char_dict['empp']=0.0
+        char_dict['tpp']=(float(char_dict['inpp'])+float(char_dict['prpp']))/2
+    if char_dict['mrealm'] == "PE":
+        char_dict['inpp']=0.0
+        char_dict['tpp']=(float(char_dict['empp'])+float(char_dict['prpp']))/2
+    if char_dict['mrealm'] == "IE":
+        char_dict['prpp']=0.0
+        char_dict['tpp']=(float(char_dict['inpp'])+float(char_dict['empp']))/2
+    if char_dict['mrealm'] == "AR":
+        char_dict['tpp']=(float(char_dict['inpp'])+float(char_dict['prpp'])+float(char_dict['empp']))/3
 
     # Development Point Math
     stdp,qudp,emdp,indp,prdp="-","-","-","-","-"
+
+    print char_dict
+    sys.exit()
 
     # Open skill list file and write to character skill file. Set number of ranks for Hobby, AD, AP,
     # normal to 0
