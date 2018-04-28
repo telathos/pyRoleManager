@@ -24,21 +24,6 @@ co_pot_in,ag_pot_in,sd_pot_in,me_pot_in,re_pot_in=0,0,0,0,0
 
 # Start of the basic character creation, Name, Profession, Race and Stats
 def create_char():
-    '''
-    user_name=str(raw_input('Please enter your first name: '))
-    last_name = str(raw_input('Pleae enter last name: '))
-    char_path=cfgData.char_dir+"/"+user_name
-    fullName = user_name +" "+ last_name
-    char_dict['FullName'] = fullName
-    if not os.path.exists(char_path):
-        os.makedirs(char_path)
-    if os.path.exists(char_path+"/"+user_name+".json") == True:
-        print "Character exists"
-        sys.exit()
-    else:
-        # Write character name to list
-        char_dict['name']=user_name
-    '''
     # Set base Experience
     char_dict['exp'] = 10000
     char_dict['next_lvl'] = 20000
@@ -488,7 +473,7 @@ def create_char():
     char_dict['Mentmod'] = int(char_dict['Mentmod'])+int(prtb)
     char_dict['Poimod'] = int(char_dict['Poimod'])+int(cotb)
     char_dict['Dismod'] = int(char_dict['Dismod'])+int(cotb)
-    
+
     # Power Point Math
     char_dict['stpp'],char_dict['qupp'],char_dict['copp'],char_dict['agpp'],char_dict['sdpp'],char_dict['mepp'],char_dict['repp']="-","-","-","-","-","-","-"
     if char_dict['mrealm'] == "NON":
@@ -518,11 +503,51 @@ def create_char():
     # Development Point Math
     stdp,qudp,emdp,indp,prdp="-","-","-","-","-"
 
-    print char_dict
-    sys.exit()
+    # Set Character's First Name
+    le=1
+    while le==1:
+        try:
+            first_name=raw_input('Enter the Character\'s First Name: ')
+            if re.match("^[A-Za-z]*$",first_name):
+                le=0
+            else:
+                print "You must enter a First name for your character!"
+        except:
+            print "You must enter a First name for your character!"
+    char_dict['name'] = first_name
+    # Set Last Name
+    last_name=""
+    last_name=raw_input('Enter the Character\'s Last Name: ')
+    if last_name == "":
+        char_dict['Fullname'] = first_name
+    else:
+        char_dict['FullName'] = first_name +" "+ last_name
+    char_path=char_dir+"/"+first_name
+
+    # Check if character exists
+    path_check = os.path.exists(char_path+"/"+first_name+".json")
+    while path_check == True:
+        print "Character exists! Please enter a different name for your character"
+        le=1
+        try:
+            first_name=raw_input('Enter the Character\'s First Name: ')
+            if re.match("^[A-Za-z]*$",first_name):
+                le=0
+                char_path=char_dir+"/"+first_name
+                path_check = os.path.exists(char_path+"/"+first_name+".json")
+            else:
+                print "You must enter a First name for your character!"
+        except:
+            print "Character exists! Please enter a different name for your character"
+
+        # If character and folder doesn't exist - create it
+        char_dict['name']=first_name
+        if not os.path.exists(char_path):
+            os.makedirs(char_path)
 
     # Open skill list file and write to character skill file. Set number of ranks for Hobby, AD, AP,
     # normal to 0
+    '''
     with open(cfgData.cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
 
@@ -553,7 +578,7 @@ def create_char():
                     outer_list[5]=="NA"
             char_dict[crt]=(outer_list[1],outer_list[5],outer_list[7],outer_list[index],outer_list[6],0,0,0,0,0,0,0,0,0,0)
             crt+=1
-
-    # Write Character data to file
-    with open(char_path+'/'+user_name+'.json', 'w') as f:
+'''
+    # Write out file
+    with open(char_path+"/"+first_name+".json", 'w') as f:
         f.write(json.dumps(char_dict))
