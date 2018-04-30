@@ -1284,7 +1284,7 @@ def export_allskills_to_excel():
     char = p[s]
     with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
-    charXlFile2=char_dict['FullName']+"_AllSkills.xlsx"
+    charXlFile2=char_dict['Fullname']+"_AllSkills.xlsx"
 
     # Setup Excel file
     wb = Workbook()

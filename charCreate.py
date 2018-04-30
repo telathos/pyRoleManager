@@ -77,7 +77,8 @@ def create_char():
     char_dict['pro_pr2'] = plist[pro_ch][3]
     char_dict['pro_pr3'] = plist[pro_ch][4]
     char_dict['mrealm'] = plist[pro_ch][7]
-    proID = plist[pro_ch][0]
+    proID = int(plist[pro_ch][0])
+    proID += 7
     print ""
 
     # Race Selection
@@ -440,18 +441,6 @@ def create_char():
             char_dict['Poimod'] = x.split(",")[15]
             char_dict['Dismod'] = x.split(",")[16]
             char_dict['HitDie'] = x.split(",")[19]
-    '''
-    sttb=(int(char_dict['stb'])+int(char_dict['strb'])+int(char_dict['stmb']))
-    qutb=(int(char_dict['qub'])+int(char_dict['qurb'])+int(char_dict['qumb']))
-    prtb=(int(char_dict['prb'])+int(char_dict['prrb'])+int(char_dict['prmb']))
-    intb=(int(char_dict['inb'])+int(char_dict['inrb'])+int(char_dict['inmb']))
-    emtb=(int(char_dict['emb'])+int(char_dict['emrb'])+int(char_dict['emmb']))
-    cotb=(int(char_dict['cob'])+int(char_dict['corb'])+int(char_dict['comb']))
-    agtb=(int(char_dict['agb'])+int(char_dict['agrb'])+int(char_dict['agmb']))
-    sdtb=(int(char_dict['sdb'])+int(char_dict['sdrb'])+int(char_dict['sdmb']))
-    metb=(int(char_dict['meb'])+int(char_dict['merb'])+int(char_dict['memb']))
-    retb=(int(char_dict['reb'])+int(char_dict['rerb'])+int(char_dict['remb']))
-    '''
 
     # Add Total Bonus of skills to character data
     char_dict['sttb']=(int(char_dict['stb'])+int(char_dict['strb'])+int(char_dict['stmb']))
@@ -549,41 +538,55 @@ def create_char():
         char_dict['name']=first_name
     if not os.path.exists(char_path):
         os.makedirs(char_path)
+    
+    # Write out file
+    with open(char_path+"/"+first_name+".json", 'w') as f:
+        f.write(json.dumps(char_dict))
 
-    # Open skill list file and write to character skill file. Set number of ranks for Hobby, AD, AP,
-    # normal to 0
-    '''
+    # Open Skill file
     with open(cfgData.cfg_dir+"/ds.csv") as f:
         sl=f.read().splitlines()
-
     skill_list=[]
     for list in sl:
         skill_list.append(list.split(","))
         crt=1
-        for outer_list in skill_list:
-            index=int(plist[pro_ch][1])
 
-            # Set Spell Lists and Spell Mastery based on realm
-            if outer_list[1].startswith("Spell"):
-                if char_dict['realm'] == "EM":
-                    outer_list[5]="EM"
-                elif char_dict['realm'] == "PR":
-                    outer_list[5]="PR"
-                elif char_dict['realm'] == "IN":
-                    outer_list[5]=="IN"
-                elif char_dict['realm'] == "IP":
-                    outer_list[5]=="IN/PR"
-                elif char_dict['realm'] == "PE":
-                    outer_list[5]=="PR/EM"
-                elif char_dict['realm'] == "IE":
-                    outer_list[5]=="IN/EM"
-                elif char_dict['realm'] == "AR":
-                    outer_list[5]=="IN/PR/EM"
-                elif char_dict['realm'] == "NULL":
-                    outer_list[5]=="NA"
-            char_dict[crt]=(outer_list[1],outer_list[5],outer_list[7],outer_list[index],outer_list[6],0,0,0,0,0,0,0,0,0,0)
-            crt+=1
-'''
-    # Write out file
-    with open(char_path+"/"+first_name+".json", 'w') as f:
-        f.write(json.dumps(char_dict))
+    # Loop through skills and add to dictionary
+    for i in skill_list:
+        #print i[1]
+        stat_tb2,stat_tb3,stat_tb4 = i[2].lower()+"tb",i[3].lower()+"tb",i[4].lower()+"tb"
+        if i[2] == "NA" or i[3] == "NA":
+            char_skill[i[0]]=(i[1],i[5],i[7],i[proID],i[6],0,0,0,0,0,0,0,0,0,0)
+        elif i[2] == "":
+            if i[1].startswith("Spell") or i[1].startswith("Transcend"):
+                if char_dict['mrealm'] == "NA":
+                    i[2],i[5] = "NA","NA"
+                    char_skill[i[0]]=(i[1],i[5],i[7],i[proID],i[6],0,0,0,0,0,0,0,0,0,0)
+                if char_dict['mrealm'] == "EM":
+                    stat_tb2,i[5] = "em",char_dict['mrealm']
+                    char_skill[i[0]]=(i[1],i[5],i[7],i[proID],i[6],0,0,0,0,0,0,0,0,0,0)
+                if char_dict['mrealm'] == "IN":
+                    stat_tb2,i[5] = "in",char_dict['mrealm']
+                    char_skill[i[0]]=(i[1],i[5],i[7],i[proID],i[6],0,0,0,0,0,0,0,0,0,0)
+                if char_dict['mrealm'] == "PR":
+                    stat_tb2,i[5] = "pr",char_dict['mrealm']
+                    char_skill[i[0]]=(i[1],i[5],i[7],i[proID],i[6],0,0,0,0,0,0,0,0,0,0)
+                if char_dict['mrealm'] == "IP":
+                    stat_tb2,stat_tb3,i[5] = "in","pr",i[6]
+                    char_skill[i[0]]=(i[1],i[5],i[7],i[proID],i[6],0,0,0,0,0,0,0,0,0,0)
+                if char_dict['mrealm'] == "PE":
+                    stat_tb2,stat_tb3,i[5] = "em","pr",i[6]
+                    char_skill[i[0]]=(i[1],i[5],i[7],i[proID],i[6],0,0,0,0,0,0,0,0,0,0)
+                if char_dict['mrealm'] == "IE":
+                    stat_tb2,stat_tb3,i[5] = "in","em",i[6]
+                    char_skill[i[0]]=(i[1],i[5],i[7],i[proID],i[6],0,0,0,0,0,0,0,0,0,0)
+                if char_dict['mrealm'] == "AR":
+                    stat_tb2,stat_tb3,stat_tb4,i[5] = "em","in","pr",i[6]
+                    char_skill[i[0]]=(i[1],i[5],i[7],i[proID],i[6],0,0,0,0,0,0,0,0,0,0)
+        elif i[3] == "":
+            char_skill[i[0]]=(i[1],i[5],i[7],i[proID],i[6],0,0,0,0,0,0,0,0,0,0)
+        else:
+            char_skill[i[0]]=(i[1],i[5],i[7],i[proID],i[6],0,0,0,0,0,0,0,0,0,0)
+    # Write Character data to file
+    with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name'].capitalize()+"_Skills.json", 'w') as f:
+        f.write(json.dumps(char_skill))
