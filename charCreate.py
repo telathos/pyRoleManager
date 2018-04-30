@@ -5,13 +5,15 @@ import sys
 import os
 import json
 
-# Setup character data list
+# Setup character data dictionaries
 char_dict={}
-
-# Read Professions into List
+char_skill={}
+# Read Professions into dictionaries
 plist = {}
 rlist = {}
 pi,ri=1,1
+
+# Open Profession and Race files
 with open(cfgData.cfg_dir+"/profession.csv") as pf:
     for pline in pf:
         plist[pi]=pline.rstrip('\n').split(",")
@@ -21,8 +23,8 @@ with open(cfgData.cfg_dir+"/race.csv") as rf:
         rlist[ri]=rline.rstrip('\n').split(",")
         ri+=1
 
-st_pot_in,qu_pot_in,pr_pot_in,in_pot_in,em_pot_in=0,0,0,0,0
-co_pot_in,ag_pot_in,sd_pot_in,me_pot_in,re_pot_in=0,0,0,0,0
+#st_pot_in,qu_pot_in,pr_pot_in,in_pot_in,em_pot_in=0,0,0,0,0
+#co_pot_in,ag_pot_in,sd_pot_in,me_pot_in,re_pot_in=0,0,0,0,0
 
 # Start of the basic character creation, Name, Profession, Race and Stats
 def create_char():
