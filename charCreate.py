@@ -2,6 +2,8 @@ import cfgData
 import re
 from decimal import Decimal
 import sys
+import os
+import json
 
 # Setup character data list
 char_dict={}
@@ -73,6 +75,7 @@ def create_char():
     char_dict['pro_pr2'] = plist[pro_ch][3]
     char_dict['pro_pr3'] = plist[pro_ch][4]
     char_dict['mrealm'] = plist[pro_ch][7]
+    proID = plist[pro_ch][0]
     print ""
 
     # Race Selection
@@ -456,7 +459,7 @@ def create_char():
     char_dict['emtb']=(int(char_dict['emb'])+int(char_dict['emrb'])+int(char_dict['emmb']))
     char_dict['cotb']=(int(char_dict['cob'])+int(char_dict['corb'])+int(char_dict['comb']))
     char_dict['agtb']=(int(char_dict['agb'])+int(char_dict['agrb'])+int(char_dict['agmb']))
-    char_dict['sdtb']=(int(char_dict['sdb'])+int(char_dict['sdrb'])+int(char_dict['sdmb'])))
+    char_dict['sdtb']=(int(char_dict['sdb'])+int(char_dict['sdrb'])+int(char_dict['sdmb']))
     char_dict['metb']=(int(char_dict['meb'])+int(char_dict['merb'])+int(char_dict['memb']))
     char_dict['retb']=(int(char_dict['reb'])+int(char_dict['rerb'])+int(char_dict['remb']))
 
@@ -468,11 +471,11 @@ def create_char():
     char_dict['tempdp'] = int(round(dp,0))
 
     # Set Resistance Roll Modifiers
-    char_dict['Essmod'] = int(char_dict['Essmod'])+int(emtb)
-    char_dict['Chanmod'] = int(char_dict['Chanmod'])+int(intb)
-    char_dict['Mentmod'] = int(char_dict['Mentmod'])+int(prtb)
-    char_dict['Poimod'] = int(char_dict['Poimod'])+int(cotb)
-    char_dict['Dismod'] = int(char_dict['Dismod'])+int(cotb)
+    char_dict['Essmod'] = int(char_dict['Essmod'])+int(char_dict['emtb'])
+    char_dict['Chanmod'] = int(char_dict['Chanmod'])+int(char_dict['intb'])
+    char_dict['Mentmod'] = int(char_dict['Mentmod'])+int(char_dict['prtb'])
+    char_dict['Poimod'] = int(char_dict['Poimod'])+int(char_dict['cotb'])
+    char_dict['Dismod'] = int(char_dict['Dismod'])+int(char_dict['cotb'])
 
     # Power Point Math
     char_dict['stpp'],char_dict['qupp'],char_dict['copp'],char_dict['agpp'],char_dict['sdpp'],char_dict['mepp'],char_dict['repp']="-","-","-","-","-","-","-"
@@ -522,7 +525,7 @@ def create_char():
         char_dict['Fullname'] = first_name
     else:
         char_dict['FullName'] = first_name +" "+ last_name
-    char_path=char_dir+"/"+first_name
+    char_path=cfgData.char_dir+"/"+first_name
 
     # Check if character exists
     path_check = os.path.exists(char_path+"/"+first_name+".json")
@@ -533,7 +536,7 @@ def create_char():
             first_name=raw_input('Enter the Character\'s First Name: ')
             if re.match("^[A-Za-z]*$",first_name):
                 le=0
-                char_path=char_dir+"/"+first_name
+                char_path=cfgData.char_dir+"/"+first_name
                 path_check = os.path.exists(char_path+"/"+first_name+".json")
             else:
                 print "You must enter a First name for your character!"
@@ -542,8 +545,8 @@ def create_char():
 
         # If character and folder doesn't exist - create it
         char_dict['name']=first_name
-        if not os.path.exists(char_path):
-            os.makedirs(char_path)
+    if not os.path.exists(char_path):
+        os.makedirs(char_path)
 
     # Open skill list file and write to character skill file. Set number of ranks for Hobby, AD, AP,
     # normal to 0
