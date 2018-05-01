@@ -23,6 +23,7 @@ This will load a menu with the options.
 
 # Known Bugs/Issues
 The level raise code is still bugging. It doesn't always reset your development points correctly. The code needs to be reworked.
+4/30/18 - I'm currently working on redesigning the program to improve the flow and speed.
 
 ## Add-on features
 # Professions
