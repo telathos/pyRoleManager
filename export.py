@@ -1436,10 +1436,9 @@ def export_allskills_to_excel():
 
     skill_rank_total = 0
     for words in char_skill:
-        if words.isdigit():
-            skill_rank_total = char_skill[words][5] + char_skill[words][6] + char_skill[words][7]+ char_skill[words][8]
-            skill.append([char_skill[words][0],char_skill[words][3],char_skill[words][1],char_skill[words][5],char_skill[words][6],char_skill[words][7],char_skill[words][8],skill_rank_total,char_skill[words][10],char_skill[words][11],char_skill[words][13],char_skill[words][12],char_skill[words][14]])
-            skill.sort()
+        skill_rank_total = char_skill[words][5] + char_skill[words][6] + char_skill[words][7]+ char_skill[words][8]
+        skill.append([char_skill[words][0],char_skill[words][3],char_skill[words][1],char_skill[words][5],char_skill[words][6],char_skill[words][7],char_skill[words][8],skill_rank_total,char_skill[words][10],char_skill[words][11],char_skill[words][13],char_skill[words][12],char_skill[words][14]])
+        skill.sort()
 
     for row in skill:
         ws1.append(row)
