@@ -1286,6 +1286,9 @@ def export_allskills_to_excel():
         char_dict = json.load(cf)
     charXlFile2=char_dict['Fullname']+"_AllSkills.xlsx"
 
+    print ""
+    print "Creating excel file....."
+
     # Setup Excel file
     wb = Workbook()
     # grab the active worksheet
