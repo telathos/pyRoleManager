@@ -1425,11 +1425,17 @@ def export_allskills_to_excel():
     ws1.print_title_rows = '1:2'
     ws1.print_title_cols = 'A:M'
 
+    with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
+        char_dict = json.load(cf)
+    with open(cfgData.char_dir+"/"+char+"/"+char+"_Skills.json","r") as sf:
+        char_skill = json.load(sf)
+    charXlFile2=char_dict['Fullname']+"_AllSkills.xlsx"
+
     skill_rank_total = 0
-    for words in char_dict:
+    for words in char_skill:
         if words.isdigit():
-            skill_rank_total = char_dict[words][5] + char_dict[words][6] + char_dict[words][7]+ char_dict[words][8]
-            skill.append([char_dict[words][0],char_dict[words][3],char_dict[words][1],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],skill_rank_total,char_dict[words][10],char_dict[words][11],char_dict[words][13],char_dict[words][12],char_dict[words][14]])
+            skill_rank_total = char_skill[words][5] + char_skill[words][6] + char_skill[words][7]+ char_skill[words][8]
+            skill.append([char_skill[words][0],char_skill[words][3],char_skill[words][1],char_skill[words][5],char_skill[words][6],char_skill[words][7],char_skill[words][8],skill_rank_total,char_skill[words][10],char_skill[words][11],char_skill[words][13],char_skill[words][12],char_skill[words][14]])
             skill.sort()
 
     for row in skill:
@@ -1455,4 +1461,4 @@ def export_allskills_to_excel():
         for cell in ws1['M']:
             cell.fill = lblue
     # Save the file
-    wb.save(charXlPath+"/"+char+"/"+charXlFile2)
+    wb.save(cfgData.char_dir+"/"+char+"/"+charXlFile2)
