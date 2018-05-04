@@ -22,9 +22,10 @@ def export_to_excel():
     char_dict={}
     s-=1
     char = p[s]
+    print char
     with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
-    charXlFile=char_dict['FullName']+".xlsx"
+    charXlFile=char_dict['Fullname']+".xlsx"
     with open(cfgData.cfg_dir+"/sttchart.csv") as f:
         statchart =f.read().splitlines()
     sc=[]
@@ -199,7 +200,7 @@ def export_to_excel():
 
     ws['A2'] = "Name:"
     ws.merge_cells('B2:C2')
-    ws['B2'] = char_dict['FullName'].title()
+    ws['B2'] = char_dict['Fullname'].title()
     ws['E2'] = "Level:"
     ws['G2'] = "Race:"
     ws['F2'] = char_dict['lvl']
@@ -216,7 +217,7 @@ def export_to_excel():
 
     ws['A3'] = "Profession:"
     ws.merge_cells('B3:C3')
-    ws['B3'] = char_dict['pro_name']
+    ws['B3'] = char_dict['proname']
     ws['E3'] = "Exp:"
     ws['F3'] = char_dict['exp']
     ws['G3'] = "Next Lvl:"
@@ -419,7 +420,7 @@ def export_to_excel():
     ws['E14'].border = lBorder
     ws['H14'].border = rBorder
     ws['I14'].border = rBorder
-    ws['H14'] = char_dict['hitdie']
+    ws['H14'] = char_dict['HitDie']
     ws['H14'].alignment = Alignment(horizontal='center')
 
     ws['A15'] = "Minimum:"
@@ -482,7 +483,7 @@ def export_to_excel():
     ws['C18'].border = fullBorder
     ws['D18'].border = fullBorder
     ws['E18'].border = lBorder
-    ws['F18'] = realm
+    ws['F18'] = char_dict['realm']
     ws['H18'].border = rBorder
     ws['I18'].border = rBorder
     ws['C18'].font = textFont
@@ -503,7 +504,7 @@ def export_to_excel():
     ws['A19'] = lang1
     ws['C19'] = lang1s
     ws['D19'] = lang1w
-    ws['F19'] = realm_stat
+    ws['F19'] = char_dict['mrealm']
     ws['C19'].alignment = Alignment(horizontal='center')
     ws['D19'].alignment = Alignment(horizontal='center')
     ws['E19'] = "Stat Bonus:"
@@ -576,7 +577,7 @@ def export_to_excel():
     ws['A22'] = lang4
     ws['C22'] = lang4s
     ws['D22'] = lang4w
-    ws['F22'] = char_dict['essmod']
+    ws['F22'] = char_dict['Essmod']
     ws['I22'] = char_dict['sdtb']
     ws['C22'].alignment = Alignment(horizontal='center')
     ws['D22'].alignment = Alignment(horizontal='center')
@@ -608,8 +609,8 @@ def export_to_excel():
     ws['A23'] = lang5
     ws['C23'] = lang5s
     ws['D23'] = lang5w
-    ws['F23'] = char_dict['mentmod']
-    ws['I23'] = char_dict['poimod']
+    ws['F23'] = char_dict['Mentmod']
+    ws['I23'] = char_dict['Poimod']
     ws['C23'].alignment = Alignment(horizontal='center')
     ws['D23'].alignment = Alignment(horizontal='center')
     ws['F23'].alignment = Alignment(horizontal='center')
@@ -640,8 +641,8 @@ def export_to_excel():
     ws['A24'] = lang6
     ws['C24'] = lang6s
     ws['D24'] = lang6w
-    ws['F24'] = char_dict['chanmod']
-    ws['I24'] = char_dict['dismod']
+    ws['F24'] = char_dict['Chanmod']
+    ws['I24'] = char_dict['Dismod']
     ws['C24'].alignment = Alignment(horizontal='center')
     ws['D24'].alignment = Alignment(horizontal='center')
     ws['F24'].alignment = Alignment(horizontal='center')

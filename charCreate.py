@@ -538,7 +538,7 @@ def create_char():
         char_dict['name']=first_name
     if not os.path.exists(char_path):
         os.makedirs(char_path)
-    
+
     # Write out file
     with open(char_path+"/"+first_name+".json", 'w') as f:
         f.write(json.dumps(char_dict))
@@ -558,7 +558,7 @@ def create_char():
         if i[2] == "NA" or i[3] == "NA":
             char_skill[i[0]]=(i[1],i[5],i[7],i[proID],i[6],0,0,0,0,0,0,0,0,0,0)
         elif i[2] == "":
-            if i[1].startswith("Spell") or i[1].startswith("Transcend"):
+            if i[1].startswith("Spell") or i[1].startswith("Transcend") or i[1].startswith("Power"):
                 if char_dict['mrealm'] == "NA":
                     i[2],i[5] = "NA","NA"
                     char_skill[i[0]]=(i[1],i[5],i[7],i[proID],i[6],0,0,0,0,0,0,0,0,0,0)
@@ -590,3 +590,151 @@ def create_char():
     # Write Character data to file
     with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name'].capitalize()+"_Skills.json", 'w') as f:
         f.write(json.dumps(char_skill))
+
+    char_dict['armorType'] = 1
+    char_dict['armorTypeDesc'] = "Skin"
+    char_dict['at_min_mod'] = 0
+    char_dict['at_max_mod'] = 0
+    char_dict['at_miss_pen'] = 0
+    char_dict['at_qu_pen'] = 0
+    char_dict['shieldType'] = "None"
+    char_dict['shieldMeDB'] = 0
+    char_dict['shieldMiDB'] = 0
+    char_dict['shieldMaDB'] = 0
+    char_dict['helm'] = "None"
+    char_dict['helmMaDB'] = -5
+    char_dict['armGrea'] = "None"
+    char_dict['legGrea'] = "None"
+    char_dict['at_qu_pen'] = 0
+
+    # Set Weapon costs using function
+    weapon_costs(first_name)
+
+def weapon_costs(user_name):
+    # Open the character and skill file, read-only
+    with open(cfgData.char_dir+"/"+user_name+"/"+user_name+"_Skills.json","r") as cf:
+        skill_dict = json.load(cf)
+    with open(char_dir+"/"+user_name+"/"+user_name+".json","r") as cf:
+        char_dict = json.load(cf)
+
+    ## Read in list of professions and weapon costs, read-only
+    with open(cfgData.cfg_dir+"/profession.csv","r") as procsv:
+        plist=procsv.read()
+    for profess in plist.splitlines():
+        rt=profess.split(",")
+        if rt[0] == char_dict['proname']:
+            wclist=[rt[9],rt[10],rt[11],rt[12],rt[13],rt[14]]
+
+    ### Initial display of Weapon Categories and costs for the profession
+    print
+    wlist=['1-HS','1-HC','2-H','Thrown','Missile','Polearm']
+    wc,wmenu=0,1
+    wea_assign={}
+
+    print "List of weapon costs"
+    print 25 * "-"
+    for x1 in wlist:
+        print "{:1}.){:^5}      {:1}.) {:10}".format(wmenu,wclist[wc],wmenu,x1)
+        wc+=1
+        wmenu+=1
+    print
+    print "Select a cost to assign to a weapon category"
+
+    # Weapon Cost selection
+    weapsel=""
+    while weapsel<1 or weapsel>6: # Check that input is in the range
+        try:
+            weapsel = int(raw_input('Select Weapon cost to assign: '))
+        except:
+            print "You must select a number between (1 and 6)"
+
+    # Weapon category selection
+    weapcat=""
+    while weapcat<1 or weapcat>6: # Check that input is in the range
+        try:
+            weapcat = int(raw_input('Select Weapon Category to assign cost: '))
+        except:
+            print "You must select a number between (1 and 6)"
+
+    weapsel-=1 # Subtract to match menu
+    weapcat-=1 # Subtract to match menu
+
+    weacat=wlist[weapcat]
+    wea_assign[weacat]=wclist[weapsel]
+    wlist.pop(weapcat)
+    wclist.pop(weapsel)
+    print
+
+    # Weapon loop
+    wea_loop=True
+    while wea_loop:
+        wc,wmenu=0,1
+        print "List of weapon costs"
+        print 25 * "-"
+        for x1 in wlist:
+            print "{:1}.){:^5}      {:1}.) {:10}".format(wmenu,wclist[wc],wmenu,x1)
+            wc+=1
+            wmenu+=1
+        print
+        print "Select a cost to assign to a weapon category"
+
+        # Weapon Cost selection
+        weapsel = ""
+        while weapsel<1 or weapsel>len(wlist): # Check that input is in the range
+            try:
+                weapsel=int(raw_input('Select weapon cost to assign: '))
+            except:
+                print "You must select a number between (1 and {:1})".format(len(wlist))
+
+        # Weapon category selection
+        weapcat = ""
+        while weapcat<1 or weapcat>len(wclist): # Check that input is in the range
+            try:
+                weapcat=int(raw_input('Select Weapon Category to assign cost: '))
+            except:
+                print "You must select a number between (1 and {:1})".format(len(wclist))
+
+
+        # Weapon select
+        weapsel-=1 # Subtract to match menu
+        weapcat-=1 # Subtract to match menu
+
+        weacat=wlist[weapcat]
+        wea_assign[weacat]=wclist[weapsel]
+
+        # Remove weapon cost and category
+        wlist.pop(weapcat)
+        wclist.pop(weapsel)
+        print
+        if len(wlist)==1:
+            weacat=wlist[0]
+            wea_assign[weacat]=wclist[0]
+            wea_loop=False
+
+    ## Open character skill file
+    skill_dict={}
+    with open(cfgData.char_dir+"/"+user_name+"/"+user_name+"_Skills.json.json","r") as sf:
+        skill_dict = json.load(sf)
+    # Open ds.csv for count of skills
+    with open(cfgData.cfg_dir+"/ds.csv") as f:
+        sl=f.read().splitlines()
+
+    skcnt=1
+    # Loop through skills and update costs of weapons
+    while skcnt <= len(sl):
+        if skill_dict[`skcnt`][2]=='Thrown':
+            skill_dict[`skcnt`][3]=wea_assign['Thrown']
+        if skill_dict[`skcnt`][2]=='1-HS':
+            skill_dict[`skcnt`][3]=wea_assign['1-HS']
+        if skill_dict[`skcnt`][2]=='1-HC':
+            skill_dict[`skcnt`][3]=wea_assign['1-HC']
+        if skill_dict[`skcnt`][2]=='2-H':
+            skill_dict[`skcnt`][3]=wea_assign['2-H']
+        if skill_dict[`skcnt`][2]=='Missile':
+            skill_dict[`skcnt`][3]=wea_assign['Missile']
+        if skill_dict[`skcnt`][2]=='Polearm':
+            skill_dict[`skcnt`][3]=wea_assign['Polearm']
+
+        skcnt+=1
+    with open(cfgData.char_dir+"/"+user_name+"/"+user_name+"_Skills.json.json","w") as sw:
+        sw.write(json.dumps(skill_dict))

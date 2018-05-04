@@ -87,10 +87,8 @@ def create_char_menu():
         char_dict.insert(counter,words)
         counter+=1
 
-st_pot_in,qu_pot_in,pr_pot_in,in_pot_in,em_pot_in=0,0,0,0,0
-co_pot_in,ag_pot_in,sd_pot_in,me_pot_in,re_pot_in=0,0,0,0,0
-
 # Start of the basic character creation, Name, Profession, Race and Stats
+'''
 def create_char():
     user_name=str(raw_input('Please enter your first name: '))
     last_name = str(raw_input('Pleae enter last name: '))
@@ -760,10 +758,13 @@ def create_char():
     with open(char_path+'/'+user_name+'.json', 'w') as f:
         f.write(json.dumps(char_dict))
 
+
     # Set Languages
     lang_set(user_name)
+    
     # Set Weapon costs using function
     weapon_costs(user_name)
+    '''
 
 #################################
 ## End of create_char function ##
@@ -970,6 +971,7 @@ def mbbonus():
             f.write(json.dumps(char_dict))
     # End of Misc Bonus function
 
+'''
 def weapon_costs(user_name):
     # Open the character file, read-only
     with open(cfgData.char_dir+"/"+user_name+"/"+user_name+".json","r") as cf:
@@ -1098,6 +1100,7 @@ def weapon_costs(user_name):
         skcnt+=1
     with open(cfgData.char_dir+"/"+user_name+"/"+user_name+".json","w") as sw:
         sw.write(json.dumps(skill_dict))
+'''
 
 def stat_gain_lookup(diff,roll):
     global change

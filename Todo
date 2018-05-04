@@ -1,6 +1,4 @@
 Design todo
-1.) Get excel skills to work
-  a.) Need to assign weapon costs before hand.
 2.) Get Character sheet skills to work
 3.) Set default armor, helm and shield
 
@@ -61,6 +59,8 @@ Completed
 26.) TWC costs assignment
 27.) TWC grouping
 28.) Add error handling for stats and potential gains
+29.) Get excel skills to work
+  a.) Need to assign weapon costs before hand.
 
 Version 2.0 Work
 1.) Get Archiving Working - Low priority
