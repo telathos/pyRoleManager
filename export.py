@@ -22,10 +22,13 @@ def export_to_excel():
     char_dict={}
     s-=1
     char = p[s]
-    print char
     with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
+    # Open Skill file
+    with open(cfgData.char_dir+"/"+char+"/"+char+"_Skills.json","r") as sf:
+        skill_dict = json.load(sf)
     charXlFile=char_dict['Fullname']+".xlsx"
+    '''
     with open(cfgData.cfg_dir+"/sttchart.csv") as f:
         statchart =f.read().splitlines()
     sc=[]
@@ -55,11 +58,13 @@ def export_to_excel():
             meb,medp,mepp=x1[1],x1[2],x1[3]
         if int(x1[0]) == int(char_dict['re_stat']):
             reb,redp,repp=x1[1],x1[2],x1[3]
-    tdp = float(codp) + float(agdp) + float(sddp) + float(medp) + float(redp)
+        '''
+    tdp = float(char_dict['codp']) + float(char_dict['agdp']) + float(char_dict['sddp']) + float(char_dict['medp']) + float(char_dict['redp'])
 
     ###################
     # Lookup Race Bonus
     ###################
+    '''
     with open(cfgData.cfg_dir+"/race.csv") as r:
         racechart =r.read().splitlines()
     rc=[]
@@ -68,46 +73,48 @@ def export_to_excel():
         rc.append(x.split(","))
 
     # Race Bonus
+
     for x2 in rc:
         if x2[0] == char_dict['race']:
             raceb=x2
-    if char_dict['realm'] == "NULL":
+    '''
+    if char_dict['mrealm'] == "NA":
         prpp,inpp,empp=0.0,0.0,0.0
         tpp=0.0
         realm="Non"
         realm_stat="N/A"
-    if char_dict['realm'] == "PR":
+    if char_dict['mrealm'] == "PR":
         inpp,empp=0.0,0.0
-        tpp=prpp
+        tpp=char_dict['prpp']
         realm="Mentalism"
         realm_stat="PR"
-    if char_dict['realm'] == "IN":
+    if char_dict['mrealm'] == "IN":
         empp,prpp=0.0,0.0
-        tpp=inpp
+        tpp=char_dict['inpp']
         realm="Channeling"
         realm_stat="IN"
-    if char_dict['realm'] == "EM":
+    if char_dict['mrealm'] == "EM":
         inpp,prpp=0.0,0.0
-        tpp=empp
+        tpp=char_dict['empp']
         realm="Essence"
         realm_stat="EM"
-    if char_dict['realm'] == "IP":
+    if char_dict['mrealm'] == "IP":
         empp=0.0
-        tpp=(float(inpp)+float(prpp))/2
+        tpp=(float(char_dict['inpp'])+float(char_dict['prpp']))/2
         realm="Channeling/Mentalism"
         realm_stat="IN/PR"
-    if char_dict['realm'] == "PE":
+    if char_dict['mrealm'] == "PE":
         inpp=0.0
-        tpp=(float(empp)+float(prpp))/2
+        tpp=(float(char_dict['empp'])+float(char_dict['prpp']))/2
         realm="Mentalism/Essence"
         realm_stat="PR/EM"
-    if char_dict['realm'] == "IE":
+    if char_dict['mrealm'] == "IE":
         prpp=0.0
         tpp=(float(inpp)+float(empp))/2
         realm="Channeling/Essence"
         realm_stat="IN/EM"
-    if char_dict['realm'] == "AR":
-        tpp=(float(inpp)+float(prpp)+float(empp))/3
+    if char_dict['mrealm'] == "AR":
+        tpp=(float(char_dict['inpp'])+float(char_dict['prpp'])+float(char_dict['empp']))/3
         realm="Arcane"
         realm_stat="IN/EM/PR"
 
@@ -302,7 +309,7 @@ def export_to_excel():
     ws['A8'] = "Armor Worn:"
     ws['B8'] = char_dict['armorTypeDesc']
     ws['E8'] = "Quickness:"
-    ws['F8'] = int(qub)
+    ws['F8'] = int(char_dict['qub'])
     ws['F8'].alignment = Alignment(horizontal='center')
     ws['H8'] = "Total DB:"
     ws['A8'].font = textFont
@@ -785,11 +792,11 @@ def export_to_excel():
     ws['D36'].alignment = Alignment(horizontal='center')
     ws['D36'].font = textFont
     ws['D36'].border = fullBorder
-    ws['E36'] = int(stb)
+    ws['E36'] = int(char_dict['stb'])
     ws['E36'].alignment = Alignment(horizontal='center')
     ws['E36'].font = textFont
     ws['E36'].border = fullBorder
-    ws['F36'] = int(raceb[1])
+    ws['F36'] = int(char_dict['strb'])
     ws['F36'].alignment = Alignment(horizontal='center')
     ws['F36'].font = textFont
     ws['F36'].border = fullBorder
@@ -819,11 +826,11 @@ def export_to_excel():
     ws['D37'].alignment = Alignment(horizontal='center')
     ws['D37'].font = textFont
     ws['D37'].border = fullBorder
-    ws['E37'] = int(qub)
+    ws['E37'] = int(char_dict['qub'])
     ws['E37'].alignment = Alignment(horizontal='center')
     ws['E37'].font = textFont
     ws['E37'].border = fullBorder
-    ws['F37'] = int(raceb[2])
+    ws['F37'] = int(char_dict['qurb'])
     ws['F37'].alignment = Alignment(horizontal='center')
     ws['F37'].font = textFont
     ws['F37'].border = fullBorder
@@ -853,11 +860,11 @@ def export_to_excel():
     ws['D38'].alignment = Alignment(horizontal='center')
     ws['D38'].font = textFont
     ws['D38'].border = fullBorder
-    ws['E38'] = int(prb)
+    ws['E38'] = int(char_dict['prb'])
     ws['E38'].alignment = Alignment(horizontal='center')
     ws['E38'].font = textFont
     ws['E38'].border = fullBorder
-    ws['F38'] = int(raceb[3])
+    ws['F38'] = int(char_dict['prrb'])
     ws['F38'].alignment = Alignment(horizontal='center')
     ws['F38'].font = textFont
     ws['F38'].border = fullBorder
@@ -867,7 +874,7 @@ def export_to_excel():
     ws['G38'].border = fullBorder
     ws['H38'].font = textFont
     ws['H38'].border = fullBorder
-    ws['I38'] = prpp
+    ws['I38'] = char_dict['prpp']
     ws['I38'].alignment = Alignment(horizontal='center')
     ws['I38'].font = textFont
     ws['I38'].border = fullBorder
@@ -889,11 +896,11 @@ def export_to_excel():
     ws['D39'].alignment = Alignment(horizontal='center')
     ws['D39'].font = textFont
     ws['D39'].border = fullBorder
-    ws['E39'] = int(inb)
+    ws['E39'] = int(char_dict['inb'])
     ws['E39'].alignment = Alignment(horizontal='center')
     ws['E39'].font = textFont
     ws['E39'].border = fullBorder
-    ws['F39'] = int(raceb[4])
+    ws['F39'] = int(char_dict['inrb'])
     ws['F39'].alignment = Alignment(horizontal='center')
     ws['F39'].font = textFont
     ws['F39'].border = fullBorder
@@ -903,7 +910,7 @@ def export_to_excel():
     ws['G39'].border = fullBorder
     ws['H39'].font = textFont
     ws['H39'].border = fullBorder
-    ws['I39'] = inpp
+    ws['I39'] = char_dict['inpp']
     ws['I39'].alignment = Alignment(horizontal='center')
     ws['I39'].font = textFont
     ws['I39'].border = fullBorder
@@ -925,11 +932,11 @@ def export_to_excel():
     ws['D40'].alignment = Alignment(horizontal='center')
     ws['D40'].font = textFont
     ws['D40'].border = fullBorder
-    ws['E40'] = int(emb)
+    ws['E40'] = int(char_dict['emb'])
     ws['E40'].alignment = Alignment(horizontal='center')
     ws['E40'].font = textFont
     ws['E40'].border = fullBorder
-    ws['F40'] = int(raceb[5])
+    ws['F40'] = int(char_dict['emrb'])
     ws['F40'].alignment = Alignment(horizontal='center')
     ws['F40'].font = textFont
     ws['F40'].border = fullBorder
@@ -939,7 +946,7 @@ def export_to_excel():
     ws['G40'].border = fullBorder
     ws['H40'].font = textFont
     ws['H40'].border = fullBorder
-    ws['I40'] = empp
+    ws['I40'] = char_dict['empp']
     ws['I40'].alignment = Alignment(horizontal='center')
     ws['I40'].font = textFont
     ws['I40'].border = fullBorder
@@ -961,11 +968,11 @@ def export_to_excel():
     ws['D41'].alignment = Alignment(horizontal='center')
     ws['D41'].font = textFont
     ws['D41'].border = fullBorder
-    ws['E41'] = int(cob)
+    ws['E41'] = int(char_dict['cob'])
     ws['E41'].alignment = Alignment(horizontal='center')
     ws['E41'].font = textFont
     ws['E41'].border = fullBorder
-    ws['F41'] = int(raceb[6])
+    ws['F41'] = int(char_dict['corb'])
     ws['F41'].alignment = Alignment(horizontal='center')
     ws['F41'].font = textFont
     ws['F41'].border = fullBorder
@@ -973,7 +980,7 @@ def export_to_excel():
     ws['G41'].alignment = Alignment(horizontal='center')
     ws['G41'].font = textFont
     ws['G41'].border = fullBorder
-    ws['H41'] = float(codp)
+    ws['H41'] = float(char_dict['codp'])
     ws['H41'].alignment = Alignment(horizontal='center')
     ws['H41'].font = textFont
     ws['H41'].border = fullBorder
@@ -997,11 +1004,11 @@ def export_to_excel():
     ws['D42'].alignment = Alignment(horizontal='center')
     ws['D42'].font = textFont
     ws['D42'].border = fullBorder
-    ws['E42'] = int(agb)
+    ws['E42'] = int(char_dict['agb'])
     ws['E42'].alignment = Alignment(horizontal='center')
     ws['E42'].font = textFont
     ws['E42'].border = fullBorder
-    ws['F42'] = int(raceb[7])
+    ws['F42'] = int(char_dict['agrb'])
     ws['F42'].alignment = Alignment(horizontal='center')
     ws['F42'].font = textFont
     ws['F42'].border = fullBorder
@@ -1009,7 +1016,7 @@ def export_to_excel():
     ws['G42'].alignment = Alignment(horizontal='center')
     ws['G42'].font = textFont
     ws['G42'].border = fullBorder
-    ws['H42'] = float(agdp)
+    ws['H42'] = float(char_dict['agdp'])
     ws['H42'].alignment = Alignment(horizontal='center')
     ws['H42'].font = textFont
     ws['H42'].border = fullBorder
@@ -1033,11 +1040,11 @@ def export_to_excel():
     ws['D43'].alignment = Alignment(horizontal='center')
     ws['D43'].font = textFont
     ws['D43'].border = fullBorder
-    ws['E43'] = int(sdb)
+    ws['E43'] = int(char_dict['sdb'])
     ws['E43'].alignment = Alignment(horizontal='center')
     ws['E43'].font = textFont
     ws['E43'].border = fullBorder
-    ws['F43'] = int(raceb[8])
+    ws['F43'] = int(char_dict['sdrb'])
     ws['F43'].alignment = Alignment(horizontal='center')
     ws['F43'].font = textFont
     ws['F43'].border = fullBorder
@@ -1045,7 +1052,7 @@ def export_to_excel():
     ws['G43'].alignment = Alignment(horizontal='center')
     ws['G43'].font = textFont
     ws['G43'].border = fullBorder
-    ws['H43'] = float(sddp)
+    ws['H43'] = float(char_dict['sddp'])
     ws['H43'].alignment = Alignment(horizontal='center')
     ws['H43'].font = textFont
     ws['H43'].border = fullBorder
@@ -1069,11 +1076,11 @@ def export_to_excel():
     ws['D44'].alignment = Alignment(horizontal='center')
     ws['D44'].font = textFont
     ws['D44'].border = fullBorder
-    ws['E44'] = int(meb)
+    ws['E44'] = int(char_dict['meb'])
     ws['E44'].alignment = Alignment(horizontal='center')
     ws['E44'].font = textFont
     ws['E44'].border = fullBorder
-    ws['F44'] = int(raceb[9])
+    ws['F44'] = int(char_dict['merb'])
     ws['F44'].alignment = Alignment(horizontal='center')
     ws['F44'].font = textFont
     ws['F44'].border = fullBorder
@@ -1081,7 +1088,7 @@ def export_to_excel():
     ws['G44'].alignment = Alignment(horizontal='center')
     ws['G44'].font = textFont
     ws['G44'].border = fullBorder
-    ws['H44'] = float(medp)
+    ws['H44'] = float(char_dict['medp'])
     ws['H44'].alignment = Alignment(horizontal='center')
     ws['H44'].font = textFont
     ws['H44'].border = fullBorder
@@ -1105,11 +1112,11 @@ def export_to_excel():
     ws['D45'].alignment = Alignment(horizontal='center')
     ws['D45'].font = textFont
     ws['D45'].border = fullBorder
-    ws['E45'] = int(reb)
+    ws['E45'] = int(char_dict['reb'])
     ws['E45'].alignment = Alignment(horizontal='center')
     ws['E45'].font = textFont
     ws['E45'].border = fullBorder
-    ws['F45'] = int(raceb[10])
+    ws['F45'] = int(char_dict['rerb'])
     ws['F45'].alignment = Alignment(horizontal='center')
     ws['F45'].font = textFont
     ws['F45'].border = fullBorder
@@ -1117,7 +1124,7 @@ def export_to_excel():
     ws['G45'].alignment = Alignment(horizontal='center')
     ws['G45'].font = textFont
     ws['G45'].border = fullBorder
-    ws['H45'] = float(redp)
+    ws['H45'] = float(char_dict['redp'])
     ws['H45'].alignment = Alignment(horizontal='center')
     ws['H45'].font = textFont
     ws['H45'].border = fullBorder
@@ -1236,11 +1243,11 @@ def export_to_excel():
     ws1.print_title_cols = 'A:M'
 
     skill_rank_total = 0
-    for words in char_dict:
+    for words in skill_dict:
         if words.isdigit():
-            if char_dict[words][5] > 0 or char_dict[words][6]>0 or char_dict[words][7]>0 or char_dict[words][8]>0:
-                skill_rank_total = char_dict[words][5] + char_dict[words][6] + char_dict[words][7]+ char_dict[words][8]
-                skill.append([char_dict[words][0],char_dict[words][3],char_dict[words][1],char_dict[words][5],char_dict[words][6],char_dict[words][7],char_dict[words][8],skill_rank_total,char_dict[words][10],char_dict[words][11],char_dict[words][13],char_dict[words][12],char_dict[words][14]])
+            if skill_dict[words][5] > 0 or skill_dict[words][6]>0 or skill_dict[words][7]>0 or skill_dict[words][8]>0:
+                skill_rank_total = skill_dict[words][5] + skill_dict[words][6] + skill_dict[words][7]+ skill_dict[words][8]
+                skill.append([skill_dict[words][0],skill_dict[words][3],skill_dict[words][1],skill_dict[words][5],skill_dict[words][6],skill_dict[words][7],skill_dict[words][8],skill_rank_total,skill_dict[words][10],skill_dict[words][11],skill_dict[words][13],skill_dict[words][12],skill_dict[words][14]])
                 skill.sort()
 
     for row in skill:

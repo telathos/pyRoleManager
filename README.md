@@ -1,5 +1,5 @@
 # pyRoleManager
-A Rolemaster Character Manager written in Python
+A Rolemaster Character Manager written in Python 2.7
 
 # What is pyRoleManager
 pyRoleManager will manage your Rolemaster 2nd edition or Rolemaster Classic characters.
