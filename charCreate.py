@@ -454,6 +454,23 @@ def create_char():
     char_dict['metb']=(int(char_dict['meb'])+int(char_dict['merb'])+int(char_dict['memb']))
     char_dict['retb']=(int(char_dict['reb'])+int(char_dict['rerb'])+int(char_dict['remb']))
 
+    # Set Armor defaults
+    char_dict['armorType'] = 1
+    char_dict['armorTypeDesc'] = "Skin"
+    char_dict['at_min_mod'] = 0
+    char_dict['at_max_mod'] = 0
+    char_dict['at_miss_pen'] = 0
+    char_dict['at_qu_pen'] = 0
+    char_dict['shieldType'] = "None"
+    char_dict['shieldMeDB'] = 0
+    char_dict['shieldMiDB'] = 0
+    char_dict['shieldMaDB'] = 0
+    char_dict['helm'] = "None"
+    char_dict['helmMaDB'] = -5
+    char_dict['armGrea'] = "None"
+    char_dict['legGrea'] = "None"
+    char_dict['at_qu_pen'] = 0
+
     # Development Points
     tdp=(float(char_dict['codp'])+float(char_dict['agdp'])+float(char_dict['sddp'])+float(char_dict['medp'])+float(char_dict['redp']))*float(cfgData.dp_multipler)
     char_dict['dp']=round(tdp,1)
@@ -591,22 +608,6 @@ def create_char():
     with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name'].capitalize()+"_Skills.json", 'w') as f:
         f.write(json.dumps(char_skill))
 
-    char_dict['armorType'] = 1
-    char_dict['armorTypeDesc'] = "Skin"
-    char_dict['at_min_mod'] = 0
-    char_dict['at_max_mod'] = 0
-    char_dict['at_miss_pen'] = 0
-    char_dict['at_qu_pen'] = 0
-    char_dict['shieldType'] = "None"
-    char_dict['shieldMeDB'] = 0
-    char_dict['shieldMiDB'] = 0
-    char_dict['shieldMaDB'] = 0
-    char_dict['helm'] = "None"
-    char_dict['helmMaDB'] = -5
-    char_dict['armGrea'] = "None"
-    char_dict['legGrea'] = "None"
-    char_dict['at_qu_pen'] = 0
-
     # Set Weapon costs using function
     weapon_costs(first_name)
 
@@ -614,15 +615,16 @@ def weapon_costs(user_name):
     # Open the character and skill file, read-only
     with open(cfgData.char_dir+"/"+user_name+"/"+user_name+"_Skills.json","r") as cf:
         skill_dict = json.load(cf)
-    with open(char_dir+"/"+user_name+"/"+user_name+".json","r") as cf:
+    with open(cfgData.char_dir+"/"+user_name+"/"+user_name+".json","r") as cf:
         char_dict = json.load(cf)
 
     ## Read in list of professions and weapon costs, read-only
     with open(cfgData.cfg_dir+"/profession.csv","r") as procsv:
         plist=procsv.read()
+
     for profess in plist.splitlines():
         rt=profess.split(",")
-        if rt[0] == char_dict['proname']:
+        if rt[1] == char_dict['proname']:
             wclist=[rt[9],rt[10],rt[11],rt[12],rt[13],rt[14]]
 
     ### Initial display of Weapon Categories and costs for the profession
@@ -713,7 +715,7 @@ def weapon_costs(user_name):
 
     ## Open character skill file
     skill_dict={}
-    with open(cfgData.char_dir+"/"+user_name+"/"+user_name+"_Skills.json.json","r") as sf:
+    with open(cfgData.char_dir+"/"+user_name+"/"+user_name+"_Skills.json","r") as sf:
         skill_dict = json.load(sf)
     # Open ds.csv for count of skills
     with open(cfgData.cfg_dir+"/ds.csv") as f:
@@ -721,7 +723,7 @@ def weapon_costs(user_name):
 
     skcnt=1
     # Loop through skills and update costs of weapons
-    while skcnt <= len(sl):
+    while skcnt <= len(sl)-6:
         if skill_dict[`skcnt`][2]=='Thrown':
             skill_dict[`skcnt`][3]=wea_assign['Thrown']
         if skill_dict[`skcnt`][2]=='1-HS':
@@ -736,5 +738,22 @@ def weapon_costs(user_name):
             skill_dict[`skcnt`][3]=wea_assign['Polearm']
 
         skcnt+=1
-    with open(cfgData.char_dir+"/"+user_name+"/"+user_name+"_Skills.json.json","w") as sw:
+    with open(cfgData.char_dir+"/"+user_name+"/"+user_name+"_Skills.json","w") as sw:
         sw.write(json.dumps(skill_dict))
+
+    # Open character's skill file to update Two-weapon Combos
+    with open(cfgData.char_dir+"/"+user_name+"/"+user_name+"_Skills.json","r") as sl:
+        skill_dict = json.load(sl)
+
+    cnt=1
+    while cnt <= len(skill_dict):
+        if skill_dict[`cnt`][0].startswith("TWC:") and '/' in skill_dict[`cnt`][3]:
+            cost=skill_dict[`cnt`][3]
+            ecost=cost.split("/")
+            twc=str(int(cost[0])*2)+"/"+str(int(cost[2])*2)
+            i=cnt-1
+            skill_dict[`cnt`][3]=twc
+        cnt+=1
+
+    with open(cfgData.char_dir+"/"+char_dict['name']+"/"+char_dict['name'].capitalize()+"_Skills.json", 'w') as f:
+        f.write(json.dumps(skill_dict))

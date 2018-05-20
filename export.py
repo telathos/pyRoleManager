@@ -27,7 +27,7 @@ def export_to_excel():
     # Open Skill file
     with open(cfgData.char_dir+"/"+char+"/"+char+"_Skills.json","r") as sf:
         skill_dict = json.load(sf)
-    charXlFile=char_dict['Fullname']+".xlsx"
+    charXlFile=char_dict['FullName']+".xlsx"
     '''
     with open(cfgData.cfg_dir+"/sttchart.csv") as f:
         statchart =f.read().splitlines()
@@ -207,7 +207,7 @@ def export_to_excel():
 
     ws['A2'] = "Name:"
     ws.merge_cells('B2:C2')
-    ws['B2'] = char_dict['Fullname'].title()
+    ws['B2'] = char_dict['FullName'].title()
     ws['E2'] = "Level:"
     ws['G2'] = "Race:"
     ws['F2'] = char_dict['lvl']
@@ -1292,7 +1292,7 @@ def export_allskills_to_excel():
     char = p[s]
     with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
-    charXlFile2=char_dict['Fullname']+"_AllSkills.xlsx"
+    charXlFile2=char_dict['FullName']+"_AllSkills.xlsx"
 
     print ""
     print "Creating excel file....."
@@ -1440,7 +1440,7 @@ def export_allskills_to_excel():
         char_dict = json.load(cf)
     with open(cfgData.char_dir+"/"+char+"/"+char+"_Skills.json","r") as sf:
         char_skill = json.load(sf)
-    charXlFile2=char_dict['Fullname']+"_AllSkills.xlsx"
+    charXlFile2=char_dict['FullName']+"_AllSkills.xlsx"
 
     skill_rank_total = 0
     for words in char_skill:
