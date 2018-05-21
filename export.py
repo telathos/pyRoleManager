@@ -28,57 +28,14 @@ def export_to_excel():
     with open(cfgData.char_dir+"/"+char+"/"+char+"_Skills.json","r") as sf:
         skill_dict = json.load(sf)
     charXlFile=char_dict['FullName']+".xlsx"
-    '''
-    with open(cfgData.cfg_dir+"/sttchart.csv") as f:
-        statchart =f.read().splitlines()
-    sc=[]
 
-    for x in statchart:
-        sc.append(x.split(","))
-
-    # Loop through statistics to pull bonuses
-    for x1 in sc:
-        if int(x1[0]) == int(char_dict['st_stat']):
-            stb,stdp,stpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['qu_stat']):
-            qub,qudp,qupp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['pr_stat']):
-            prb,prdp,prpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['in_stat']):
-            inb,indp,inpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['em_stat']):
-            emb,emdp,empp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['co_stat']):
-            cob,codp,copp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['ag_stat']):
-            agb,agdp,agpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['sd_stat']):
-            sdb,sddp,sdpp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['me_stat']):
-            meb,medp,mepp=x1[1],x1[2],x1[3]
-        if int(x1[0]) == int(char_dict['re_stat']):
-            reb,redp,repp=x1[1],x1[2],x1[3]
-        '''
     tdp = float(char_dict['codp']) + float(char_dict['agdp']) + float(char_dict['sddp']) + float(char_dict['medp']) + float(char_dict['redp'])
     tdp = tdp * cfgData.dp_multipler
-    
+
     ###################
     # Lookup Race Bonus
     ###################
-    '''
-    with open(cfgData.cfg_dir+"/race.csv") as r:
-        racechart =r.read().splitlines()
-    rc=[]
-
-    for x in racechart:
-        rc.append(x.split(","))
-
-    # Race Bonus
-
-    for x2 in rc:
-        if x2[0] == char_dict['race']:
-            raceb=x2
-    '''
+    
     if char_dict['mrealm'] == "NA":
         prpp,inpp,empp=0.0,0.0,0.0
         tpp=0.0
