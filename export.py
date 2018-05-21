@@ -60,7 +60,8 @@ def export_to_excel():
             reb,redp,repp=x1[1],x1[2],x1[3]
         '''
     tdp = float(char_dict['codp']) + float(char_dict['agdp']) + float(char_dict['sddp']) + float(char_dict['medp']) + float(char_dict['redp'])
-
+    tdp = tdp * cfgData.dp_multipler
+    
     ###################
     # Lookup Race Bonus
     ###################
@@ -206,12 +207,13 @@ def export_to_excel():
     ws['I1'].border = tbrBorder
 
     ws['A2'] = "Name:"
-    ws.merge_cells('B2:C2')
+    ws.merge_cells('B2:D2')
     ws['B2'] = char_dict['FullName'].title()
     ws['E2'] = "Level:"
     ws['G2'] = "Race:"
     ws['F2'] = char_dict['lvl']
     ws['H2'] = char_dict['race']
+    ws['E2'].alignment = Alignment(horizontal='right')
     ws['F2'].alignment = Alignment(horizontal='left')
     ws['A2'].border = lBorder
     ws['I2'].border = rBorder
@@ -248,7 +250,7 @@ def export_to_excel():
     ws['D4'] = char_dict['age']
     ws['F4'] = "Base Rate:"
     ws['C4'].alignment = Alignment(horizontal='right')
-    ws['D4'].alignment = Alignment(horizontal='center')
+    ws['D4'].alignment = Alignment(horizontal='left')
     ws['F4'].alignment = Alignment(horizontal='right')
     ws['A4'].border = lBorder
     ws['I4'].border = rBorder
@@ -265,7 +267,7 @@ def export_to_excel():
     ws['B5'] = char_dict['height']
     ws['D5'] = char_dict['weight']
     ws['C5'].alignment = Alignment(horizontal='right')
-    ws['D5'].alignment = Alignment(horizontal='center')
+    ws['D5'].alignment = Alignment(horizontal='left')
     ws['A5'].border = lBorder
     ws['I5'].border = rBorder
     ws['A5'].font = textFont
@@ -279,8 +281,11 @@ def export_to_excel():
     ws['B6'] = char_dict['hair']
     ws['C6'] = "Eyes:"
     ws['D6'] = char_dict['eye']
+    ws['F6'] = "Appearance:"
+    ws['G6'] = "App num"
     ws['C6'].alignment = Alignment(horizontal='right')
-    ws['D6'].alignment = Alignment(horizontal='center')
+    ws['D6'].alignment = Alignment(horizontal='left')
+    ws['F6'].alignment = Alignment(horizontal='right')
     ws['A6'].border = lBorder
     ws['I6'].border = rBorder
     ws['A6'].font = textFont
