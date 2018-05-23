@@ -1,6 +1,5 @@
 Design todo
-1.)
-2.) Get Character sheet skills to work
+1.) Get Character sheet skills to work
   a.) Add -25 with no ranks
   b.) Get level bonus working
   c.) Get skill bonus calculation working
@@ -62,14 +61,15 @@ Completed
 29.) Get excel skills to work
   a.) Need to assign weapon costs before hand.
 30.) Set default armor, helm and shield
+31.) Recoded Misc Bonus function
+32.) Import characters code working
 
 Version 2.0 Work
 1.) Get Archiving Working - Low priority
 2.) Get Character Deletion Working - Low priority
 3.) Move more code to modules - Low priority
   a.) Maybe move create_char to module
-4.) Import characters
-5.) Add/increase languages and ranks
-6.) Add a back to the Show Characters
-8.) Upgrade code to python 3.x
-9.) graphical or web based version
+4.) Add/increase languages and ranks
+5.) Add a back to the Show Characters
+6.) Upgrade code to python 3.x
+8.) graphical or web based version

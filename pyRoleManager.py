@@ -173,26 +173,20 @@ def lang_set(char):
 # End of lang_set
 #################
 
-mb=""
-setstmb,setqumb,setprmb,setinmb,setemmb=0,0,0,0,0
-setcomb,setagmb,setsdmb,setmemb,setremb=0,0,0,0,0
-def mbset():
-    global mb
-    mb=int(raw_input("Bonus: "))
-    return mb
+def mbset(stat):
+    x=1
+    while x==1:
+        try:
+            mbi=int(raw_input("Bonus: "))
+            if mbi<0 or mbi > 30:
+                print "Enter a number between 1 and 30"
+            else:
+                x=0
+        except:
+            print "Enter a number"
+    return mbi
 
 def mbbonus():
-    global setstmb
-    global setcomb
-    global setagmb
-    global setqumb
-    global setprmb
-    global setinmb
-    global setemmb
-    global setsdmb
-    global setmemb
-    global setremb
-
     p=charMenu.char_menu()
     menu_len=len(p)
     while True:
@@ -207,82 +201,53 @@ def mbbonus():
     char=p[s]
     with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
-        setstmb=char_dict['stmb']
-        setqumb=char_dict['qumb']
-        setprmb=char_dict['prmb']
-        setinmb=char_dict['inmb']
-        setemmb=char_dict['emmb']
-        setcomb=char_dict['comb']
-        setagmb=char_dict['agmb']
-        setsdmb=char_dict['sdmb']
-        setmemb=char_dict['memb']
-        setremb=char_dict['remb']
+
+    stat_name=[
+        ["Strength", "stmb"],
+        ["Quickness", "qumb"],
+        ["Presence", "prmb"],
+        ["Intuition", "inmb"],
+        ["Empathy", "emmb"],
+        ["Constitution", "comb"],
+        ["Agility", "agmb"], ["Self Discipline", "sdmb"],
+        ["Memory", "memb"], ["Reasoning", "remb"]
+    ]
+    mb=""
+
     mbloop=True
     while mbloop:
-        print 58 * "-"
-        print "| 1.) Strength  ({:^4})        6.) Constitution    ({:^4}) |".format(setstmb,setcomb)
-        print "| 2.) Quickness ({:^4})        7.) Agility         ({:^4}) |".format(setqumb,setagmb)
-        print "| 3.) Presence  ({:^4})        8.) Self Discipline ({:^4}) |".format(setprmb,setsdmb)
-        print "| 4.) Intuition ({:^4})        9.) Memory          ({:^4}) |".format(setinmb,setmemb)
-        print "| 5.) Empathy   ({:^4})       10.) Reasoning       ({:^4}) |".format(setemmb,setremb)
-        print "|                                                        |"
-        print "| X.) Exit                                               |"
-        print 58 * "-"
-        print
-        mbch=""
-        while mbch<1 or mbch>10:
-            try:
-                mbch=raw_input('Select Stat to add a bonus: ')
-            except:
-                print "Enter a number between 1 and 10.."
-        if mbch == "1":
-            mbset()
-            setstmb=mb
-        if mbch == "2":
-            mbset()
-            setqumb=mb
-        if mbch == "3":
-            mbset()
-            setprmb=mb
-        if mbch == "4":
-            mbset()
-            setinmb=mb
-        if mbch == "5":
-            mbset()
-            setemmb=mb
-        if mbch == "6":
-            mbset()
-            setcomb=mb
-        if mbch == "7":
-            mbset()
-            setagmb=mb
-        if mbch == "8":
-            mbset()
-            setsdmb=mb
-        if mbch == "9":
-            mbset()
-            setmemb=mb
-        if mbch == "10":
-            mbset()
-            setremb=mb
-        if mbch.upper() == "X":
-            print "Exiting.."
-            print
-            mbloop=False
+        cnt,menu=1,0
+        print "+", 47 * "=", "+"
 
-        user_name=char_dict['name']
-        # Physical stats
-        char_dict['stmb']=setstmb
-        char_dict['qumb']=setqumb
-        char_dict['prmb']=setprmb
-        char_dict['inmb']=setinmb
-        char_dict['emmb']=setemmb
-        # Development stats
-        char_dict['comb']=setcomb
-        char_dict['agmb']=setagmb
-        char_dict['sdmb']=setsdmb
-        char_dict['memb']=setmemb
-        char_dict['remb']=setremb
+        while cnt <= len(stat_name):
+            print "|  {:>2}.) {:9}({:2})   {:>2}.) {:16}({:2}) |".format(cnt,stat_name[menu][0],char_dict[stat_name[menu][1]],cnt+1,stat_name[menu+1][0],char_dict[stat_name[menu+1][1]])
+            cnt+=2
+            menu+=2
+        print "|", 47 * " ","|"
+        print "|  {:>2}.) {:42}|".format("X","Exit")
+        print "+", 47 * "=", "+"
+        print ""
+        le=1
+        while le==1:
+            try:
+                mbch=raw_input("Select a stat to increase: ")
+                if re.match("^[1-9xX]$",mbch):
+                    le=0
+                elif re.match("^10$",mbch):
+                    le=0
+                else:
+                    print "Enter a number between 1 and 10!"
+            except:
+                print "Enter a number or X to exit"
+
+            # Run Misc Bonus function
+            if mbch.upper() == "X":
+                le=0
+                mbloop=False
+            else:
+                j=int(mbch)
+                if 0<j<11:
+                    char_dict[stat_name[int(mbch)-1][1]]=mbset(stat_name[int(mbch)-1][1])
 
         # Open character file to write out data
         with open(cfgData.char_dir+"/"+char+"/"+char+".json", 'w') as f:
