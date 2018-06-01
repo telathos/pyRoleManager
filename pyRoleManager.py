@@ -1,52 +1,18 @@
 ## Text menu in Python
 from platform import system as system_name # Returns the system/OS name
 from os import system as system_call       # Execute a shell command
-#from decimal import Decimal
-#import os
-#import json
-#import sys
-#import re
 import cfgData
 import charMenu
-#import rl
 import charData
-#import exp
 import export
-#import level
 import charCreate
 import charImport
 
-'''
-# Update character records if a new skill is added
-#charData.new_skill_check()
-
-# Setup character data list
-char_dict={}
-
-# Read Professions into List
-plist = {}
-pi=1
-with open(cfgData.cfg_dir+"/pro.csv") as pf:
-    for pline in pf:
-        plist[pi]=pline.rstrip('\n').split(",")
-        pi+=1
-
-def atoi(text):
-    return int(text) if text.isdigit() else text
-
-def natural_keys(text):
-    '''
-    alist.sort(key=natural_keys) sorts in human order
-    http://nedbatchelder.com/blog/200712/human_sorting.html
-    (See Toothy's implementation in the comments)
-    '''
-    return [ atoi(c) for c in re.split('(\d+)', text) ]
-'''
-
-def print_menu():       
-    print 30 * "-" , "MENU" , 30 * "-"
-    print "1. Create New Character"
-    print "2. Show Character"
+def print_menu():
+    print 30 * "=" , "PyRoleManager" , 30 * "="
+    print 30 * "=" , "  Main Menu  " , 30 * "="
+    print "1. New Characters"
+    print "2. Modify Characters"
     print "3. Add Misc Stat Bonus"
     print "4. Add Misc Skill Bonus"
     print "5. Stat Gain Roll"
@@ -62,10 +28,83 @@ def print_menu():
     print "X. Exit"
     print 67 * "-"
 
+def print_smenu1():
+    print 30 * "=", "New Character" ,30 * "="
+    print "1. Create new character"
+    print "2. Import Character"
+    print "3. Export Character Sheet"
+    print "4. Export all skills"
+    print "5. Add Misc Stat bonus"
+    print "6. Add Misc Skill bonus"
+    print "7. Assign Armor/Shield to character"
+    print ""
+    print "X. Exit"
+
+def print_smenu2():
+    print 30 * "=", "Character modifications", 30 * "="
+    print
+    print "1. Add experience to character"
+    print "2. Stat gain"
+    print "3. Export Character Sheet"
+    print "5. Add Misc Stat bonus"
+    print "6. Add Misc Skill bonus"
+    print "7. Assign Armor/Shield to character"
+    print ""
+    print "X. Exit"
 
 # Clear the clear_screen
 cfgData.clear_screen()
 
+#####################
+###   Sub Menu    ###
+#####################
+def sloop1():
+    smloop=True
+    while smloop:
+        print_smenu1()
+        choice = raw_input("Enter you choice: ")
+        print
+        if choice=="1":
+            cfgData.clear_screen()
+            charCreate.create_char()
+        if choice=="2":
+            cfgData.clear_screen()
+            charImport.char_import()
+        if choice=="3":
+            cfgData.clear_screen()
+            export.export_to_excel()
+            cfgData.clear_screen()
+        if choice=="4":
+            cfgData.clear_screen()
+            export.export_allskills_to_excel()
+            cfgData.clear_screen()
+        if choice=="5":
+            cfgData.clear_screen()
+            charData.mbbonus()
+            cfgData.clear_screen()
+        elif choice.upper()=="X":
+            print "Exiting program"
+            smloop=False
+        else:
+            raw_input("Wrong option selection. Enter any key to try again..")
+
+def sloop2():
+    smloop=True
+    while smloop:
+        print_smenu2()
+        choice = raw_input("Enter you choice: ")
+        print
+        if choice=="1":
+            print "1-S"
+        if choice=="3":
+            cfgData.clear_screen()
+            export.export_to_excel()
+            cfgData.clear_screen()
+        elif choice.upper()=="X":
+            print "Exiting program"
+            smloop=False
+        else:
+            raw_input("Wrong option selection. Enter any key to try again..")
 
 ###########################
 ###   Start Menu Loop   ###
@@ -79,10 +118,10 @@ while loop:          ## While loop which will keep going until loop = False
     print ""
     if choice=="1":
         cfgData.clear_screen()
-        charCreate.create_char()
+        sloop1()
     elif choice=="2":
         cfgData.clear_screen()
-        charData.show_char()
+        sloop2()
     elif choice=="3":
         cfgData.clear_screen()
         mbbonus()
