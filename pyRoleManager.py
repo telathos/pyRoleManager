@@ -7,14 +7,13 @@ import charData
 import export
 import charCreate
 import charImport
+import skill
 
 def print_menu():
     print 30 * "=" , "PyRoleManager" , 30 * "="
     print 30 * "=" , "  Main Menu  " , 30 * "="
     print "1. New Characters"
     print "2. Modify Characters"
-    print "3. Add Misc Stat Bonus"
-    print "4. Add Misc Skill Bonus"
     print "5. Stat Gain Roll"
     print "6. Assign Armor Type to Character"
     print
@@ -44,8 +43,9 @@ def print_smenu2():
     print 30 * "=", "Character modifications", 30 * "="
     print
     print "1. Add experience to character"
-    print "2. Stat gain"
-    print "3. Export Character Sheet"
+    print "2. Add/Increase skills"
+    print "3. Stat gain"
+    print "4. Export Character Sheet"
     print "5. Add Misc Stat bonus"
     print "6. Add Misc Skill bonus"
     print "7. Assign Armor/Shield to character"
@@ -95,8 +95,11 @@ def sloop2():
         choice = raw_input("Enter you choice: ")
         print
         if choice=="1":
-            print "1-S"
-        if choice=="3":
+            print "1-S2"
+        if choice=="2":
+            print "Add skills"
+            skill.add_skill()
+        if choice=="4":
             cfgData.clear_screen()
             export.export_to_excel()
             cfgData.clear_screen()
@@ -104,7 +107,7 @@ def sloop2():
             print "Exiting program"
             smloop=False
         else:
-            raw_input("Wrong option selection. Enter any key to try again..")
+            raw_input("Wrong option selection2. Enter any key to try again..")
 
 ###########################
 ###   Start Menu Loop   ###
@@ -170,6 +173,22 @@ while loop:          ## While loop which will keep going until loop = False
     elif choice=="13":
         cfgData.clear_screen()
         charImport.char_import()
+    elif choice=="14":
+        p=charMenu.char_menu()
+        menu_len=len(p)
+        while True:
+            s=int(raw_input("Select Character: "))
+            if s >=1 and s<=menu_len:
+                break
+            else:
+                print "Invalid Selection! Select a character from the list"
+
+        # Open the file
+        char_dict={}
+        s-=1
+        char = p[s]
+        skill.import_skill(char)
+        cfgData.clear_screen()
     elif choice=="x":
         print "Exiting Program"
         loop=False
