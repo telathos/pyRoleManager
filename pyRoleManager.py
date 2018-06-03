@@ -44,11 +44,12 @@ def print_smenu2():
     print
     print "1. Add experience to character"
     print "2. Add/Increase skills"
-    print "3. Stat gain"
-    print "4. Export Character Sheet"
-    print "5. Add Misc Stat bonus"
-    print "6. Add Misc Skill bonus"
-    print "7. Assign Armor/Shield to character"
+    print "3. Add skills for imported character"
+    print "4. Stat gain"
+    print "5. Export Character Sheet"
+    print "6. Add Misc Stat bonus"
+    print "7. Add Misc Skill bonus"
+    print "8. Assign Armor/Shield to character"
     print ""
     print "X. Exit"
 
@@ -71,14 +72,30 @@ def sloop1():
             cfgData.clear_screen()
             charImport.char_import()
         if choice=="3":
-            cfgData.clear_screen()
-            export.export_to_excel()
+            p=charMenu.char_menu()
+            menu_len=len(p)
+            while True:
+                s=int(raw_input("Select Character: "))
+                if s >=1 and s<=menu_len:
+                    break
+                else:
+                    print "Invalid Selection! Select a character from the list"
+
+            # Open the file
+            char_dict={}
+            s-=1
+            char = p[s]
+            skill.import_skill(char)
             cfgData.clear_screen()
         if choice=="4":
             cfgData.clear_screen()
-            export.export_allskills_to_excel()
+            export.export_to_excel()
             cfgData.clear_screen()
         if choice=="5":
+            cfgData.clear_screen()
+            export.export_allskills_to_excel()
+            cfgData.clear_screen()
+        if choice=="6":
             cfgData.clear_screen()
             charData.mbbonus()
             cfgData.clear_screen()
