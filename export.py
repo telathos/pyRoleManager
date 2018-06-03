@@ -33,9 +33,9 @@ def export_to_excel():
     tdp = tdp * cfgData.dp_multipler
 
     ###################
-    # Lookup Race Bonus
+    # Set Power Points
     ###################
-    
+
     if char_dict['mrealm'] == "NA":
         prpp,inpp,empp=0.0,0.0,0.0
         tpp=0.0
@@ -95,8 +95,9 @@ def export_to_excel():
         current_mod = int(char_dict['at_max_mod']) + int(char_dict['100'][14])
         if current_mod > int(char_dict['at_min_mod']):
             current_mod = char_dict['at_min_mod']
-    #print current_mod,":current_mod"
 
+    # Update skill bonuses
+    
     ###### Create Excel file ######
     wb = Workbook()
     wb.create_sheet(index=1, title='Skills')
