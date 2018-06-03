@@ -70,6 +70,9 @@ def import_skill(char):
                 print "*",79 * "-","*"
             else:
                 print "Not in list"
+            with open(cfgData.char_dir+"/"+char+"/"+char+"_Skills.json","w") as f:
+                f.write(json.dumps(skill_dict))
+
 
 def skill_add(char):
     with open(cfgData.char_dir+"/"+char+"/"+char+".json") as cf:
