@@ -5,7 +5,7 @@ from openpyxl.worksheet.page import PageMargins
 import charMenu
 import cfgData
 import json
-
+from decimal import Decimal
 charXlPath=cfgData.char_dir
 
 def export_to_excel():
@@ -97,7 +97,7 @@ def export_to_excel():
             current_mod = char_dict['at_min_mod']
 
     # Update skill bonuses
-    
+
     ###### Create Excel file ######
     wb = Workbook()
     wb.create_sheet(index=1, title='Skills')
@@ -1210,7 +1210,9 @@ def export_to_excel():
         if words.isdigit():
             if skill_dict[words][5] > 0 or skill_dict[words][6]>0 or skill_dict[words][7]>0 or skill_dict[words][8]>0:
                 skill_rank_total = skill_dict[words][5] + skill_dict[words][6] + skill_dict[words][7]+ skill_dict[words][8]
-                skill.append([skill_dict[words][0],skill_dict[words][3],skill_dict[words][1],skill_dict[words][5],skill_dict[words][6],skill_dict[words][7],skill_dict[words][8],skill_rank_total,skill_dict[words][10],skill_dict[words][11],skill_dict[words][13],skill_dict[words][12],skill_dict[words][14]])
+                lvl_bonus = skill_dict[words][13] * char_dict['lvl']
+                total_bonus = skill_dict[words][10] + skill_dict[words][11] + lvl_bonus + skill_dict[words][12]
+                skill.append([skill_dict[words][0],skill_dict[words][3],skill_dict[words][1],skill_dict[words][5],skill_dict[words][6],skill_dict[words][7],skill_dict[words][8],skill_rank_total,skill_dict[words][10],skill_dict[words][11],lvl_bonus,skill_dict[words][12],total_bonus])
                 skill.sort()
 
     for row in skill:
@@ -1237,7 +1239,6 @@ def export_to_excel():
             cell.fill = lblue
     # Save the file
     wb.save(charXlPath+"/"+char+"/"+charXlFile)
-#export_to_excel()
 
 def export_allskills_to_excel():
     p=charMenu.char_menu()

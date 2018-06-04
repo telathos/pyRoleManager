@@ -120,6 +120,26 @@ def sloop2():
             cfgData.clear_screen()
             export.export_to_excel()
             cfgData.clear_screen()
+        if choice=="3":
+            p=charMenu.char_menu()
+            menu_len=len(p)
+            while True:
+                s=int(raw_input("Select Character: "))
+                if s >=1 and s<=menu_len:
+                    break
+                else:
+                    print "Invalid Selection! Select a character from the list"
+
+            # Open the file
+            char_dict={}
+            s-=1
+            char = p[s]
+            skill.import_skill(char)
+            cfgData.clear_screen()
+        if choice=="6":
+            cfgData.clear_screen()
+            charData.mbbonus()
+            cfgData.clear_screen()
         elif choice.upper()=="X":
             print "Exiting program"
             smloop=False

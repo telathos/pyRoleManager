@@ -1008,22 +1008,23 @@ def mbbonus():
         char_dict = json.load(cf)
 
     stat_name=[
-        ["Strength", "stmb"],
-        ["Quickness", "qumb"],
-        ["Presence", "prmb"],
-        ["Intuition", "inmb"],
-        ["Empathy", "emmb"],
-        ["Constitution", "comb"],
-        ["Agility", "agmb"], ["Self Discipline", "sdmb"],
-        ["Memory", "memb"], ["Reasoning", "remb"]
+        ["Strength", "stmb","stb","strb","sttb"],
+        ["Quickness", "qumb","qub","qurb","qutb"],
+        ["Presence", "prmb","prb","prrb","prtb"],
+        ["Intuition", "inmb","inb","inrb","intb"],
+        ["Empathy", "emmb","emb","emrb","emtb"],
+        ["Constitution", "comb","cob","corb","cotb"],
+        ["Agility", "agmb","agb","agrb","agtb"], ["Self Discipline", "sdmb","sdb","sdrb","sdtb"],
+        ["Memory", "memb","meb","merb","metb"], ["Reasoning", "remb","reb","rerb","retb"]
     ]
     mb=""
 
+    cfgData.clear_screen()
     mbloop=True
     while mbloop:
         cnt,menu=1,0
+        print ""
         print "+", 47 * "=", "+"
-
         while cnt <= len(stat_name):
             print "|  {:>2}.) {:9}({:2})   {:>2}.) {:16}({:2}) |".format(cnt,stat_name[menu][0],char_dict[stat_name[menu][1]],cnt+1,stat_name[menu+1][0],char_dict[stat_name[menu+1][1]])
             cnt+=2
@@ -1052,7 +1053,10 @@ def mbbonus():
             else:
                 j=int(mbch)
                 if 0<j<11:
-                    char_dict[stat_name[int(mbch)-1][1]]=mbset(stat_name[int(mbch)-1][1])
+                    mb=mbset(stat_name[int(mbch)-1][1])
+                    stat_total_bonus = int(char_dict[stat_name[int(mbch)-1][1]]) + int(char_dict[stat_name[int(mbch)-1][2]]) + int(char_dict[stat_name[int(mbch)-1][3]])
+                    char_dict[stat_name[int(mbch)-1][1]]=mb
+                    char_dict[stat_name[int(mbch)-1][4]]=stat_total_bonus
 
         # Open character file to write out data
         with open(cfgData.char_dir+"/"+char+"/"+char+".json", 'w') as f:
