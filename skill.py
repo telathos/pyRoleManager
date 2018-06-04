@@ -157,6 +157,93 @@ def import_skill(char):
             with open(cfgData.char_dir+"/"+char+"/"+char+"_Skills.json","w") as f:
                 f.write(json.dumps(skill_dict))
 
+def update_skill_bonus(char):
+    with open(cfgData.char_dir+"/"+char+"/"+char+".json") as cf:
+        char_dict=json.load(cf)
+    with open(cfgData.char_dir+"/"+char+"/"+char+"_skills.json") as sf:
+        skill_dict=json.load(sf)
+
+    # Update bonuses
+    for x in skill_dict:
+        stats=skill_dict[x][1].split("/")
+        if len(skill_dict[x][1])==5:
+            stat_bonus_math=(float(char_dict[stats[0].lower()+"tb"])+float(char_dict[stats[1].lower()+"tb"]))/2
+            stat_bonus=Decimal(stat_bonus_math).quantize(Decimal('1e-3'))
+            stat_bonus=int(round(stat_bonus,0))
+        elif len(skill_dict[x][1])==8:
+            stat_bonus_math=(float(char_dict[stats[0].lower()+"tb"])+float(char_dict[stats[1].lower()+"tb"])+float(char_dict[stats[2].lower()+"tb"]))/3
+            stat_bonus=Decimal(stat_bonus_math).quantize(Decimal('1e-3'))
+            stat_bonus=int(round(stat_bonus,0))
+        elif len(skill_dict[x][1])==2 and skill_dict[x][1].lower() != "na":
+            stat_bonus=char_dict[stats[0].lower()+"tb"]
+        elif skill_dict[x][1].lower() == "na":
+            stat_bonus=0
+
+        # Update skill rank total
+        skrnk = int(skill_dict[x][5]) + int(skill_dict[x][6]) + int(skill_dict[x][7]) + int(skill_dict[x][8])
+        if 1 <= skrnk <= 10:
+            skill_rank_total = skrnk * 5
+        elif 10 < skrnk <= 20:
+            skill_rank_total = 50 + (skrnk - 10) * 2
+        elif 20 < skrnk <=30:
+            skill_rank_total = 70 + (skrnk - 20) * 1
+        elif skrnk > 30:
+            skill_rank_total_math = float(80 + (skrnk - 30) * 0.5)
+            skill_rank_total=Decimal(skill_rank_total_math).quantize(Decimal('1e-3'))
+            skill_rank_total=int(round(skill_rank_total,0))
+        else:
+            skill_rank_total=-25
+
+        # Update level bonus
+        lblist=[]
+        with open(cfgData.cfg_dir+"/pro.csv") as f:
+            llbonus=f.read()
+        for lb in llbonus.splitlines():
+            rt=lb.split(",")
+            if rt[0]==char_dict['proname']:
+                lblist=[rt[9],rt[10],rt[11],rt[12],rt[13],rt[14],rt[15],rt[16],rt[17],rt[18],rt[19],rt[20],rt[21],rt[22],rt[23],rt[24]]
+        # Lookup category and Calcalute lvl Bonus
+        if skill_dict[x][4] == "academic":
+            lvl_bonus = int(lblist[0])
+        if skill_dict[x][4] == "arms":
+            lvl_bonus = int(lblist[1])
+        if skill_dict[x][4] == "athletic":
+            lvl_bonus = int(lblist[2])
+        if skill_dict[x][4] == "base":
+            lvl_bonus = int(lblist[3])
+        if skill_dict[x][4] == "body development":
+            lvl_bonus = int(lblist[4])
+        if skill_dict[x][4] == "concentration":
+            lvl_bonus = int(lblist[5])
+        if skill_dict[x][4] == "deadly":
+            lvl_bonus = int(lblist[6])
+        if skill_dict[x][4] == "directed spells":
+            lvl_bonus = int(lblist[7])
+        if skill_dict[x][4] == "general":
+            lvl_bonus = int(lblist[8])
+        if skill_dict[x][4] == "linguistic":
+            lvl_bonus = int(lblist[9])
+        if skill_dict[x][4] == "magical":
+            lvl_bonus = int(lblist[10])
+        if skill_dict[x][4] == "medical":
+            lvl_bonus = int(lblist[11])
+        if skill_dict[x][4] == "outdoor":
+            lvl_bonus = int(lblist[12])
+        if skill_dict[x][4] == "perception":
+            lvl_bonus = int(lblist[13])
+        if skill_dict[x][4] == "social":
+            lvl_bonus = int(lblist[14])
+        if skill_dict[x][4] == "subterfuge":
+            lvl_bonus = int(lblist[15])
+
+        # Update Total skill bonus
+        total_bonus = skill_dict[x][10] + skill_dict[x][11] + skill_dict[x][12] + skill_dict[x][13]
+        # Update dictionary
+        skill_dict[x][11]=stat_bonus
+        skill_dict[x][10],skill_dict[x][13],skill_dict[x][14]=skill_rank_total,lvl_bonus,total_bonus
+
+    with open(cfgData.char_dir+"/"+char+"/"+char+"_Skills.json","w") as f:
+        f.write(json.dumps(skill_dict))
 
 def skill_add(char):
     with open(cfgData.char_dir+"/"+char+"/"+char+".json") as cf:

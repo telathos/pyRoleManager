@@ -6,6 +6,8 @@ import charMenu
 import cfgData
 import json
 from decimal import Decimal
+import skill
+
 charXlPath=cfgData.char_dir
 
 def export_to_excel():
@@ -22,6 +24,11 @@ def export_to_excel():
     char_dict={}
     s-=1
     char = p[s]
+
+    # Update all bonuses
+    import skill
+    skill.update_skill_bonus(char)
+
     with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
         char_dict = json.load(cf)
     # Open Skill file
@@ -101,17 +108,23 @@ def export_to_excel():
     ###### Create Excel file ######
     wb = Workbook()
     wb.create_sheet(index=1, title='Skills')
+    wb.create_sheet(index=2, title='AllSkills')
     # grab the active worksheet
     ws = wb.active
     ws.title = "Characters"
     ws = wb['Characters']
     ws1 = wb['Skills']
+    ws2 = wb['AllSkills']
     ws.page_margins.bottom=0.5
     ws.page_margins.top=0.5
     ws1.page_margins.top=0.25
     ws1.page_margins.bottom=0.25
     ws1.page_margins.left=0.25
     ws1.page_margins.right=0.25
+    ws2.page_margins.top=0.25
+    ws2.page_margins.bottom=0.25
+    ws2.page_margins.left=0.25
+    ws2.page_margins.right=0.25
 
     # Data can be assigned directly to cells
     ws.column_dimensions['A'].width = 14.0
@@ -1237,6 +1250,142 @@ def export_to_excel():
     for col in ws.iter_cols(min_row=1, max_col=11):
         for cell in ws1['M']:
             cell.fill = lblue
+
+    ##### All Skills #####
+    ws2['A1'] = "Skills"
+    ws2['B1'] = "Cost"
+    ws2['C1'] = "Stats"
+    ws2.merge_cells('A1:A2')
+    ws2.merge_cells('B1:B2')
+    ws2.merge_cells('C1:C2')
+    ws2.merge_cells('D1:H1')
+    ws2.merge_cells('I1:M1')
+    ws2['D1'] = "-- SKILL RANKS --"
+    ws2['I1'] = "-- BONUSES --"
+    ws2['D2'] = "Hobby"
+    ws2['E2'] = "Adol"
+    ws2['F2'] = "App"
+    ws2['G2'] = "Ranks"
+    ws2['H2'] = "Total"
+    ws2['I2'] = "Skill"
+    ws2['J2'] = "Stat"
+    ws2['K2'] = "Lvl"
+    ws2['L2'] = "Misc"
+    ws2['M2'] = "Total"
+    ws2['B1'].alignment = Alignment(horizontal='center')
+    ws2['C1'].alignment = Alignment(horizontal='center')
+    ws2['D1'].alignment = Alignment(horizontal='center')
+    ws2['I1'].alignment = Alignment(horizontal='center')
+    ws2['C2'].alignment = Alignment(horizontal='center')
+    ws2['D2'].alignment = Alignment(horizontal='center')
+    ws2['E2'].alignment = Alignment(horizontal='center')
+    ws2['F2'].alignment = Alignment(horizontal='center')
+    ws2['G2'].alignment = Alignment(horizontal='center')
+    ws2['H2'].alignment = Alignment(horizontal='center')
+    ws2['I2'].alignment = Alignment(horizontal='center')
+    ws2['J2'].alignment = Alignment(horizontal='center')
+    ws2['K2'].alignment = Alignment(horizontal='center')
+    ws2['L2'].alignment = Alignment(horizontal='center')
+    ws2['M2'].alignment = Alignment(horizontal='center')
+    ws2['A1'].border = fullBorder
+    ws2['A2'].border = fullBorder
+    ws2['B1'].border = fullBorder
+    ws2['B2'].border = fullBorder
+    ws2['C1'].border = fullBorder
+    ws2['C2'].border = fullBorder
+    ws2['D1'].border = fullBorder
+    ws2['E1'].border = tbBorder
+    ws2['F1'].border = tbBorder
+    ws2['G1'].border = tbBorder
+    ws2['H1'].border = fullBorder
+    ws2['I1'].border = fullBorder
+    ws2['J1'].border = tbBorder
+    ws2['K1'].border = tbBorder
+    ws2['L1'].border = tbBorder
+    ws2['L1'].border = tbBorder
+    ws2['M1'].border = fullBorder
+    ws2['C2'].border = fullBorder
+    ws2['D2'].border = fullBorder
+    ws2['E2'].border = fullBorder
+    ws2['F2'].border = fullBorder
+    ws2['G2'].border = fullBorder
+    ws2['H2'].border = fullBorder
+    ws2['I2'].border = fullBorder
+    ws2['J2'].border = fullBorder
+    ws2['K2'].border = fullBorder
+    ws2['L2'].border = fullBorder
+    ws2['M2'].border = fullBorder
+    ws2['A1'].font = textCalBoldFont
+    ws2['B1'].font = textCalBoldFont
+    ws2['C1'].font = textCalBoldFont
+    ws2['D1'].font = textCalBoldFont
+    ws2['D2'].font = textCalBoldFont
+    ws2['E2'].font = textCalBoldFont
+    ws2['F2'].font = textCalBoldFont
+    ws2['I1'].font = textCalBoldFont
+    ws2['G2'].font = textCalBoldFont
+    ws2['H2'].font = textCalBoldFont
+    ws2['I2'].font = textCalBoldFont
+    ws2['J2'].font = textCalBoldFont
+    ws2['K2'].font = textCalBoldFont
+    ws2['L2'].font = textCalBoldFont
+    ws2['M2'].font = textCalBoldFont
+
+    skill=[]
+    ws2.column_dimensions['A'].width = 28.0
+    ws2.column_dimensions['B'].width = 5.5
+    ws2.column_dimensions['C'].width = 10.0
+    ws2.column_dimensions['D'].width = 6.5
+    ws2.column_dimensions['E'].width = 6.5
+    ws2.column_dimensions['F'].width = 6.5
+    ws2.column_dimensions['G'].width = 5.5
+    ws2.column_dimensions['H'].width = 5.0
+    ws2.column_dimensions['I'].width = 5.0
+    ws2.column_dimensions['J'].width = 5.0
+    ws2.column_dimensions['K'].width = 5.0
+    ws2.column_dimensions['L'].width = 5.0
+    ws2.column_dimensions['M'].width = 7.0
+
+    # Page Titles
+    ws2.print_title_rows = '1:2'
+    ws2.print_title_cols = 'A:M'
+
+    '''with open(cfgData.char_dir+"/"+char+"/"+char+".json","r") as cf:
+        char_dict = json.load(cf)
+    with open(cfgData.char_dir+"/"+char+"/"+char+"_Skills.json","r") as sf:
+        skill_dict = json.load(sf)'''
+
+    skill_rank_total = 0
+    for word2 in skill_dict:
+        skill_rank_total = skill_dict[word2][5] + skill_dict[word2][6] + skill_dict[word2][7]+ skill_dict[word2][8]
+        lvl_bonus = skill_dict[word2][13] * char_dict['lvl']
+        total_bonus = skill_dict[word2][10] + skill_dict[word2][11] + lvl_bonus + skill_dict[word2][12]
+        skill.append([skill_dict[word2][0],skill_dict[word2][3],skill_dict[word2][1],skill_dict[word2][5],skill_dict[word2][6],skill_dict[word2][7],skill_dict[word2][8],skill_rank_total,skill_dict[word2][10],skill_dict[word2][11],lvl_bonus,skill_dict[word2][12],total_bonus])
+        skill.sort()
+
+    for row in skill:
+        ws2.append(row)
+    for row in ws2.iter_rows(min_row=4,min_col=1):
+        pass
+
+    # loop thru rows, then cells in the row to apply alignment and border
+    rows,nrows=1,3
+    while rows <= len(skill):
+        for cell in ws2[nrows:nrows]:
+            cell.border = fullBorder
+            cell.alignment = Alignment(horizontal='center')
+        rows+=1
+        nrows+=1
+    # Loop thru columns and alignment column 'A' (Skill Names)
+    for col in ws.iter_cols(min_row=1, max_col=11):
+        for cell in ws2['A']:
+            cell.alignment = Alignment(horizontal='left')
+
+    # Loop thru columns and set color fill on column 'M' (Skill Totals)
+    for col in ws.iter_cols(min_row=1, max_col=11):
+        for cell in ws2['M']:
+            cell.fill = lblue
+
     # Save the file
     wb.save(charXlPath+"/"+char+"/"+charXlFile)
 
