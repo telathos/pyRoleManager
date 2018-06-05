@@ -1,8 +1,15 @@
+Design todo
+1.) Get Character sheet skills to work
+  a.) Add -25 with no ranks
+  b.) Get level bonus working
+  c.) Get skill bonus calculation working
+
 1.) Hobby Skills
   a.) List created
 2.) Adding new skill, Not all columns are added and adding to ds.csv file
-5.) Add back to character menu code - Low priority
-7.) Add Experience - more testing needed
+3.) Add back to character menu code - Low priority
+4.) Add Background options
+5.) Add Experience - more testing needed
 
 Completed
 1.) Hit Points - Done
@@ -51,14 +58,18 @@ Completed
 26.) TWC costs assignment
 27.) TWC grouping
 28.) Add error handling for stats and potential gains
+29.) Get excel skills to work
+  a.) Need to assign weapon costs before hand.
+30.) Set default armor, helm and shield
+31.) Recoded Misc Bonus function
+32.) Import characters code working
 
 Version 2.0 Work
 1.) Get Archiving Working - Low priority
 2.) Get Character Deletion Working - Low priority
 3.) Move more code to modules - Low priority
   a.) Maybe move create_char to module
-4.) Import characters
-5.) Add/increase languages and ranks
-6.) Add a back to the Show Characters
-8.) Upgrade code to python 3.x
-9.) graphical or web based version
+4.) Add/increase languages and ranks
+5.) Add a back to the Show Characters
+6.) Upgrade code to python 3.x
+8.) graphical or web based version
