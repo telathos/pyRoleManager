@@ -1,3 +1,4 @@
+[![Board Status](https://dev.azure.com/tymrehm/a418c2d3-af17-4861-bfb8-12258f2de00c/d0de9020-b8ac-423b-aecc-f3882117f829/_apis/work/boardbadge/558626dd-8428-4049-b833-1b78f2bc872b)](https://dev.azure.com/tymrehm/a418c2d3-af17-4861-bfb8-12258f2de00c/_boards/board/t/d0de9020-b8ac-423b-aecc-f3882117f829/Microsoft.RequirementCategory)
 # pyRoleManager
 A Rolemaster Character Manager written in Python 2.7
 
